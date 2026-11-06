@@ -8,5 +8,12 @@ export const URL_TAB: Record<string, keyof MainTabParamList> = {
   "/elanlar": "AnnouncementsTab",
 };
 
-// Android bildiriş kanalı (Edge Function `push` bu id ilə göndərir)
-export const PUSH_CHANNEL = { id: "default", name: "Bildirişlər" } as const;
+// Android bildiriş kanalları: Edge Function `push` növə görə bu id-lərlə göndərir (STYLE). Telefon ayarlarında hər birinin
+// adı görünür və səsi ayrıca söndürülə bilər. "default" — növü olmayanlar və köhnə versiyanın ehtiyat kanalı
+export const PUSH_CHANNELS = [
+  { id: "announcements", name: "Elanlar", description: "Rəhbərliyin bütün komandaya elanları" },
+  { id: "tasks", name: "Tapşırıqlar", description: "Sənə verilən yeni tapşırıqlar" },
+  { id: "leave", name: "İcazələr", description: "İcazə sorğusunun cavabı" },
+  { id: "depot", name: "Depo", description: "Verilən alət və materiallar" },
+  { id: "default", name: "Digər bildirişlər", description: "Qalan bildirişlər" },
+] as const;

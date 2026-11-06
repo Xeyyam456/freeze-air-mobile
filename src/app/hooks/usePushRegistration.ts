@@ -4,7 +4,7 @@ import * as Notifications from "expo-notifications";
 import { useEffect } from "react";
 import { Platform } from "react-native";
 import { pushTokenStore } from "@shared/api/storage";
-import { PUSH_CHANNEL } from "@shared/config/push";
+import { PUSH_CHANNELS } from "@shared/config/push";
 import { registerPushToken } from "@shared/services/push.service";
 import { c } from "@theme/colors";
 
@@ -17,12 +17,14 @@ Notifications.setNotificationHandler({
 async function getToken(): Promise<string | null> {
   if (!Device.isDevice) return null;
   if (Platform.OS === "android") {
-    await Notifications.setNotificationChannelAsync(PUSH_CHANNEL.id, {
-      name: PUSH_CHANNEL.name,
+    await Promise.all(PUSH_CHANNELS.map((ch) => Notifications.setNotificationChannelAsync(ch.id, {
+      name: ch.name,
+      description: ch.description,
       importance: Notifications.AndroidImportance.MAX,
       vibrationPattern: [0, 250, 200, 250],
       lightColor: c.primary,
-    });
+      showBadge: true,
+    })));
   }
   let { status } = await Notifications.getPermissionsAsync();
   if (status !== "granted") ({ status } = await Notifications.requestPermissionsAsync());
