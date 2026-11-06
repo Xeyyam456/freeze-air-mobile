@@ -7,19 +7,19 @@ import { c } from "@theme/colors";
 import { styles } from "./PanelHeader.styles";
 import type { PanelHeaderProps } from "./PanelHeader.types";
 
-// Salamlama: şəkil, ad, bugünkü tarix, çıxış düyməsi
+// Başlıq: kiçik tarix sətri, iri salam, sağda şəkil (halqa ilə) və çıxış
 function PanelHeader({ name, photo, day }: PanelHeaderProps) {
   const first = name.split(/\s+/)[1] ?? name; // "Əlizadə Xəyyam" → "Xəyyam"
   return (
     <View style={styles.row}>
-      <Avatar name={name} photo={photo} size={46} />
       <View style={styles.text}>
+        <Text style={styles.date}>{dayLabel(day).toUpperCase()}</Text>
         <Text style={styles.hello} numberOfLines={1}>Salam, {first}</Text>
-        <Text style={styles.date}>{dayLabel(day)}</Text>
       </View>
-      <Pressable onPress={signOut} hitSlop={10} style={({ pressed }) => [styles.logout, pressed && styles.pressed]}>
-        <LogOut size={19} color={c.muted} />
+      <Pressable onPress={signOut} hitSlop={10} style={({ pressed }) => [styles.icon, pressed && styles.pressed]}>
+        <LogOut size={18} color={c.muted} />
       </Pressable>
+      <View style={styles.ring}><Avatar name={name} photo={photo} size={42} /></View>
     </View>
   );
 }

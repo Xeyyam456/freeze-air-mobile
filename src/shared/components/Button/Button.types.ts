@@ -1,7 +1,8 @@
 import type { LucideIcon } from "lucide-react-native";
 import type { StyleProp, ViewStyle } from "react-native";
 
-export type ButtonVariant = "primary" | "ok" | "navy" | "soft";
+// gradient: əsas hərəkət (mavi qradiyent) · glass: ikinci dərəcəli (şüşəvari) · qalanları düz rəng
+export type ButtonVariant = "gradient" | "glass" | "primary" | "ok" | "navy" | "soft";
 
 export type ButtonProps = {
   title: string;

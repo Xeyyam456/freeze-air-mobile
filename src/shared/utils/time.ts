@@ -22,3 +22,11 @@ export function dayLabel(day: string) {
   const d = new Date(`${day}T00:00:00Z`);
   return `${WEEKDAYS[d.getUTCDay()]}, ${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]}`;
 }
+
+// Tarix aritmetikası (YYYY-MM-DD, UTC üzərində — saat qurşağı təsir etmir)
+export const addDays = (day: string, n: number) => new Date(Date.parse(`${day}T00:00:00Z`) + n * 86400000).toISOString().slice(0, 10);
+export const daysInMonth = (day: string) => new Date(Date.UTC(+day.slice(0, 4), +day.slice(5, 7), 0)).getUTCDate();
+export const prevMonthStart = (day: string) => addDays(`${day.slice(0, 8)}01`, -1).slice(0, 8) + "01";
+export const monthName = (day: string) => MONTHS[+day.slice(5, 7) - 1];
+const SHORT = ["B", "B.e", "Ç.a", "Ç", "C.a", "C", "Ş"];
+export const weekdayShort = (day: string) => SHORT[new Date(`${day}T00:00:00Z`).getUTCDay()];

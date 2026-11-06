@@ -31,7 +31,7 @@ Usta paneli üçün React Native app: **Expo SDK 58** (RN 0.88, development buil
 - Şəkillər `expo-image` (`cachePolicy="disk"`).
 
 ## Komandalar və build (Windows)
-- Tip yoxlaması: `npx tsc --noEmit` (commitdən əvvəl). Metro: `npm start` (fonda; `--dev-client`).
+- Tip yoxlaması: `npx tsc --noEmit` (commitdən əvvəl). Metro: `npx expo start --dev-client --port 8081 < /dev/null` (fonda). **`CI=1` ilə başlatma**: o rejimdə fayl izləmə və reload söndürülür, dəyişiklik telefona düşmür. Reload: `curl -X POST localhost:8081/reload`.
 - Native build: `npx expo run:android` və ya `cd android && gradlew.bat app:assembleDebug -PreactNativeArchitectures=arm64-v8a`, sonra `adb install -r android/app/build/outputs/apk/debug/app-debug.apk`. Build-dən sonra `gradlew --stop` (daemonlar ~3 GB RAM tutur; istifadəçi RAM/CPU-dan şikayət edib).
 - Android SDK: `%LOCALAPPDATA%\Android\Sdk` (Android Studio yoxdur; cmdline-tools 23, platforma 37.0, build-tools 37, NDK 27.1, CMake 3.31.6). `ANDROID_HOME`, `JAVA_HOME` (JDK 17) user env-dədir.
 - **Uzun yollar**: Windows-da `LongPathsEnabled = 1` (istifadəçi admin ilə açıb) + CMake 3.31.6 (ninja 1.12). `android/local.properties`-i `plugins/withLocalCmake.js` hər prebuild-də yazır. **`subst` / M: diski işlətmə** (istifadəçi istəmir; həm də codegen "different roots" xətası verir). Layihə həmişə `kondisioner-servis\mobile`-dan yığılır.

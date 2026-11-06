@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { ActivityIndicator, Text, TouchableOpacity } from "react-native";
-import { c } from "@theme/colors";
+import GradientBg from "@shared/components/GradientBg";
+import { c, gradients } from "@theme/colors";
 import { BG, styles } from "./Button.styles";
 import type { ButtonProps } from "./Button.types";
 
@@ -20,12 +21,13 @@ function Button({ title, onPress, variant = "primary", icon: Icon, loading, disa
 
   return (
     <TouchableOpacity
-      style={[styles.button, { backgroundColor: BG[variant] }, off && styles.disabled, style]}
+      style={[styles.button, { backgroundColor: BG[variant] }, variant === "glass" && styles.glass, off && styles.disabled, style]}
       onPress={handlePress}
       disabled={off}
-      activeOpacity={0.75}
+      activeOpacity={0.8}
     >
-      {loading ? <ActivityIndicator size="small" color={c.white} /> : Icon && <Icon size={17} color={c.white} />}
+      {variant === "gradient" && <GradientBg colors={gradients.accent} radius={16} />}
+      {loading ? <ActivityIndicator size="small" color={c.white} /> : Icon && <Icon size={18} color={c.white} />}
       <Text style={styles.title} numberOfLines={1}>{title}</Text>
     </TouchableOpacity>
   );

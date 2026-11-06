@@ -36,3 +36,15 @@ export type DayLog = {
 
 // Davamiyyət düyməsi: işə gəldim / işi bitirdim / icazədən imtina + işə gəldim
 export type PresenceAction = "in" | "out" | "giveUpLeave";
+
+// Panel dashboard-u: ayın icmalı (öz işlərim)
+export type DayCount = { day: string; count: number };
+
+export type MonthOverview = {
+  week: DayCount[]; // son 7 gün (bu gün daxil)
+  month: DayCount[]; // ayın bütün günləri (1..son)
+  monthTotal: number;
+  prevTotal: number; // keçən ayın tam sayı
+  activeDays: number; // iş görülən gün sayı
+  places: { name: string; count: number }[]; // ən çox işlənən 5 yer
+};

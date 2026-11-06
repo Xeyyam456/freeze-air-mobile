@@ -1,20 +1,21 @@
 import { StyleSheet } from "react-native";
-import { c, radius, space } from "@theme/colors";
+import { c, space } from "@theme/colors";
 
 export const styles = StyleSheet.create({
-  row: { flexDirection: "row", alignItems: "center", gap: space.md },
+  row: { flexDirection: "row", alignItems: "center", gap: space.md, paddingTop: space.xs },
   text: { flex: 1 },
-  hello: { color: c.ink, fontSize: 21, fontWeight: "800" },
-  date: { color: c.muted, fontSize: 13, marginTop: 2 },
-  logout: {
+  date: { color: c.muted, fontSize: 11, fontWeight: "700", letterSpacing: 1.2 },
+  hello: { color: c.ink, fontSize: 28, fontWeight: "800", letterSpacing: -0.4, marginTop: 2 },
+  icon: {
     width: 42,
     height: 42,
-    borderRadius: radius.sm,
-    backgroundColor: c.surface,
+    borderRadius: 21,
+    backgroundColor: c.glass,
     borderWidth: 1,
-    borderColor: c.line,
+    borderColor: c.glassBorder,
     alignItems: "center",
     justifyContent: "center",
   },
-  pressed: { opacity: 0.7 },
+  ring: { padding: 2, borderRadius: 25, borderWidth: 1.5, borderColor: c.primary },
+  pressed: { opacity: 0.6 },
 });

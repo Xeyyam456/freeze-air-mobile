@@ -9,7 +9,7 @@ const TABLE_KEYS: Record<string, string[]> = {
   attendance: ["my-today"],
   attendance_absences: ["my-today"],
   leave_requests: ["my-today"],
-  tasks: ["my-day-stats", "work-history"],
+  tasks: ["my-day-stats", "work-history", "my-overview"],
   tool_assignments: ["my-day-stats"],
 };
 
@@ -38,7 +38,7 @@ function usePanelLive() {
 
     // Fondan qayıdanda: fonda buraxılmış hadisələr ola bilər → hamısını təzələ
     const sub = AppState.addEventListener("change", (s) => {
-      if (s === "active") refresh(["my-today", "my-day-stats", "work-history"]);
+      if (s === "active") refresh(["my-today", "my-day-stats", "work-history", "my-overview"]);
     });
     // Token yenilənəndə Realtime-a da yeni token
     const auth = supabase.auth.onAuthStateChange((event, s) => {

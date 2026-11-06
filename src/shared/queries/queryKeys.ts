@@ -4,4 +4,5 @@ export const queryKeys = {
   today: (employeeId: number) => ["my-today", employeeId] as const,
   stats: (employeeId: number) => ["my-day-stats", employeeId] as const,
   workHistory: (day: string) => ["work-history", day] as const,
+  overview: (employeeId: number) => ["my-overview", employeeId] as const,
 };
