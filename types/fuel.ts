@@ -16,8 +16,12 @@ export type FuelData = {
   today: MileageRow | null;
   prices: { petrol: number | null; diesel: number | null };
   payments: FuelPayment[];
-  month: { cost: number; paid: number };
+  // Seçilmiş dövrün AYI: günlərin sərfi və ödənişlər (borc və günlərin ödəniş vəziyyəti buradan hesablanır)
+  month: { cost: number; days: { day: string; km: number | null; cost: number | null }[]; pays: { day: string; amount: number; status: string }[] };
 };
+
+// Günün ödəniş örtüyü (pullar günlərə köhnədən yeniyə paylanır)
+export type DayCoverage = { km: number; cost: number; covered: number };
 
 export type StepKind = "start" | "end";
 export type FuelTotals = { km: number; liters: number; cost: number; days: number };
@@ -27,4 +31,5 @@ export type FuelListRow =
   | { kind: "title"; key: string; title: string; badge?: string }
   | { kind: "empty"; key: string; text: string }
   | { kind: "payment"; key: string; payment: FuelPayment }
-  | { kind: "day"; key: string; row: MileageRow; got: number; maxKm: number };
+  | { kind: "unpaid"; key: string; day: string; km: number; due: number; partial: boolean }
+  | { kind: "day"; key: string; row: MileageRow; got: number; maxKm: number; pay: DayCoverage | undefined };

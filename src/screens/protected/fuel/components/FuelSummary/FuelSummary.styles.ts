@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import { c, radius, space } from "@theme/colors";
 
-// Balansın rəngi: borc (qırmızı), artıq (narıncı), bərabər (yaşıl)
+// Borcun rəngi: şirkətin borcu (qırmızı), sənin borcun (narıncı)
 export const TONE = { debt: "#fb7185", over: c.orange, even: c.ok } as const;
 
 export const styles = StyleSheet.create({
@@ -20,9 +20,9 @@ export const styles = StyleSheet.create({
   periodRow: { flexDirection: "row", alignItems: "baseline", justifyContent: "space-between", gap: space.sm },
   total: { color: c.ink, fontSize: 30, fontWeight: "800", fontVariant: ["tabular-nums"] },
   chips: { flexShrink: 1, color: c.muted, fontSize: 12, fontWeight: "600", textAlign: "right" },
-  balance: { fontSize: 12, fontWeight: "700", marginTop: 2 },
-  cells: { flexDirection: "row", gap: 6 },
-  cell: { flex: 1, alignItems: "center", backgroundColor: "rgba(255, 255, 255, 0.06)", borderRadius: 10, paddingVertical: 7, paddingHorizontal: 4 },
-  cellLabel: { color: c.muted, fontSize: 10, fontWeight: "600" },
-  cellValue: { fontSize: 13, fontWeight: "800", fontVariant: ["tabular-nums"] },
+  balance: { color: c.muted, fontSize: 11, fontWeight: "700", letterSpacing: 1, marginTop: 6 },
+  cells: { flexDirection: "row", flexWrap: "wrap", gap: 6 },
+  cell: { width: "48.9%", alignItems: "center", backgroundColor: "rgba(255, 255, 255, 0.06)", borderRadius: 10, paddingVertical: 8, paddingHorizontal: 4 },
+  cellLabel: { color: c.muted, fontSize: 11, fontWeight: "600" },
+  cellValue: { fontSize: 16, fontWeight: "800", fontVariant: ["tabular-nums"] },
 });

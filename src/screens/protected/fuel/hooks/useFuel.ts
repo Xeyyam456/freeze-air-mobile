@@ -4,11 +4,14 @@ import useMe from "@shared/hooks/useMe";
 import { queryKeys } from "@shared/queries/queryKeys";
 import { fetchMyFuel } from "@shared/services/fuel.service";
 import { addMonths, buildFuelRows, FUEL_LABEL, rangeOf, sum } from "@shared/utils/fuel";
+import { coverage, debts } from "@shared/utils/fuelDebt";
 import { addDays, todayBaku } from "@shared/utils/time";
-import type { FuelPeriod } from "@typings/fuel";
+import type { FuelData, FuelPeriod } from "@typings/fuel";
+
+const EMPTY_MONTH: FuelData["month"] = { cost: 0, days: [], pays: [] };
 
 // Yanacaq ekranının vəziyyəti: dövr (gün/həftə/ay) və tarixi, məlumat (keşdən dərhal; canlı: mileage_logs, fuel_payments),
-// hesablanan yekunlar. Bu günün sətri dövrdən asılı deyil; balans həmişə seçilmiş dövrün ayına görə
+// hesablanan yekunlar. Bu günün sətri dövrdən asılı deyil; borc və günlərin ödəniş vəziyyəti seçilmiş dövrün ayına görə
 function useFuel() {
   const me = useMe().data?.employee?.id;
   const [today] = useState(todayBaku);
@@ -27,8 +30,10 @@ function useFuel() {
   const car = d?.car ?? null;
   const price = car?.fuel_type === "diesel" ? d?.prices.diesel ?? null : car?.fuel_type === "petrol" ? d?.prices.petrol ?? null : null;
   const total = useMemo(() => sum(d?.rows ?? []), [d?.rows]);
-  const list = useMemo(() => (d ? buildFuelRows(d.rows, d.payments, range.label) : []), [d, range.label]);
-  const month = d?.month ?? { cost: 0, paid: 0 };
+  const cov = useMemo(() => (d ? coverage(d.month) : new Map()), [d]);
+  const list = useMemo(() => (d ? buildFuelRows(d.rows, d.payments, range.label, cov, monthR.label) : []), [d, range.label, cov, monthR.label]);
+  const month = d?.month ?? EMPTY_MONTH;
+  const debt = useMemo(() => debts(d?.month ?? EMPTY_MONTH), [d]);
 
   const shift = (dir: 1 | -1) => setAnchor((x) => {
     const next = period === "day" ? addDays(x, dir) : period === "week" ? addDays(x, 7 * dir) : addMonths(x, dir);
@@ -36,10 +41,9 @@ function useFuel() {
   });
 
   return {
-    me, key, today, period, range, monthR, data: d, car, price, total, list, month,
+    me, key, today, period, range, monthR, data: d, car, price, total, list, month, debt,
     fuelName: car?.fuel_type ? FUEL_LABEL[car.fuel_type] ?? null : null,
     todayRow: d?.today ?? null,
-    balance: month.paid - month.cost,
     atEnd: range.to >= today,
     shift,
     choosePeriod: (p: FuelPeriod) => { setPeriod(p); setAnchor(today); },

@@ -10,6 +10,7 @@ import FuelHero from "@screens/protected/fuel/components/FuelHero";
 import FuelStep from "@screens/protected/fuel/components/FuelStep";
 import FuelSummary from "@screens/protected/fuel/components/FuelSummary";
 import PaymentRow from "@screens/protected/fuel/components/PaymentRow";
+import UnpaidRow from "@screens/protected/fuel/components/UnpaidRow";
 import useFuel from "@screens/protected/fuel/hooks/useFuel";
 import useFuelActions from "@screens/protected/fuel/hooks/useFuelActions";
 import { c } from "@theme/colors";
@@ -17,7 +18,7 @@ import type { FuelListRow } from "@typings/fuel";
 import { styles } from "./FuelScreen.styles";
 
 // Yanacaq (web /yanacaq): maşın + dövr, bu günün və dövrün hesabı, səhər/axşam km (şəkil + rəqəm), günün yekunu,
-// şirkətin verdiyi pul (Aldım/Almadım), günlük hesab. Yalnız maşını olan usta. Canlı: mileage_logs, fuel_payments
+// verilməmiş pul (ayın ödənilməmiş günləri), şirkətin verdiyi pul (Aldım/Almadım), günlük hesab. Yalnız maşını olan usta. Canlı: mileage_logs, fuel_payments
 function FuelScreen() {
   const insets = useSafeAreaInsets();
   const f = useFuel();
@@ -30,7 +31,8 @@ function FuelScreen() {
     if (item.kind === "title") return <View style={styles.titleRow}><Text style={styles.title}>{item.title}</Text>{item.badge ? <Text style={styles.badge}>{item.badge}</Text> : null}</View>;
     if (item.kind === "empty") return <Text style={styles.empty}>{item.text}</Text>;
     if (item.kind === "payment") return <PaymentRow payment={item.payment} onConfirm={confirm} />;
-    return <DailyRow row={item.row} got={item.got} maxKm={item.maxKm} today={f.today} />;
+    if (item.kind === "unpaid") return <UnpaidRow day={item.day} km={item.km} due={item.due} partial={item.partial} />;
+    return <DailyRow row={item.row} got={item.got} maxKm={item.maxKm} today={f.today} pay={item.pay} />;
   };
 
   const header = (

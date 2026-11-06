@@ -1,5 +1,6 @@
 import { addDays } from "@shared/utils/time";
-import type { FuelListRow, FuelPayment, FuelPeriod, FuelRange, FuelTotals, MileageRow, StepKind } from "@typings/fuel";
+import { unpaidDays } from "@shared/utils/fuelDebt";
+import type { DayCoverage, FuelListRow, FuelPayment, FuelPeriod, FuelRange, FuelTotals, MileageRow, StepKind } from "@typings/fuel";
 
 // Yanacaq köməkçiləri (web views/Fuel/shared ilə eyni qaydalar)
 const MONTHS = ["yanvar", "fevral", "mart", "aprel", "may", "iyun", "iyul", "avqust", "sentyabr", "oktyabr", "noyabr", "dekabr"];
@@ -46,14 +47,6 @@ export function sum(rows: MileageRow[]): FuelTotals {
   };
 }
 
-// Balans = alınan − sərf: mənfi → şirkət borcludur, müsbət → artıq almısan
-export function balanceText(b: number): { tone: "debt" | "over" | "even"; text: string } {
-  const v = Math.round(b * 100) / 100;
-  if (v < 0) return { tone: "debt", text: `Şirkət sənə ${azn(-v)} borcludur` };
-  if (v > 0) return { tone: "over", text: `${azn(v)} artıq almısan` };
-  return { tone: "even", text: "Hesab bağlıdır" };
-}
-
 // Bazanın ingiliscə xətası → başa düşülən mətn
 export function fuelError(msg: string, kind: StepKind) {
   if (/mileage_logs_check/.test(msg)) return kind === "start" ? "Səhər km axşam km-dən çox ola bilməz." : "Axşam km səhər km-dən az ola bilməz.";
@@ -63,16 +56,20 @@ export function fuelError(msg: string, kind: StepKind) {
   return msg;
 }
 
-// FlashList sətirləri: "Aldığım yanacaq pulu" + ödənişlər, "Günlük hesab" + günlər
-export function buildFuelRows(rows: MileageRow[], payments: FuelPayment[], label: string): FuelListRow[] {
+// FlashList sətirləri: "Verilməmiş pul" (ayın ödənilməmiş günləri), "Aldığım yanacaq pulu" + ödənişlər, "Günlük hesab" + günlər
+export function buildFuelRows(rows: MileageRow[], payments: FuelPayment[], label: string, cov: Map<string, DayCoverage>, month: string): FuelListRow[] {
   const pending = payments.filter((p) => p.status === "pending").length;
-  const out: FuelListRow[] = [{ kind: "title", key: "t-pay", title: "Aldığım yanacaq pulu", badge: pending ? `${pending} təsdiq gözləyir` : undefined }];
+  const unpaid = unpaidDays(cov);
+  const out: FuelListRow[] = [];
+  if (unpaid.length) out.push({ kind: "title", key: "t-unpaid", title: `Verilməmiş pul · ${month}`, badge: `${unpaid.length} gün` });
+  unpaid.forEach((u) => out.push({ kind: "unpaid", key: `u${u.day}`, day: u.day, km: u.km, due: u.due, partial: u.covered > 0.005 }));
+  out.push({ kind: "title", key: "t-pay", title: "Aldığım yanacaq pulu", badge: pending ? `${pending} təsdiq gözləyir` : undefined });
   if (!payments.length) out.push({ kind: "empty", key: "e-pay", text: "Bu dövrdə şirkət yanacaq pulu verməyib." });
   payments.forEach((p) => out.push({ kind: "payment", key: `p${p.id}`, payment: p }));
   out.push({ kind: "title", key: "t-day", title: `Günlük hesab · ${label}` });
   if (!rows.length) out.push({ kind: "empty", key: "e-day", text: "Bu dövrdə yürüş yazılmayıb." });
   const maxKm = Math.max(1, ...rows.map((r) => r.km ?? 0));
-  rows.forEach((r) => out.push({ kind: "day", key: `d${r.id}`, row: r, maxKm,
+  rows.forEach((r) => out.push({ kind: "day", key: `d${r.id}`, row: r, maxKm, pay: cov.get(r.day),
     got: payments.filter((p) => p.day === r.day).reduce((n, p) => n + Number(p.amount), 0) }));
   return out;
 }

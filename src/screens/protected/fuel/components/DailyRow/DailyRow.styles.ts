@@ -28,6 +28,9 @@ export const styles = StyleSheet.create({
   fill: { height: 5, borderRadius: 3, backgroundColor: c.primary },
   right: { alignItems: "flex-end", gap: 2 },
   cost: { color: c.ink, fontSize: 15, fontWeight: "800", fontVariant: ["tabular-nums"] },
-  got: { color: c.faint, fontSize: 12, fontWeight: "700", fontVariant: ["tabular-nums"] },
-  gotOn: { color: c.ok },
+  state: { fontSize: 12, fontWeight: "800", fontVariant: ["tabular-nums"] },
+  paid: { color: c.ok },
+  partial: { color: c.orange },
+  unpaid: { color: c.danger },
+  got: { color: c.muted, fontSize: 11, fontWeight: "600", fontVariant: ["tabular-nums"] },
 });

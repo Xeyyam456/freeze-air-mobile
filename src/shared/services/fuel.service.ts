@@ -3,7 +3,7 @@ import { supabase } from "@shared/api/supabase";
 import { readBytes } from "@shared/utils/media";
 import type { FuelData, StepKind } from "@typings/fuel";
 
-// Maşın, dövrün yürüşləri, bu günün sətri, qiymətlər, dövrün ödənişləri, ayın sərfi və alınanı (API.md §9). 7 paralel sorğu
+// Maşın, dövrün yürüşləri, bu günün sətri, qiymətlər, dövrün ödənişləri, ayın günləri və ödənişləri (borc üçün) (API.md §9). 7 paralel sorğu
 export async function fetchMyFuel(me: number, from: string, to: string, today: string, mFrom: string, mTo: string): Promise<FuelData> {
   const [car, rows, t, s, pays, cost, paid] = await Promise.all([
     supabase.from("employees").select("has_car, car_plate, car_model, fuel_per_100, fuel_type").eq("id", me).maybeSingle(),
@@ -12,8 +12,8 @@ export async function fetchMyFuel(me: number, from: string, to: string, today: s
     supabase.from("fuel_settings").select("petrol_price, diesel_price").eq("id", 1).maybeSingle(),
     supabase.from("fuel_payments").select("*").eq("employee_id", me).gte("day", from).lte("day", to)
       .order("day", { ascending: false }).order("created_at", { ascending: false }),
-    supabase.from("mileage_logs").select("cost").eq("employee_id", me).gte("day", mFrom).lte("day", mTo).not("cost", "is", null),
-    supabase.from("fuel_payments").select("amount").eq("employee_id", me).gte("day", mFrom).lte("day", mTo),
+    supabase.from("mileage_logs").select("day, km, cost").eq("employee_id", me).gte("day", mFrom).lte("day", mTo).not("cost", "is", null),
+    supabase.from("fuel_payments").select("day, amount, status").eq("employee_id", me).gte("day", mFrom).lte("day", mTo),
   ]);
   const error = car.error ?? rows.error ?? t.error ?? pays.error;
   if (error) throw error;
@@ -25,7 +25,8 @@ export async function fetchMyFuel(me: number, from: string, to: string, today: s
     payments: pays.data ?? [],
     month: {
       cost: (cost.data ?? []).reduce((n, r) => n + Number(r.cost), 0),
-      paid: (paid.data ?? []).reduce((n, p) => n + Number(p.amount), 0),
+      days: cost.data ?? [],
+      pays: paid.data ?? [],
     },
   };
 }

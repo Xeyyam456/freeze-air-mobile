@@ -1,12 +1,16 @@
 import { memo } from "react";
 import { Text, View } from "react-native";
 import { azn, fmtKm, WEEKDAY_SHORT, weekdayOf } from "@shared/utils/fuel";
+import { dayPayState } from "@shared/utils/fuelDebt";
 import { styles } from "./DailyRow.styles";
 import type { DailyRowProps } from "./DailyRow.types";
 
-// Günlük hesab sətri (web DailyRow): gün plitəsi, km + zolaq (dövrün ən uzun günü = 100%), sərf və o gün alınan pul
-function DailyRow({ row: r, got, maxKm, today }: DailyRowProps) {
+// Günlük hesab sətri: gün plitəsi, km + zolaq (dövrün ən uzun günü = 100%), sərf və ödəniş vəziyyəti
+// (ayın pulları günlərə köhnədən yeniyə paylanır: ✓ ödənilib / X ₼ qalıb / verilməyib). O gün verilən pul — kiçik yazı
+function DailyRow({ row: r, got, maxKm, today, pay }: DailyRowProps) {
   const isToday = r.day === today;
+  const state = dayPayState(pay);
+  const stateText = state === "paid" ? "✓ ödənilib" : state === "partial" ? `${azn(pay!.cost - pay!.covered)} qalıb` : state === "unpaid" ? "verilməyib" : null;
   return (
     <View style={[styles.row, isToday && styles.today]}>
       <View style={[styles.date, isToday && styles.dateToday]}>
@@ -24,7 +28,8 @@ function DailyRow({ row: r, got, maxKm, today }: DailyRowProps) {
       </View>
       <View style={styles.right}>
         <Text style={styles.cost}>{r.cost != null ? azn(Number(r.cost)) : "—"}</Text>
-        <Text style={[styles.got, got > 0 && styles.gotOn]}>{got ? `+${azn(got)}` : "—"}</Text>
+        {stateText ? <Text style={[styles.state, styles[state!]]}>{stateText}</Text> : null}
+        {got > 0 && <Text style={styles.got}>bu gün +{azn(got)}</Text>}
       </View>
     </View>
   );
