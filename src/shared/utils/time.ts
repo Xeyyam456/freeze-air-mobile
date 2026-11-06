@@ -30,5 +30,16 @@ export const addDays = (day: string, n: number) => new Date(Date.parse(`${day}T0
 export const daysInMonth = (day: string) => new Date(Date.UTC(+day.slice(0, 4), +day.slice(5, 7), 0)).getUTCDate();
 export const prevMonthStart = (day: string) => addDays(`${day.slice(0, 8)}01`, -1).slice(0, 8) + "01";
 export const monthName = (day: string) => MONTHS[+day.slice(5, 7) - 1];
-const SHORT = ["B", "B.e", "Ç.a", "Ç", "C.a", "C", "Ş"];
+// Həftə bazar ertəsindən başlayır; 7 günün siyahısı
+export const weekStart = (day: string) => addDays(day, -((new Date(`${day}T00:00:00Z`).getUTCDay() + 6) % 7));
+export const weekOf = (from: string) => Array.from({ length: 7 }, (_, i) => addDays(from, i));
+
+// "2–8 noyabr"; ay dəyişəndə "27 oktyabr – 2 noyabr"
+export function weekRange(from: string) {
+  const to = addDays(from, 6);
+  const [fm, fd, tm, td] = [+from.slice(5, 7), +from.slice(8), +to.slice(5, 7), +to.slice(8)];
+  return fm === tm ? `${fd}–${td} ${MONTHS[fm - 1]}` : `${fd} ${MONTHS[fm - 1]} – ${td} ${MONTHS[tm - 1]}`;
+}
+
+const SHORT =["B", "B.e", "Ç.a", "Ç", "C.a", "C", "Ş"];
 export const weekdayShort = (day: string) => SHORT[new Date(`${day}T00:00:00Z`).getUTCDay()];
