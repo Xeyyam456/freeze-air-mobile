@@ -1,5 +1,7 @@
 import { supabase } from "@shared/api/supabase";
 import { clearQueryCache } from "@shared/api/queryStorage";
+import { pushTokenStore } from "@shared/api/storage";
+import { unregisterPushToken } from "@shared/services/push.service";
 import type { Me } from "@typings/panel";
 
 // Girişdən sonra: hesab + əməkdaş kartı + depo yetkisi (API.md §1). Kart yoxdursa employee = null.
@@ -27,8 +29,11 @@ export async function signIn(email: string, password: string): Promise<string | 
   return LOGIN_ERRORS[error.message] ?? error.message;
 }
 
-// Çıxış: sessiya + keş (başqa hesab əvvəlkinin məlumatını görməsin)
+// Çıxış: əvvəl push tokeni (hələ girişli ikən) silinir, sonra sessiya + keş (başqa hesab əvvəlkinin məlumatını görməsin)
 export async function signOut() {
+  const token = pushTokenStore.get();
+  if (token) await unregisterPushToken(token).catch(() => undefined);
+  pushTokenStore.clear();
   await supabase.auth.signOut();
   clearQueryCache();
 }

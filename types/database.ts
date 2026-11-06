@@ -1756,6 +1756,14 @@ export type Database = {
         Args: { t: Database["public"]["Tables"]["tasks"]["Row"] }
         Returns: number
       }
+      register_push_token: {
+        Args: { p_platform: string; p_token: string }
+        Returns: undefined
+      }
+      unregister_push_token: {
+        Args: { p_token: string }
+        Returns: undefined
+      }
       task_set_done: {
         Args: { p_done: boolean; p_task_id: number }
         Returns: undefined
