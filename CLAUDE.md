@@ -33,7 +33,7 @@ Usta paneli üçün React Native app: **Expo SDK 58** (RN 0.88, development buil
 - Şəkillər `expo-image` (`cachePolicy="disk"`).
 
 ## Komandalar və build (Windows)
-- Tip yoxlaması: `npx tsc --noEmit` (commitdən əvvəl). Metro: `npx expo start --dev-client --port 8081 < /dev/null` (fonda). **`CI=1` ilə başlatma**: o rejimdə fayl izləmə və reload söndürülür, dəyişiklik telefona düşmür. Reload: `curl -X POST localhost:8081/reload`.
+- Tip yoxlaması: `npx tsc --noEmit` (commitdən əvvəl; `npx expo lint` İŞLƏTMƏ — ESLint qurulu deyil, özbaşına paket quraşdırır). Metro: `npx expo start --dev-client --port 8081 < /dev/null` (fonda). Telefonda açmaq: `adb shell am start -a android.intent.action.VIEW -d "freezeair://expo-development-client/?url=http%3A%2F%2Flocalhost%3A8081" az.freezeair.mobile`. **`CI=1` ilə başlatma**: o rejimdə fayl izləmə və reload söndürülür, dəyişiklik telefona düşmür. Reload: `curl -X POST localhost:8081/reload`.
 - **Metro donması**: native build zamanı Gradle `android/`-da qovluq yaradıb silir → Metro izləyicisi donurdu (ağ ekran, `/status` cavabsız). `metro.config.js` kök `android/` və `ios/`-u bloklayır. Donmuş Metro portu tutursa başqa port işlət (`--port 8083` + `adb reverse tcp:8083 tcp:8083` + `freezeair://expo-development-client/?url=http%3A%2F%2Flocalhost%3A8083`). Native paket əlavə edəndə JS-dən əvvəl build: yoxsa `Cannot find native module` ilə açılmır.
 - Native build: `npx expo run:android` və ya `cd android && gradlew.bat app:assembleDebug -PreactNativeArchitectures=arm64-v8a`, sonra `adb install -r android/app/build/outputs/apk/debug/app-debug.apk`. Build-dən sonra `gradlew --stop` (daemonlar ~3 GB RAM tutur; istifadəçi RAM/CPU-dan şikayət edib).
 - Android SDK: `%LOCALAPPDATA%\Android\Sdk` (Android Studio yoxdur; cmdline-tools 23, platforma 37.0, build-tools 37, NDK 27.1, CMake 3.31.6). `ANDROID_HOME`, `JAVA_HOME` (JDK 17) user env-dədir.
@@ -43,6 +43,12 @@ Usta paneli üçün React Native app: **Expo SDK 58** (RN 0.88, development buil
 - `android/`, `ios/` git-də yoxdur (CNG: `npx expo prebuild --platform android --no-install`).
 - **Telefon**: Xiaomi 12 Lite (Android 14), Wi-Fi adb. Qoşulma portu hər dəfə dəyişir: istifadəçidən "Wireless debugging" ekranındakı IP:Port-u istə, `adb connect`. İki cihaz görünsə (IP + mDNS adı) `adb -s <IP:port>` işlət. Telefon Metro-ya `adb reverse tcp:8081 tcp:8081` ilə qoşulur.
 - Env: `.env.local` (git-ignore): `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (publishable, gizli deyil). Nümunə `.env.example`.
+
+## Push bildirişləri (işləyir, 2026-11-06)
+- Axın: `notifications` insert → Edge Function `push` (Web + Expo) → `push_tokens` (0106). App: `app/hooks/usePushRegistration.ts` (kanal → icazə → Expo token → `register_push_token`), `useNotificationTaps.ts` (toxunuş → `navigation/refs/navigationRef.ts` → `shared/config/push.ts` `URL_TAB`). Çıxışda token silinir (`auth.service.signOut`). Ətraflı: `docs/API.md` §13.
+- Expo: hesab `xeyyam456`, layihə `@xeyyam456/freeze-air-mobile` (`app.json` → `extra.eas.projectId`, `eas.json`). Firebase: `freeze-air-c5d28`, `google-services.json` kökdə (gizli deyil). FCM V1 açarı Expo-dadır (gizli, repoda YOX).
+- Claude Expo-ya girişi `npx eas-cli login --device --non-interactive` ilə edir (istifadəçi linkdə təsdiqləyir, rəqəmi `--match` ilə). Gizli açarları (FCM, keystore) istifadəçi özü yükləyir: Windows-da `npx.cmd` (PowerShell `npx.ps1` bloklanır), cmd-də `cd /d`.
+- Sürətli sınaq (bazaya yazmadan): token `push_tokens`-dan → `curl -X POST https://exp.host/--/api/v2/push/send` (`channelId: "default"`, `data.url`), qəbz `.../push/getReceipts`.
 
 ## Git
 - Kök repoda commit (hər bitmiş addım dərhal lokal commit, mesaj Azərbaycanca). Push yalnız istifadəçi deyəndə: kökdən `node scripts/push-all.mjs` (kök + dəyişən web/admin/mobile, saniyələr).
