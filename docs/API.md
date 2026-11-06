@@ -260,7 +260,8 @@ Hadisə gələndə uyğun TanStack açarını `invalidateQueries` et (dövri sor
 
 Hazırkı sistem (Web Push): baza `notify_employee/notify_user/notify_all` → `notifications` cədvəli → pg_net → Edge Function `push` → `push_subscriptions` (endpoint, p256dh, auth). Abunə: `rpc("push_subscribe", { p_app, p_endpoint, p_p256dh, p_auth, p_user_agent })`, ləğv `rpc("push_unsubscribe", { p_endpoint })`.
 
-**Mobil üçün HƏLƏ YOXDUR**: `push_subscriptions.app` check yalnız `web | admin` qəbul edir və funksiya yalnız Web Push göndərir. Lazım olan (ayrıca addım): miqrasiya — `app` check-ə `mobile`, Expo push token sahəsi (və ya ayrıca cədvəl); `push` funksiyasına Expo Push API (`https://exp.host/--/api/v2/push/send`) qolu. Bildirişin `url` sahəsi (məs. `/elanlar`, `/tapshiriqlar`) app-də ekrana xəritələnir.
+**Mobil (Expo Push, 0106)**: ayrıca cədvəl `push_tokens (user_id, token unique, platform android|ios)`; `push_subscriptions` toxunulmayıb. Qeydiyyat hər girişdə/açılışda: `rpc("register_push_token", { p_token, p_platform })` (upsert; telefon hesab dəyişəndə token yeni sahibə keçir). Çıxışda: `rpc("unregister_push_token", { p_token })` (token MMKV-də, `pushTokenStore`). Edge Function `push` (v3) eyni bildirişi Web Push + Expo Push API-yə (`https://exp.host/--/api/v2/push/send`, kanal `default`, `data: { id, kind, url }`) göndərir; `DeviceNotRegistered` tokeni silinir. Bildirişin `url`-i app-də taba çevrilir: `shared/config/push.ts` (`URL_TAB`), toxunuş `app/hooks/useNotificationTaps.ts` → `navigation/refs/navigationRef.ts`.
+**Tələb**: EAS `projectId` (`app.json` → `extra.eas.projectId`), Android üçün `google-services.json` (`android.googleServicesFile`) + FCM V1 açarı Expo-ya yüklənməlidir.
 
 ---
 
