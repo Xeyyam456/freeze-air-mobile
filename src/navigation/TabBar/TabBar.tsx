@@ -6,12 +6,12 @@ import { TABS } from "@shared/config/tabs";
 import useOpenTasksCount from "@shared/hooks/useOpenTasksCount";
 import { styles } from "./TabBar.styles";
 
-// Aşağıda üzən tünd şüşəvari kart (kölgə); tablar: shared/config/tabs
+// Aşağıya yapışıq tünd tab bar (üst künclər yuvarlaq, nazik kənar xətti); tablar: shared/config/tabs
 function TabBar({ state, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
   const openTasks = useOpenTasksCount();
   return (
-    <View style={[styles.wrap, { bottom: Math.max(insets.bottom, 10) }]}>
+    <View style={[styles.wrap, { paddingBottom: Math.max(insets.bottom, 8) + 4 }]}>
       {state.routes.map((route, i) => {
         const focused = state.index === i;
         const onPress = () => {
