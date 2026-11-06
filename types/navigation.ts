@@ -14,7 +14,7 @@ export type MainTabParamList = {
   TasksTab: undefined;
   ToolsTab: undefined;
   AnnouncementsTab: undefined;
-  MoreTab: undefined;
+  MoreTab: NavigatorScreenParams<MoreStackParamList> | undefined;
 };
 
 export type PanelStackParamList = {
@@ -22,4 +22,18 @@ export type PanelStackParamList = {
   Attendance: undefined; // davamiyyət: bütün ustalar, ay üzrə
   AttendanceCalendar: { employeeId: number; name: string }; // ustanın təqvimi və saatları
   Profile: undefined; // sağ üstdəki şəkil: profil şəkli, çıxış
+};
+
+// "Daha çox" tabının stack-i (menyu: shared/config/more.ts). Davamiyyət ekranları Panel stack-i ilə ortaqdır (eyni adlar)
+export type MoreStackParamList = {
+  MoreMain: undefined;
+  Attendance: undefined;
+  AttendanceCalendar: { employeeId: number; name: string };
+  Leaves: undefined;
+  Fuel: undefined;
+  Companies: undefined;
+  Stores: undefined;
+  ErrorCodes: undefined;
+  Employees: undefined;
+  Management: undefined;
 };

@@ -3,7 +3,7 @@ import type { MainTabParamList } from "@typings/navigation";
 import PanelStackNavigator from "@navigation/PanelStackNavigator";
 import TabBar from "@navigation/TabBar";
 import AnnouncementsScreen from "@screens/protected/announcements/components/AnnouncementsScreen";
-import MoreScreen from "@screens/protected/more/components/MoreScreen";
+import MoreStackNavigator from "@navigation/MoreStackNavigator";
 import usePanelLive from "@screens/protected/panel/hooks/usePanelLive";
 import TasksScreen from "@screens/protected/tasks/components/TasksScreen";
 import ToolsScreen from "@screens/protected/tools/components/ToolsScreen";
@@ -24,7 +24,7 @@ function MainTabNavigator() {
       <Tab.Screen name="TasksTab" component={TasksScreen} />
       <Tab.Screen name="ToolsTab" component={ToolsScreen} />
       <Tab.Screen name="AnnouncementsTab" component={AnnouncementsScreen} />
-      <Tab.Screen name="MoreTab" component={MoreScreen} />
+      <Tab.Screen name="MoreTab" component={MoreStackNavigator} />
     </Tab.Navigator>
   );
 }

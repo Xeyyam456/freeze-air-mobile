@@ -1,0 +1,25 @@
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import type { MoreStackParamList } from "@typings/navigation";
+import AttendanceCalendarScreen from "@screens/protected/attendance/components/AttendanceCalendarScreen";
+import AttendanceScreen from "@screens/protected/attendance/components/AttendanceScreen";
+import MorePlaceholderScreen from "@screens/protected/more/components/MorePlaceholderScreen";
+import MoreScreen from "@screens/protected/more/components/MoreScreen";
+
+const Stack = createNativeStackNavigator<MoreStackParamList>();
+
+// Hələ yazılmayan bölmələr "Tezliklə" ekranı açır; bölmə yazılanda burada onun öz ekranı ilə əvəz et
+const SOON = ["Leaves", "Fuel", "Companies", "Stores", "ErrorCodes", "Employees", "Management"] as const;
+
+// "Daha çox" tabının stack-i: menyu → bölmələr (Davamiyyət ekranları Panel stack-i ilə ortaqdır)
+function MoreStackNavigator() {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false, animation: "slide_from_right" }}>
+      <Stack.Screen name="MoreMain" component={MoreScreen} />
+      <Stack.Screen name="Attendance" component={AttendanceScreen} />
+      <Stack.Screen name="AttendanceCalendar" component={AttendanceCalendarScreen} />
+      {SOON.map((name) => <Stack.Screen key={name} name={name} component={MorePlaceholderScreen} />)}
+    </Stack.Navigator>
+  );
+}
+
+export default MoreStackNavigator;
