@@ -8,4 +8,7 @@ export const queryKeys = {
   tasksDay: (day: string) => ["tasks-view", day] as const,
   tasksWeek: (from: string) => ["tasks-week", from] as const,
   workFiles: (logId: number) => ["work-files", logId] as const,
+  attendanceEmployees: ["attendance-employees"] as const,
+  monthAttendance: (month: string) => ["month-attendance", month] as const,
+  employeeMonth: (id: number, month: string) => ["employee-month", id, month] as const,
 };

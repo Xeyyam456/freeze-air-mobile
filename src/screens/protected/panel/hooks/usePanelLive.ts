@@ -6,9 +6,9 @@ import { supabase } from "@shared/api/supabase";
 // Bir ümumi Realtime kanalı (API.md §12): dəyişiklik gələndə aid keş açarları təzələnir (dövri sorğu yox).
 // Kanal açmazdan əvvəl setAuth vacibdir, yoxsa anon kimi qoşulur və RLS-ə görə hadisə gəlmir.
 const TABLE_KEYS: Record<string, string[]> = {
-  attendance: ["my-today"],
-  attendance_absences: ["my-today"],
-  leave_requests: ["my-today"],
+  attendance: ["my-today", "month-attendance", "employee-month"],
+  attendance_absences: ["my-today", "month-attendance", "employee-month"],
+  leave_requests: ["my-today", "month-attendance", "employee-month"],
   tasks: ["tasks-view", "tasks-week", "my-day-stats", "work-history", "my-overview"],
   tool_assignments: ["my-day-stats"],
   // Akt/şəkil/video (0107): kartdakı fayl sayları + təmir qeydi ekranındakı mövcud fayllar (məs. web-də silinəndə)
@@ -40,7 +40,7 @@ function usePanelLive() {
 
     // Fondan qayıdanda: fonda buraxılmış hadisələr ola bilər → hamısını təzələ
     const sub = AppState.addEventListener("change", (s) => {
-      if (s === "active") refresh(["my-today", "my-day-stats", "work-history", "my-overview", "tasks-view", "tasks-week", "work-files"]);
+      if (s === "active") refresh(["my-today", "my-day-stats", "work-history", "my-overview", "tasks-view", "tasks-week", "work-files", "month-attendance", "employee-month"]);
     });
     // Token yenilənəndə Realtime-a da yeni token
     const auth = supabase.auth.onAuthStateChange((event, s) => {

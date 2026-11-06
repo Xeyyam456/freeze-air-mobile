@@ -19,4 +19,6 @@ export type MainTabParamList = {
 
 export type PanelStackParamList = {
   PanelMain: undefined;
+  Attendance: undefined; // davamiyyət: bütün ustalar, ay üzrə
+  AttendanceCalendar: { employeeId: number; name: string }; // ustanın təqvimi və saatları
 };

@@ -1,5 +1,6 @@
-import { LogInIcon, LogOutIcon } from "@shared/icons";
-import { ActivityIndicator, Text, View } from "react-native";
+import { type NavigationProp, useNavigation } from "@react-navigation/native";
+import { CalendarCheckIcon, LogInIcon, LogOutIcon } from "@shared/icons";
+import { ActivityIndicator, Pressable, Text, View } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 import Button from "@shared/components/Button";
 import GradientBg from "@shared/components/GradientBg";
@@ -9,19 +10,26 @@ import PulseGlow from "@screens/protected/panel/components/PulseGlow";
 import SessionList from "@screens/protected/panel/components/SessionList";
 import WorkRing from "@screens/protected/panel/components/WorkRing";
 import { c, gradients } from "@theme/colors";
+import type { PanelStackParamList } from "@typings/navigation";
 import { TONE, styles } from "./TodayHero.styles";
 import type { TodayHeroProps } from "./TodayHero.types";
 
-// Bu gün (hero): iş vaxtı halqası (canlı sayır), vəziyyət, tək əsas düymə (optimistik: klik anında dəyişir)
+// Bu gün (hero): iş vaxtı halqası (canlı sayır), vəziyyət, tək əsas düymə (optimistik: klik anında dəyişir).
+// Sağ üst küncdə Davamiyyət keçidi
 function TodayHero({ employeeId }: TodayHeroProps) {
   const { day, run } = useMyDay(employeeId);
   const view = day ? presenceView(day) : null;
   const tone = view ? TONE[view.tone] : TONE.idle;
+  const nav = useNavigation<NavigationProp<PanelStackParamList>>();
 
   return (
     <View style={styles.card}>
       <GradientBg colors={gradients.hero} radius={24} />
       {view?.tone === "working" && <PulseGlow color={c.ok} />}
+      <Pressable onPress={() => nav.navigate("Attendance")} hitSlop={8} accessibilityLabel="Davamiyyət"
+        style={({ pressed }) => [styles.corner, pressed && styles.cornerPressed]}>
+        <CalendarCheckIcon size={18} color={c.ink} />
+      </Pressable>
       {!day || !view ? (
         <ActivityIndicator color={c.muted} style={styles.loader} />
       ) : (

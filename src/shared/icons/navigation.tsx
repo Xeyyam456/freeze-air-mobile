@@ -64,3 +64,16 @@ export const CloseIcon = (p: IconProps) => (
     <Path d="M18 6 6 18M6 6l12 12" />
   </IconBase>
 );
+
+export const CalendarCheckIcon = (p: IconProps) => (
+  <IconBase {...p}>
+    <Path d="M8 2v4M16 2v4M21 14V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h8M3 10h18M16 20l2 2 4-4" />
+  </IconBase>
+);
+
+export const ClockIcon = (p: IconProps) => (
+  <IconBase {...p}>
+    <Path d="M12 6v6l4 2" />
+    <Path d="M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0" />
+  </IconBase>
+);
