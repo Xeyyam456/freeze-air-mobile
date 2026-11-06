@@ -4,12 +4,14 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import TabBarItem from "@navigation/TabBarItem";
 import { TABS } from "@shared/config/tabs";
 import useOpenTasksCount from "@shared/hooks/useOpenTasksCount";
+import useUnreadAnnouncements from "@shared/hooks/useUnreadAnnouncements";
 import { styles } from "./TabBar.styles";
 
 // Aşağıya yapışıq tünd tab bar (üst künclər yuvarlaq, nazik kənar xətti); tablar: shared/config/tabs
 function TabBar({ state, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
   const openTasks = useOpenTasksCount();
+  const unread = useUnreadAnnouncements();
   return (
     <View style={[styles.wrap, { paddingBottom: Math.max(insets.bottom, 8) + 4 }]}>
       {state.routes.map((route, i) => {
@@ -19,7 +21,7 @@ function TabBar({ state, navigation }: BottomTabBarProps) {
           if (!focused && !e.defaultPrevented) navigation.navigate(route.name);
         };
         const tab = TABS[route.name as keyof typeof TABS];
-        const badge = route.name === "TasksTab" ? openTasks : 0;
+        const badge = route.name === "TasksTab" ? openTasks : route.name === "AnnouncementsTab" ? unread : 0;
         return <TabBarItem key={route.key} icon={tab.icon} label={tab.label} focused={focused} badge={badge} onPress={onPress} />;
       })}
     </View>

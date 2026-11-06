@@ -29,7 +29,8 @@ async function uploadAvatar(employeeId: number, uri: string, width: number, heig
 // Profil şəklini dəyiş və ya sil (url = null). Yeganə yol RPC set_employee_photo; sonra köhnə fayl silinir
 export async function setProfilePhoto(employeeId: number, oldUrl: string | null, image: { uri: string; width: number; height: number } | null) {
   const url = image ? await uploadAvatar(employeeId, image.uri, image.width, image.height) : null;
-  const { error } = await supabase.rpc("set_employee_photo", { p_employee_id: employeeId, p_url: url });
+  // p_url null = şəkli sil (funksiya null qəbul edir; generator SQL parametrini həmişə string yazır)
+  const { error } = await supabase.rpc("set_employee_photo", { p_employee_id: employeeId, p_url: url as string });
   if (error) throw new Error(error.message);
   const old = storagePath(oldUrl);
   if (old) await supabase.storage.from(BUCKET).remove([old]);

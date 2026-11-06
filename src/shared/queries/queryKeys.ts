@@ -11,4 +11,7 @@ export const queryKeys = {
   attendanceEmployees: ["attendance-employees"] as const,
   monthAttendance: (month: string) => ["month-attendance", month] as const,
   employeeMonth: (id: number, month: string) => ["employee-month", id, month] as const,
+  announcements: ["announcements"] as const,
+  announcer: ["announcer"] as const,
+  unreadAnnouncements: ["unread-announcements"] as const,
 };

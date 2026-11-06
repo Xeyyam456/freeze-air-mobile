@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: c.glass,
   },
-  iconTile: { width: 56, height: 56, borderRadius: 18, alignItems: "center", justifyContent: "center", backgroundColor: c.dangerSoft },
+  iconTile: { width: 56, height: 56, borderRadius: 18, alignItems: "center", justifyContent: "center" },
   title: { color: c.ink, fontSize: 18, fontWeight: "800" },
   text: { color: c.muted, fontSize: 14, lineHeight: 20, textAlign: "center" },
   actions: { flexDirection: "row", gap: space.sm, alignSelf: "stretch", marginTop: space.sm },

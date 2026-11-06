@@ -1,4 +1,3 @@
-// Supabase-dən avtomatik yaradılıb (generate_typescript_types). Sxem dəyişəndə yenilə.
 export type Json =
   | string
   | number
@@ -86,6 +85,48 @@ export type Database = {
           created_at?: string
           id?: never
           name?: string
+        }
+        Relationships: []
+      }
+      announcement_reads: {
+        Row: {
+          seen_at: string
+          user_id: string
+        }
+        Insert: {
+          seen_at?: string
+          user_id?: string
+        }
+        Update: {
+          seen_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      announcements: {
+        Row: {
+          body: string
+          created_at: string
+          created_by: string
+          created_by_name: string | null
+          id: number
+          title: string
+        }
+        Insert: {
+          body?: string
+          created_at?: string
+          created_by?: string
+          created_by_name?: string | null
+          id?: never
+          title: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          created_by?: string
+          created_by_name?: string | null
+          id?: never
+          title?: string
         }
         Relationships: []
       }
@@ -688,48 +729,81 @@ export type Database = {
           },
         ]
       }
-      place_location_log: {
+      notifications: {
         Row: {
-          id: number
-          place_kind: string
-          place_id: number
-          employee_id: number | null
-          old_lat: number | null
-          old_lng: number | null
-          old_address: string | null
-          new_lat: number | null
-          new_lng: number | null
-          new_address: string | null
-          accuracy_m: number | null
+          body: string
           created_at: string
+          id: number
+          kind: string
+          sent_at: string | null
+          title: string
+          url: string | null
+          user_id: string
         }
         Insert: {
-          id?: number
-          place_kind?: string
-          place_id?: number
-          employee_id?: number | null
-          old_lat?: number | null
-          old_lng?: number | null
-          old_address?: string | null
-          new_lat?: number | null
-          new_lng?: number | null
-          new_address?: string | null
-          accuracy_m?: number | null
+          body?: string
           created_at?: string
+          id?: never
+          kind: string
+          sent_at?: string | null
+          title: string
+          url?: string | null
+          user_id: string
         }
         Update: {
-          id?: number
-          place_kind?: string
-          place_id?: number
-          employee_id?: number | null
-          old_lat?: number | null
-          old_lng?: number | null
-          old_address?: string | null
-          new_lat?: number | null
-          new_lng?: number | null
-          new_address?: string | null
+          body?: string
+          created_at?: string
+          id?: never
+          kind?: string
+          sent_at?: string | null
+          title?: string
+          url?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      place_location_log: {
+        Row: {
+          accuracy_m: number | null
+          created_at: string
+          employee_id: number | null
+          id: number
+          new_address: string | null
+          new_lat: number | null
+          new_lng: number | null
+          old_address: string | null
+          old_lat: number | null
+          old_lng: number | null
+          place_id: number
+          place_kind: string
+        }
+        Insert: {
           accuracy_m?: number | null
           created_at?: string
+          employee_id?: number | null
+          id?: never
+          new_address?: string | null
+          new_lat?: number | null
+          new_lng?: number | null
+          old_address?: string | null
+          old_lat?: number | null
+          old_lng?: number | null
+          place_id: number
+          place_kind: string
+        }
+        Update: {
+          accuracy_m?: number | null
+          created_at?: string
+          employee_id?: number | null
+          id?: never
+          new_address?: string | null
+          new_lat?: number | null
+          new_lng?: number | null
+          old_address?: string | null
+          old_lat?: number | null
+          old_lng?: number | null
+          place_id?: number
+          place_kind?: string
         }
         Relationships: [
           {
@@ -762,6 +836,66 @@ export type Database = {
           id?: string
           is_owner?: boolean
           role?: string
+        }
+        Relationships: []
+      }
+      push_subscriptions: {
+        Row: {
+          app: string
+          auth: string
+          created_at: string
+          endpoint: string
+          id: number
+          p256dh: string
+          user_agent: string | null
+          user_id: string
+        }
+        Insert: {
+          app: string
+          auth: string
+          created_at?: string
+          endpoint: string
+          id?: never
+          p256dh: string
+          user_agent?: string | null
+          user_id: string
+        }
+        Update: {
+          app?: string
+          auth?: string
+          created_at?: string
+          endpoint?: string
+          id?: never
+          p256dh?: string
+          user_agent?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      push_tokens: {
+        Row: {
+          created_at: string
+          id: number
+          platform: string
+          token: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: never
+          platform: string
+          token: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: never
+          platform?: string
+          token?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -1547,26 +1681,25 @@ export type Database = {
       }
     }
     Views: {
-      // Anbar vəziyyəti: ümumi say, ustalarda, təmirdə, depoda qalan (view-da sütunlar null olmur, tiplər əl ilə dəqiqləşdirilib)
       tool_stock: {
         Row: {
-          available: number
+          available: number | null
           category: string | null
-          created_at: string
-          given_out: number
-          id: number
-          in_repair: number
+          created_at: string | null
+          given_out: number | null
+          id: number | null
+          in_repair: number | null
           inventory_code: string | null
-          kind: string
+          kind: string | null
           min_stock: number | null
-          name: string
+          name: string | null
           notes: string | null
           pack_name: string | null
           pack_size: number | null
-          pieces_count: number
-          pieces_total: number
-          quantity: number
-          unit: string
+          pieces_count: number | null
+          pieces_total: number | null
+          quantity: number | null
+          unit: string | null
         }
         Relationships: []
       }
@@ -1616,6 +1749,7 @@ export type Database = {
         Args: { p_tool_id: number; p_type: string }
         Returns: {
           assignment_id: number | null
+          batch: string | null
           created_at: string
           created_by: string
           created_by_name: string | null
@@ -1660,7 +1794,12 @@ export type Database = {
       }
       depot_request_cancel: { Args: { p_id: number }; Returns: undefined }
       depot_request_create: {
-        Args: { p_batch?: string; p_note?: string; p_quantity: number; p_tool_id: number }
+        Args: {
+          p_batch?: string
+          p_note?: string
+          p_quantity: number
+          p_tool_id: number
+        }
         Returns: number
       }
       depot_return_create: {
@@ -1699,23 +1838,62 @@ export type Database = {
         Returns: undefined
       }
       is_admin: { Args: never; Returns: boolean }
+      is_management: { Args: never; Returns: boolean }
       is_owner: { Args: never; Returns: boolean }
       is_storekeeper: { Args: never; Returns: boolean }
       leave_cancel: { Args: { p_id: number }; Returns: undefined }
-      place_set_location: {
-        Args: { p_accuracy?: number; p_address?: string; p_id: number; p_kind: string; p_lat?: number; p_lng?: number }
-        Returns: undefined
-      }
       leave_decide: {
         Args: { p_approve: boolean; p_id: number }
         Returns: undefined
       }
+      mark_announcements_seen: { Args: never; Returns: undefined }
       material_small_to_pieces: {
         Args: { p_tool_id: number }
         Returns: undefined
       }
       mileage_fill_missing: { Args: never; Returns: number }
       my_employee_id: { Args: never; Returns: number }
+      notify_all: {
+        Args: {
+          p_body: string
+          p_except?: string
+          p_kind: string
+          p_title: string
+          p_url: string
+        }
+        Returns: undefined
+      }
+      notify_employee: {
+        Args: {
+          p_body: string
+          p_employee: number
+          p_kind: string
+          p_title: string
+          p_url: string
+        }
+        Returns: undefined
+      }
+      notify_user: {
+        Args: {
+          p_body: string
+          p_kind: string
+          p_title: string
+          p_url: string
+          p_user: string
+        }
+        Returns: undefined
+      }
+      place_set_location: {
+        Args: {
+          p_accuracy?: number
+          p_address?: string
+          p_id: number
+          p_kind: string
+          p_lat?: number
+          p_lng?: number
+        }
+        Returns: undefined
+      }
       public_employees: {
         Args: never
         Returns: {
@@ -1736,12 +1914,27 @@ export type Database = {
           photo_url: string
         }[]
       }
+      push_subscribe: {
+        Args: {
+          p_app: string
+          p_auth: string
+          p_endpoint: string
+          p_p256dh: string
+          p_user_agent?: string
+        }
+        Returns: undefined
+      }
+      push_unsubscribe: { Args: { p_endpoint: string }; Returns: undefined }
+      register_push_token: {
+        Args: { p_platform: string; p_token: string }
+        Returns: undefined
+      }
       return_tool: {
         Args: { p_assignment_id: number; p_quantity: number }
         Returns: undefined
       }
       set_employee_photo: {
-        Args: { p_employee_id: number; p_url: string | null }
+        Args: { p_employee_id: number; p_url: string }
         Returns: undefined
       }
       settle_material: {
@@ -1756,13 +1949,9 @@ export type Database = {
         Args: { t: Database["public"]["Tables"]["tasks"]["Row"] }
         Returns: number
       }
-      register_push_token: {
-        Args: { p_platform: string; p_token: string }
-        Returns: undefined
-      }
-      unregister_push_token: {
-        Args: { p_token: string }
-        Returns: undefined
+      task_label: {
+        Args: { t: Database["public"]["Tables"]["tasks"]["Row"] }
+        Returns: string
       }
       task_set_done: {
         Args: { p_done: boolean; p_task_id: number }
@@ -1775,6 +1964,10 @@ export type Database = {
       task_withdraw: {
         Args: { p_new_employee_id?: number; p_task_id: number }
         Returns: number
+      }
+      task_withdraw_group: {
+        Args: { p_task_ids: number[] }
+        Returns: undefined
       }
       tool_repair_finish: {
         Args: { p_fixed: boolean; p_id: number }
@@ -1789,6 +1982,8 @@ export type Database = {
         }
         Returns: undefined
       }
+      unread_announcements: { Args: never; Returns: number }
+      unregister_push_token: { Args: { p_token: string }; Returns: undefined }
       work_file_counts: {
         Args: { p_log_ids: number[] }
         Returns: {

@@ -4,4 +4,5 @@ export * from "./navigation";
 export * from "./account";
 export * from "./work";
 export * from "./media";
+export * from "./actions";
 export type { Icon, IconProps } from "./icon.types";
