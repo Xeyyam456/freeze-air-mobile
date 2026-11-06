@@ -45,3 +45,6 @@ example
 # Native (CNG: npx expo prebuild ilə yaradılır)
 /android
 /ios
+
+# APK-lar (npm run apk)
+/apk

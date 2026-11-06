@@ -6,10 +6,10 @@ import ErrorState from "@shared/components/ErrorState";
 import useMe from "@shared/hooks/useMe";
 import useReload from "@shared/hooks/useReload";
 import usePanelData from "@screens/protected/panel/hooks/usePanelData";
-import MyDayCard from "@screens/protected/panel/MyDayCard";
-import PanelHeader from "@screens/protected/panel/PanelHeader";
-import StatTiles from "@screens/protected/panel/StatTiles";
-import WorkRow from "@screens/protected/panel/WorkRow";
+import MyDayCard from "@screens/protected/panel/components/MyDayCard";
+import PanelHeader from "@screens/protected/panel/components/PanelHeader";
+import StatTiles from "@screens/protected/panel/components/StatTiles";
+import WorkRow from "@screens/protected/panel/components/WorkRow";
 import { c } from "@theme/colors";
 import { styles } from "./PanelScreen.styles";
 

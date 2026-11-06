@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import type { PanelStackParamList } from "@typings/navigation";
-import PanelScreen from "@screens/protected/panel/PanelScreen";
+import PanelScreen from "@screens/protected/panel/components/PanelScreen";
 import usePanelLive from "@screens/protected/panel/hooks/usePanelLive";
 
 const Stack = createNativeStackNavigator<PanelStackParamList>();
