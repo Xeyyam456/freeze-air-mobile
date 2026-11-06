@@ -1,5 +1,5 @@
-import { mins, timeBaku } from "@shared/utils/time";
-import type { PresenceAction, TodayAttendance } from "@typings/panel";
+import { secs, timeBaku } from "@shared/utils/time";
+import type { PresenceAction, Session, TodayAttendance } from "@typings/panel";
 
 export type PresenceTone = "idle" | "working" | "done" | "leave" | "absent" | "sunday";
 
@@ -35,7 +35,7 @@ export function presenceView(day: TodayAttendance): PresenceView {
   return { tone: "sunday", label: "Bazar", sub: "İş günü deyil", action: { title: "Bazar günü işdəyəm", action: "in", primary: false } };
 }
 
-// Bugünkü işlənmiş dəqiqə (açıq seans indiyə qədər sayılır)
-export function workedMinutes(day: TodayAttendance, nowIso: string) {
-  return day.sessions.reduce((m, x) => m + mins(x.in, x.out ?? nowIso), 0);
+// Bugünkü işlənmiş saniyə (açıq seans indiyə qədər sayılır)
+export function workedSeconds(sessions: Session[], nowIso: string) {
+  return sessions.reduce((s, x) => s + secs(x.in, x.out ?? nowIso), 0);
 }

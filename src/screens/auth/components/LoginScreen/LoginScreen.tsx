@@ -1,4 +1,4 @@
-import { Lock, Mail, Snowflake } from "lucide-react-native";
+import { LockIcon, MailIcon, SnowflakeIcon } from "@shared/icons";
 import { Text, View } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -21,7 +21,7 @@ function LoginScreen() {
       bottomOffset={24}
     >
       <View style={styles.brand}>
-        <View style={styles.logo}><Snowflake size={34} color={c.primary} /></View>
+        <View style={styles.logo}><SnowflakeIcon size={34} color={c.primary} /></View>
         <Text style={styles.name}>Freeze Air</Text>
         <Text style={styles.badge}>Usta paneli</Text>
       </View>
@@ -30,7 +30,7 @@ function LoginScreen() {
         <Text style={styles.title}>Daxil ol</Text>
         <TextField
           label="E-poçt"
-          icon={Mail}
+          icon={MailIcon}
           value={f.email}
           onChangeText={f.setEmail}
           placeholder="ad@freezeair.az"
@@ -42,7 +42,7 @@ function LoginScreen() {
         />
         <TextField
           label="Parol"
-          icon={Lock}
+          icon={LockIcon}
           secure
           value={f.password}
           onChangeText={f.setPassword}

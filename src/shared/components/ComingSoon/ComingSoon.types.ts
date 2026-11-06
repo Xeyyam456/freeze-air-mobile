@@ -1,3 +1,3 @@
-import type { LucideIcon } from "lucide-react-native";
+import type { Icon } from "@shared/icons";
 
-export type ComingSoonProps = { title: string; icon: LucideIcon; text: string };
+export type ComingSoonProps = { title: string; icon: Icon; text: string };

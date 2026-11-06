@@ -12,6 +12,8 @@ export const isSunday = (day: string) => new Date(`${day}T00:00:00Z`).getUTCDay(
 
 // İki an arasındakı dəqiqə və qısa müddət yazısı ("1 saat 5 dəq", "12 dəq")
 export const mins = (a: string, b: string) => Math.max(0, Math.round((new Date(b).getTime() - new Date(a).getTime()) / 60000));
+// İki an arasındakı saniyə (halqadakı canlı saat üçün)
+export const secs = (a: string, b: string) => Math.max(0, Math.floor((new Date(b).getTime() - new Date(a).getTime()) / 1000));
 export const durShort = (m: number) => (m >= 60 ? `${Math.floor(m / 60)} saat ${m % 60} dəq` : `${Math.max(1, m)} dəq`);
 
 const MONTHS = ["yanvar", "fevral", "mart", "aprel", "may", "iyun", "iyul", "avqust", "sentyabr", "oktyabr", "noyabr", "dekabr"];

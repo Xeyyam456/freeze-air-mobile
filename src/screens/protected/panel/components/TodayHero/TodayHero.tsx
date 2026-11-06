@@ -1,10 +1,9 @@
-import { LogIn, LogOut } from "lucide-react-native";
+import { LogInIcon, LogOutIcon } from "@shared/icons";
 import { ActivityIndicator, Text, View } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 import Button from "@shared/components/Button";
 import GradientBg from "@shared/components/GradientBg";
-import useNow from "@shared/hooks/useNow";
-import { presenceView, workedMinutes } from "@shared/utils/presence";
+import { presenceView } from "@shared/utils/presence";
 import useMyDay from "@screens/protected/panel/hooks/useMyDay";
 import PulseGlow from "@screens/protected/panel/components/PulseGlow";
 import SessionList from "@screens/protected/panel/components/SessionList";
@@ -17,7 +16,6 @@ import type { TodayHeroProps } from "./TodayHero.types";
 function TodayHero({ employeeId }: TodayHeroProps) {
   const { day, run } = useMyDay(employeeId);
   const view = day ? presenceView(day) : null;
-  const now = useNow(view?.tone === "working");
   const tone = view ? TONE[view.tone] : TONE.idle;
 
   return (
@@ -29,7 +27,7 @@ function TodayHero({ employeeId }: TodayHeroProps) {
       ) : (
         <Animated.View entering={FadeIn.duration(350)} style={styles.body}>
           <View style={styles.row}>
-            <WorkRing minutes={workedMinutes(day, now)} />
+            <WorkRing sessions={day.sessions} live={view.tone === "working"} />
             <View style={styles.info}>
               <View style={[styles.chip, { backgroundColor: tone.bg }]}>
                 <View style={[styles.dot, { backgroundColor: tone.fg }]} />
@@ -42,7 +40,7 @@ function TodayHero({ employeeId }: TodayHeroProps) {
           {view.action && (
             <Button
               title={view.action.title}
-              icon={view.action.action === "out" ? LogOut : LogIn}
+              icon={view.action.action === "out" ? LogOutIcon : LogInIcon}
               variant={view.action.primary ? "gradient" : "glass"}
               onPress={() => run(view.action!.action)}
             />

@@ -6,5 +6,6 @@ export const styles = StyleSheet.create({
   svg: { transform: [{ rotate: "-90deg" }] },
   center: { ...StyleSheet.absoluteFill, alignItems: "center", justifyContent: "center" },
   time: { color: c.ink, fontSize: 34, fontWeight: "800", fontVariant: ["tabular-nums"], letterSpacing: -0.5 },
+  sec: { color: c.muted, fontSize: 18, fontWeight: "700", letterSpacing: 0 },
   of: { color: c.muted, fontSize: 12, fontWeight: "600", marginTop: -2 },
 });

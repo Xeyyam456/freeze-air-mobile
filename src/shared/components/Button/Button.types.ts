@@ -1,4 +1,4 @@
-import type { LucideIcon } from "lucide-react-native";
+import type { Icon } from "@shared/icons";
 import type { StyleProp, ViewStyle } from "react-native";
 
 // gradient: əsas hərəkət (mavi qradiyent) · glass: ikinci dərəcəli (şüşəvari) · qalanları düz rəng
@@ -8,7 +8,7 @@ export type ButtonProps = {
   title: string;
   onPress?: () => void;
   variant?: ButtonVariant;
-  icon?: LucideIcon;
+  icon?: Icon;
   loading?: boolean;
   disabled?: boolean;
   style?: StyleProp<ViewStyle>;

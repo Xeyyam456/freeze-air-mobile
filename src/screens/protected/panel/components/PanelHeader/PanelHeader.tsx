@@ -1,4 +1,4 @@
-import { LogOut } from "lucide-react-native";
+import { LogOutIcon } from "@shared/icons";
 import { Pressable, Text, View } from "react-native";
 import Avatar from "@shared/components/Avatar";
 import { signOut } from "@shared/services/auth.service";
@@ -17,7 +17,7 @@ function PanelHeader({ name, photo, day }: PanelHeaderProps) {
         <Text style={styles.hello} numberOfLines={1}>Salam, {first}</Text>
       </View>
       <Pressable onPress={signOut} hitSlop={10} style={({ pressed }) => [styles.icon, pressed && styles.pressed]}>
-        <LogOut size={18} color={c.muted} />
+        <LogOutIcon size={18} color={c.muted} />
       </Pressable>
       <View style={styles.ring}><Avatar name={name} photo={photo} size={42} /></View>
     </View>

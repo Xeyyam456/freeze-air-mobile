@@ -1,4 +1,4 @@
-import { Eye, EyeOff } from "lucide-react-native";
+import { EyeIcon, EyeOffIcon } from "@shared/icons";
 import { useState } from "react";
 import { Pressable, Text, TextInput, View } from "react-native";
 import { c } from "@theme/colors";
@@ -24,7 +24,7 @@ function TextField({ label, icon: Icon, secure, ...input }: TextFieldProps) {
         />
         {secure && (
           <Pressable onPress={() => setHidden((h) => !h)} hitSlop={10} style={styles.eye}>
-            {hidden ? <Eye size={18} color={c.muted} /> : <EyeOff size={18} color={c.muted} />}
+            {hidden ? <EyeIcon size={18} color={c.muted} /> : <EyeOffIcon size={18} color={c.muted} />}
           </Pressable>
         )}
       </View>

@@ -1,4 +1,4 @@
-import type { LucideIcon } from "lucide-react-native";
+import type { Icon } from "@shared/icons";
 import type { ReactNode } from "react";
 
-export type SectionTitleProps = { title: string; icon?: LucideIcon; count?: number; right?: ReactNode };
+export type SectionTitleProps = { title: string; icon?: Icon; count?: number; right?: ReactNode };
