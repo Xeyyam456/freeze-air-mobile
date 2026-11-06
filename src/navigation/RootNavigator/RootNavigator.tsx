@@ -3,6 +3,7 @@ import type { Session } from "@supabase/supabase-js";
 import type { RootStackParamList } from "@typings/navigation";
 import LoginScreen from "@screens/auth/components/LoginScreen";
 import MainTabNavigator from "@navigation/MainTabNavigator";
+import LeaveRequestScreen from "@screens/protected/leaves/components/LeaveRequestScreen";
 import TaskNoteScreen from "@screens/protected/taskNote/components/TaskNoteScreen";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -15,6 +16,7 @@ function RootNavigator({ session }: { session: Session | null }) {
         <>
           <Stack.Screen name="Main" component={MainTabNavigator} />
           <Stack.Screen name="TaskNote" component={TaskNoteScreen} options={{ animation: "slide_from_bottom" }} />
+          <Stack.Screen name="LeaveRequest" component={LeaveRequestScreen} options={{ animation: "slide_from_bottom" }} />
         </>
       ) : (
         <Stack.Screen name="Login" component={LoginScreen} />

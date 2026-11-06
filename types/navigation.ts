@@ -6,6 +6,7 @@ export type RootStackParamList = {
   Login: undefined;
   Main: NavigatorScreenParams<MainTabParamList> | undefined;
   TaskNote: { task: NoteTask }; // təmir qeydi: tab bar-ın üstündə tam ekran
+  LeaveRequest: undefined; // icazə istə: tab bar-ın üstündə tam ekran
 };
 
 // Aşağıdakı tab bar (navigation/TabBar)

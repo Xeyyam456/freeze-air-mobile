@@ -8,7 +8,7 @@ import { supabase } from "@shared/api/supabase";
 const TABLE_KEYS: Record<string, string[]> = {
   attendance: ["my-today", "month-attendance", "employee-month"],
   attendance_absences: ["my-today", "month-attendance", "employee-month"],
-  leave_requests: ["my-today", "month-attendance", "employee-month"],
+  leave_requests: ["my-today", "month-attendance", "employee-month", "my-leaves"],
   tasks: ["tasks-view", "tasks-week", "my-day-stats", "work-history", "my-overview"],
   tool_assignments: ["my-day-stats"],
   // Akt/şəkil/video (0107): kartdakı fayl sayları + təmir qeydi ekranındakı mövcud fayllar (məs. web-də silinəndə)
@@ -42,7 +42,7 @@ function usePanelLive() {
 
     // Fondan qayıdanda: fonda buraxılmış hadisələr ola bilər → hamısını təzələ
     const sub = AppState.addEventListener("change", (s) => {
-      if (s === "active") refresh(["my-today", "my-day-stats", "work-history", "my-overview", "tasks-view", "tasks-week", "work-files", "month-attendance", "employee-month", "announcements", "unread-announcements"]);
+      if (s === "active") refresh(["my-today", "my-day-stats", "work-history", "my-overview", "tasks-view", "tasks-week", "work-files", "month-attendance", "employee-month", "announcements", "unread-announcements", "my-leaves"]);
     });
     // Token yenilənəndə Realtime-a da yeni token
     const auth = supabase.auth.onAuthStateChange((event, s) => {

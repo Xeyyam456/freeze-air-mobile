@@ -14,4 +14,5 @@ export const queryKeys = {
   announcements: ["announcements"] as const,
   announcer: ["announcer"] as const,
   unreadAnnouncements: ["unread-announcements"] as const,
+  myLeaves: (employeeId: number) => ["my-leaves", employeeId] as const,
 };
