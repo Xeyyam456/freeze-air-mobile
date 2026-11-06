@@ -1,8 +1,8 @@
 import { StyleSheet } from "react-native";
-import { c, radius, space } from "@theme/colors";
+import { c, radius, space, layout } from "@theme/colors";
 
 export const styles = StyleSheet.create({
-  flex: { flex: 1, backgroundColor: c.bg, paddingHorizontal: space.lg },
+  flex: { flex: 1, backgroundColor: c.bg, paddingHorizontal: layout.gutter },
   title: { color: c.ink, fontSize: 24, fontWeight: "800" },
   center: { flex: 1, alignItems: "center", justifyContent: "center", gap: space.md, paddingBottom: 110 },
   tile: {

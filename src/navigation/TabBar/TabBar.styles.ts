@@ -1,14 +1,14 @@
 import { StyleSheet } from "react-native";
-import { c } from "@theme/colors";
+import { c, layout } from "@theme/colors";
 
 export const styles = StyleSheet.create({
   wrap: {
     position: "absolute",
-    left: 12,
-    right: 12,
+    left: layout.gutter,
+    right: layout.gutter,
     flexDirection: "row",
     paddingVertical: 10,
-    paddingHorizontal: 4,
+    paddingHorizontal: 2,
     borderRadius: 24,
     borderWidth: 1,
     borderColor: c.glassBorder,

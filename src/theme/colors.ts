@@ -33,3 +33,6 @@ export const gradients = {
 
 export const radius = { sm: 12, md: 16, lg: 24 } as const;
 export const space = { xs: 4, sm: 8, md: 12, lg: 16, xl: 24 } as const;
+
+// Ekran yan boşluğu (bütün ekranlar və üzən tab bar eyni kənardan): enli konteyner
+export const layout = { gutter: 8 } as const;
