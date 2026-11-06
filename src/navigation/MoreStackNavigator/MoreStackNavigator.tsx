@@ -8,7 +8,7 @@ import MoreScreen from "@screens/protected/more/components/MoreScreen";
 const Stack = createNativeStackNavigator<MoreStackParamList>();
 
 // Hələ yazılmayan bölmələr "Tezliklə" ekranı açır; bölmə yazılanda burada onun öz ekranı ilə əvəz et
-const SOON = ["Leaves", "Fuel", "Companies", "Stores", "ErrorCodes", "Employees", "Management"] as const;
+const SOON = ["Leaves", "Tools", "Fuel", "Companies", "Stores", "ErrorCodes", "Employees", "Management"] as const;
 
 // "Daha çox" tabının stack-i: menyu → bölmələr (Davamiyyət ekranları Panel stack-i ilə ortaqdır)
 function MoreStackNavigator() {

@@ -6,7 +6,6 @@ import AnnouncementsScreen from "@screens/protected/announcements/components/Ann
 import MoreStackNavigator from "@navigation/MoreStackNavigator";
 import usePanelLive from "@screens/protected/panel/hooks/usePanelLive";
 import TasksScreen from "@screens/protected/tasks/components/TasksScreen";
-import ToolsScreen from "@screens/protected/tools/components/ToolsScreen";
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
@@ -22,7 +21,6 @@ function MainTabNavigator() {
     <Tab.Navigator screenOptions={{ headerShown: false, animation: "shift" }} tabBar={renderTabBar}>
       <Tab.Screen name="PanelTab" component={PanelStackNavigator} />
       <Tab.Screen name="TasksTab" component={TasksScreen} />
-      <Tab.Screen name="ToolsTab" component={ToolsScreen} />
       <Tab.Screen name="AnnouncementsTab" component={AnnouncementsScreen} />
       <Tab.Screen name="MoreTab" component={MoreStackNavigator} />
     </Tab.Navigator>

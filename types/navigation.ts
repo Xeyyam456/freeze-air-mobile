@@ -12,7 +12,6 @@ export type RootStackParamList = {
 export type MainTabParamList = {
   PanelTab: NavigatorScreenParams<PanelStackParamList> | undefined;
   TasksTab: undefined;
-  ToolsTab: undefined;
   AnnouncementsTab: undefined;
   MoreTab: NavigatorScreenParams<MoreStackParamList> | undefined;
 };
@@ -30,6 +29,7 @@ export type MoreStackParamList = {
   Attendance: undefined;
   AttendanceCalendar: { employeeId: number; name: string };
   Leaves: undefined;
+  Tools: undefined;
   Fuel: undefined;
   Companies: undefined;
   Stores: undefined;

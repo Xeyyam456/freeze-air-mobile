@@ -7,14 +7,20 @@ export const navigationRef = createNavigationContainerRef<RootStackParamList>();
 
 let pending: string | null = null; // app soyuq açılanda: naviqasiya hazır olana qədər gözləyən url
 
-// Bildirişin url-inə uyğun tabı aç ("/tapshiriqlar" → Tapşırıqlar). Hazır deyilsə onReady-də açılır.
+// Bildirişin url-inə uyğun tabı (və "Daha çox" içində ekranı) aç: "/tapshiriqlar" → Tapşırıqlar, "/aletlerim" → Daha çox → Alətlərim.
+// Hazır deyilsə onReady-də açılır.
 export function openUrl(url: string) {
   if (!navigationRef.isReady()) {
     pending = url;
     return;
   }
-  const tab = URL_TAB[url.split("?")[0]] ?? "MoreTab";
-  if (navigationRef.getRootState()?.routeNames.includes("Main")) navigationRef.navigate("Main", { screen: tab });
+  const target = URL_TAB[url.split("?")[0]] ?? { tab: "MoreTab" };
+  if (!navigationRef.getRootState()?.routeNames.includes("Main")) return;
+  if (target.tab === "MoreTab") {
+    navigationRef.navigate("Main", { screen: "MoreTab", params: { screen: target.more ?? "MoreMain" } });
+  } else {
+    navigationRef.navigate("Main", { screen: target.tab });
+  }
 }
 
 export function flushPendingUrl() {

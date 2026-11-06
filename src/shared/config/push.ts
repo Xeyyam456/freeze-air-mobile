@@ -1,11 +1,17 @@
+import type { MoreRoute } from "@shared/config/more";
 import type { MainTabParamList } from "@typings/navigation";
 
-// Bildirişin url-i (web yolları, bazada notifications.url) → app-də hansı tab açılır. Siyahıda olmayan → "Daha çox".
-export const URL_TAB: Record<string, keyof MainTabParamList> = {
-  "/panel": "PanelTab",
-  "/tapshiriqlar": "TasksTab",
-  "/aletlerim": "ToolsTab",
-  "/elanlar": "AnnouncementsTab",
+// Bildirişin url-i (web yolları, bazada notifications.url) → app-də hansı tab və lazım olsa "Daha çox" içində hansı ekran.
+// Siyahıda olmayan → "Daha çox" menyusu
+export type UrlTarget = { tab: keyof MainTabParamList; more?: MoreRoute };
+export const URL_TAB: Record<string, UrlTarget> = {
+  "/panel": { tab: "PanelTab" },
+  "/tapshiriqlar": { tab: "TasksTab" },
+  "/elanlar": { tab: "AnnouncementsTab" },
+  "/aletlerim": { tab: "MoreTab", more: "Tools" },
+  "/icazelerim": { tab: "MoreTab", more: "Leaves" },
+  "/davamiyyet": { tab: "MoreTab", more: "Attendance" },
+  "/yanacaq": { tab: "MoreTab", more: "Fuel" },
 };
 
 // Android bildiriş kanalları: Edge Function `push` növə görə bu id-lərlə göndərir (STYLE). Telefon ayarlarında hər birinin

@@ -1,4 +1,4 @@
-import { AlertTriangleIcon, BuildingIcon, CalendarCheckIcon, CalendarOffIcon, FuelIcon, StoreIcon, UserCogIcon, UsersIcon, type Icon } from "@shared/icons";
+import { AlertTriangleIcon, BuildingIcon, CalendarCheckIcon, CalendarOffIcon, FuelIcon, StoreIcon, UserCogIcon, UsersIcon, WrenchIcon, type Icon } from "@shared/icons";
 import type { MoreStackParamList } from "@typings/navigation";
 
 export type MoreRoute = Exclude<keyof MoreStackParamList, "MoreMain" | "AttendanceCalendar">;
@@ -12,6 +12,7 @@ export const MORE_GROUPS: { title: string; links: MoreLink[] }[] = [
     links: [
       { route: "Attendance", label: "Davamiyyət", hint: "Gəlmə-getmə, təqvim", icon: CalendarCheckIcon, color: "#34d399" },
       { route: "Leaves", label: "İcazələrim", hint: "İcazə istə, sorğuların", icon: CalendarOffIcon, color: "#a78bfa" },
+      { route: "Tools", label: "Alətlərim", hint: "Məndəki alət və materiallar", icon: WrenchIcon, color: "#4f8dff" },
       { route: "Fuel", label: "Yanacaq", hint: "Km və yanacaq pulu", icon: FuelIcon, color: "#fbbf24" },
     ],
   },
