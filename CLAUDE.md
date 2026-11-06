@@ -55,5 +55,5 @@ Usta paneli üçün React Native app: **Expo SDK 58** (RN 0.88, development buil
 
 ## Təmir qeydi (tapşırıq → yazı + akt/şəkil/video)
 - Kartda `TaskNoteRow` (görülmüş, bu günün tapşırığı) → root stack `TaskNote` ekranı (tab bar-ın üstündə). Məntiq web `TaskNoteModal` ilə eynidir: `task_set_note` → silinənlər → yükləmə (`shared/services/taskNote.service.ts`).
-- Seçicilər: `expo-image-picker` (kamera/qalereya), `expo-document-picker` (PDF akt). Şəkil yükləmədən əvvəl `expo-image-manipulator` ilə WebP-yə kiçilir (akt 2400, şəkil 1600 px); video seçilən kimi `react-native-compressor` ilə 720p, bitreyt müddətə görə (≤ 50 MB, web `lib/video` ilə eyni hədlər). Baytlar `expo-file-system` `File.arrayBuffer()`.
+- Seçicilər: `expo-image-picker` (kamera/qalereya), `expo-document-picker` (PDF akt). Şəkil yükləmədən əvvəl `expo-image-manipulator` ilə WebP-yə kiçilir (akt 2400, şəkil 1600 px); video "Yadda saxla"-dan sonra ARXADA `react-native-compressor` ilə 720p (göstərici yoxdur — istifadəçi istəmir; müddət seçəndə yoxlanır), bitreyt müddətə görə (≤ 50 MB, web `lib/video` ilə eyni hədlər). PDF sıxılmır, ≤ 10 MB. Baytlar `expo-file-system` `File.arrayBuffer()`.
 - Saxla optimistikdir: yazı kartda dərhal, ekran dərhal bağlanır, RPC + yükləmə arxada (`useSaveTaskNote`), sonda tost.

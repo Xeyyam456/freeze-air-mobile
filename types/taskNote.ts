@@ -17,10 +17,8 @@ export type NoteTask = {
 export type SavedFile = { id: number; kind: FileKind; path: string; url?: string };
 
 // Telefonda seçilən yeni fayl (yükləmə yadda saxlayanda arxada gedir)
-export type NewFile = { uri: string; kind: FileKind; mime: string; width?: number; height?: number };
-
-// Sıxılmış video: 720p, ≤ 50 MB
-export type PickedVideo = NewFile & { bytes: number; originalBytes: number; seconds: number };
+// seconds: video müddəti (saxlayanda arxada 720p-yə sıxılır)
+export type NewFile = { uri: string; kind: FileKind; mime: string; width?: number; height?: number; seconds?: number };
 
 export type PickSource = "camera" | "gallery" | "pdf";
 

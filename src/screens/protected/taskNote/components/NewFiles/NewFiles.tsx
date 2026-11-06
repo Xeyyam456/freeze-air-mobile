@@ -1,10 +1,9 @@
 import { Text, View } from "react-native";
 import FileThumb from "@screens/protected/taskNote/components/FileThumb";
-import { formatBytes } from "@shared/utils/media";
 import { styles } from "./NewFiles.styles";
 import type { NewFilesProps } from "./NewFiles.types";
 
-// Seçilən, hələ yüklənməyən fayllar: × siyahıdan çıxarır. Video sıxılıbsa ölçü fərqi göstərilir.
+// Seçilən, hələ yüklənməyən fayllar: × siyahıdan çıxarır
 function NewFiles({ form: f }: NewFilesProps) {
   if (!f.act && !f.photos.length && !f.video) return null;
   return (
@@ -17,9 +16,6 @@ function NewFiles({ form: f }: NewFilesProps) {
         ))}
         {f.video && <FileThumb kind="video" onRemove={() => f.setVideo(null)} />}
       </View>
-      {f.video && (
-        <Text style={styles.video}>Video sıxıldı: {formatBytes(f.video.originalBytes)} → {formatBytes(f.video.bytes)}</Text>
-      )}
     </View>
   );
 }

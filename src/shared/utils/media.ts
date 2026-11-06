@@ -1,16 +1,16 @@
 import { File } from "expo-file-system";
 import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
 import { Video } from "react-native-compressor";
-import type { NewFile, PickedVideo } from "@typings/taskNote";
+import type { NewFile } from "@typings/taskNote";
 
 // Bucket "work" limiti 50 MB; hədəf 45 MB (encoder bitreyti həmişə dəqiq saxlamır)
 export const VIDEO_MAX_BYTES = 50 * 1024 * 1024;
+export const PDF_MAX_BYTES = 10 * 1024 * 1024; // web ilə eyni: şəkil/PDF ≤ 10 MB (telefonda PDF sıxılmır)
 const TARGET_BYTES = 45 * 1024 * 1024;
 const MAX_VIDEO_BITRATE = 1_800_000; // web ilə eyni: 720p, ≤ 1,8 Mbps
 const MIN_VIDEO_BITRATE = 450_000; // bundan aşağı görüntü yararsızdır
 const AUDIO_BITRATE = 96_000;
 
-export const formatBytes = (b: number) => (b >= 1024 * 1024 ? `${(b / 1024 / 1024).toFixed(1)} MB` : `${Math.round(b / 1024)} KB`);
 export const formatSeconds = (s: number) => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, "0")}`;
 
 const sizeOf = (uri: string) => new File(uri).size ?? 0;
@@ -26,16 +26,19 @@ export async function compressImage(f: NewFile, max: number) {
   return { uri: out.uri, mime: "image/webp", ext: "webp" };
 }
 
-// Video: uzun tərəf 1280 (720p), bitreyt müddətə görə (uzun video → aşağı bitreyt). Telefonda sıxılır, sonra yüklənir.
-export async function compressVideo(uri: string, durationMs: number | null | undefined, onProgress: (p: number) => void): Promise<PickedVideo> {
-  const seconds = Math.max(1, Math.round((durationMs ?? 0) / 1000));
-  const fit = Math.floor((TARGET_BYTES * 8) / seconds - AUDIO_BITRATE);
-  if (fit < MIN_VIDEO_BITRATE) throw new Error(`Video çox uzundur (${formatSeconds(seconds)}): 50 MB-a sığmır. Hissələrə bölüb ayrı əlavə et.`);
-  const originalBytes = sizeOf(uri);
-  const out = await Video.compress(uri, { compressionMethod: "manual", maxSize: 1280, bitrate: Math.min(MAX_VIDEO_BITRATE, fit) }, onProgress);
-  const bytes = sizeOf(out);
-  if (bytes > VIDEO_MAX_BYTES) throw new Error("Video sıxılandan sonra da 50 MB-dan böyükdür. Daha qısa video seç.");
-  return { uri: out, kind: "video", mime: "video/mp4", bytes, originalBytes, seconds };
+// Video bitreyti müddətə görə (uzun video → aşağı bitreyt); null = 50 MB-a sığmır. Seçəndə dərhal yoxlanır.
+export function videoBitrate(seconds: number) {
+  const fit = Math.floor((TARGET_BYTES * 8) / Math.max(seconds, 1) - AUDIO_BITRATE);
+  return fit < MIN_VIDEO_BITRATE ? null : Math.min(MAX_VIDEO_BITRATE, fit);
+}
+
+// Video: uzun tərəf 1280 (720p). "Yadda saxla"-dan sonra ARXADA sıxılır (göstərici yoxdur), sonra yüklənir.
+export async function compressVideo(f: NewFile) {
+  const bitrate = videoBitrate(f.seconds ?? 1);
+  if (!bitrate) throw new Error("Video 50 MB-a sığmır.");
+  const uri = await Video.compress(f.uri, { compressionMethod: "manual", maxSize: 1280, bitrate });
+  if (sizeOf(uri) > VIDEO_MAX_BYTES) throw new Error("Video sıxılandan sonra da 50 MB-dan böyükdür.");
+  return { uri, mime: "video/mp4", ext: "mp4" };
 }
 
 // Faylın baytları (Storage upload ArrayBuffer qəbul edir)

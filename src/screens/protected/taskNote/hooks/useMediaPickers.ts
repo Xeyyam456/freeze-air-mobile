@@ -1,6 +1,6 @@
 import { getDocumentAsync } from "expo-document-picker";
 import * as ImagePicker from "expo-image-picker";
-import { compressVideo } from "@shared/utils/media";
+import { formatSeconds, PDF_MAX_BYTES, videoBitrate } from "@shared/utils/media";
 import { toast } from "@shared/utils/toast";
 import type { FileKind, NewFile, PickSource } from "@typings/taskNote";
 import type { TaskNoteForm } from "@screens/protected/taskNote/hooks/useTaskNoteForm";
@@ -27,12 +27,15 @@ async function pick(source: PickSource, media: Media, multiple = false) {
   return r.canceled ? [] : r.assets;
 }
 
-// Akt (şəkil və ya PDF; yenisi köhnəni əvəz edir), şəkillər (bir neçə), video (seçilən kimi 720p-yə sıxılır)
+// Akt (şəkil və ya PDF ≤ 10 MB; yenisi köhnəni əvəz edir), şəkillər (bir neçə), video (saxlayanda arxada 720p-yə sıxılır)
 function useMediaPickers(f: TaskNoteForm) {
   async function pickAct(source: PickSource) {
     if (source === "pdf") {
       const r = await getDocumentAsync({ type: "application/pdf", copyToCacheDirectory: true });
-      if (!r.canceled) f.setAct({ uri: r.assets[0].uri, kind: "act", mime: "application/pdf" });
+      if (r.canceled) return;
+      const doc = r.assets[0];
+      if ((doc.size ?? 0) > PDF_MAX_BYTES) return toast.error("PDF 10 MB-dan böyükdür. Aktın şəklini çək: şəkil avtomatik kiçilir.");
+      f.setAct({ uri: doc.uri, kind: "act", mime: "application/pdf" });
       return;
     }
     const [a] = await pick(source, "images");
@@ -47,15 +50,10 @@ function useMediaPickers(f: TaskNoteForm) {
   async function pickVideo(source: PickSource) {
     const [a] = await pick(source, "videos");
     if (!a) return;
-    f.setVideo(null);
-    f.setVideoProgress(0);
-    try {
-      f.setVideo(await compressVideo(a.uri, a.duration, f.setVideoProgress));
-    } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Video sıxılmadı. Başqa video seç.");
-    } finally {
-      f.setVideoProgress(null);
-    }
+    // Müddət dərhal yoxlanır; sıxma özü "Yadda saxla"-dan sonra arxada (göstərici yoxdur)
+    const seconds = Math.max(1, Math.round((a.duration ?? 0) / 1000));
+    if (!videoBitrate(seconds)) return toast.error(`Video çox uzundur (${formatSeconds(seconds)}): 50 MB-a sığmır. Hissələrə bölüb ayrı əlavə et.`);
+    f.setVideo({ uri: a.uri, kind: "video", mime: "video/mp4", seconds });
   }
 
   return { pickAct, pickPhotos, pickVideo };

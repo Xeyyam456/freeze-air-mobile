@@ -1,5 +1,5 @@
 import { supabase } from "@shared/api/supabase";
-import { compressImage, readBytes } from "@shared/utils/media";
+import { compressImage, compressVideo, readBytes } from "@shared/utils/media";
 import type { FileKind, NewFile, NoteSave, SavedFile } from "@typings/taskNote";
 
 const ext = (mime: string) => (mime === "application/pdf" ? "pdf" : mime === "video/mp4" ? "mp4" : "jpg");
@@ -21,10 +21,10 @@ async function removeWorkFiles(files: SavedFile[]) {
   await supabase.from("work_files").delete().in("id", files.map((f) => f.id));
 }
 
-// Bir fayl: şəkil sıxılır (akt oxunaqlı qalsın deyə daha böyük), video/PDF olduğu kimi → work/<iş id>/<ad>
+// Bir fayl: şəkil WebP-yə kiçilir (akt oxunaqlı qalsın deyə daha böyük), video 720p-yə sıxılır, PDF olduğu kimi → work/<iş id>/<ad>
 async function uploadWorkFile(logId: number, f: NewFile): Promise<boolean> {
-  const isImage = f.mime.startsWith("image/");
-  const file = isImage ? await compressImage(f, f.kind === "act" ? 2400 : 1600) : { uri: f.uri, mime: f.mime, ext: ext(f.mime) };
+  const file = f.mime.startsWith("image/") ? await compressImage(f, f.kind === "act" ? 2400 : 1600)
+    : f.kind === "video" ? await compressVideo(f) : { uri: f.uri, mime: f.mime, ext: ext(f.mime) };
   const path = `${logId}/${randomName()}.${file.ext}`;
   const { error } = await supabase.storage.from("work").upload(path, await readBytes(file.uri), { contentType: file.mime });
   if (error) return false;
