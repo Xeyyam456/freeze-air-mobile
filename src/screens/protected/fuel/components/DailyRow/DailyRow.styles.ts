@@ -1,0 +1,33 @@
+import { StyleSheet } from "react-native";
+import { c, radius, space } from "@theme/colors";
+
+export const styles = StyleSheet.create({
+  row: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: space.md,
+    padding: space.md,
+    marginBottom: 6,
+    borderRadius: radius.md,
+    backgroundColor: c.glass,
+    borderWidth: 1,
+    borderColor: c.glassBorder,
+  },
+  today: { borderColor: "rgba(79, 141, 255, 0.45)", backgroundColor: "rgba(79, 141, 255, 0.07)" },
+  date: { width: 44, height: 44, borderRadius: 12, alignItems: "center", justifyContent: "center", backgroundColor: c.surface2 },
+  dateToday: { backgroundColor: c.primary },
+  dayNum: { color: c.ink, fontSize: 16, fontWeight: "800", lineHeight: 18 },
+  weekday: { color: c.muted, fontSize: 10, fontWeight: "700" },
+  onToday: { color: c.white },
+  onTodayDim: { color: "rgba(255, 255, 255, 0.8)" },
+  mid: { flex: 1, gap: 3 },
+  km: { color: c.ink, fontSize: 15, fontWeight: "800", fontVariant: ["tabular-nums"] },
+  unit: { color: c.muted, fontSize: 12, fontWeight: "600" },
+  sub: { color: c.muted, fontSize: 11, fontVariant: ["tabular-nums"] },
+  track: { height: 5, borderRadius: 3, backgroundColor: c.surface2, overflow: "hidden", marginTop: 2 },
+  fill: { height: 5, borderRadius: 3, backgroundColor: c.primary },
+  right: { alignItems: "flex-end", gap: 2 },
+  cost: { color: c.ink, fontSize: 15, fontWeight: "800", fontVariant: ["tabular-nums"] },
+  got: { color: c.faint, fontSize: 12, fontWeight: "700", fontVariant: ["tabular-nums"] },
+  gotOn: { color: c.ok },
+});
