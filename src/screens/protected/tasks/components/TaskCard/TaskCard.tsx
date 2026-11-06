@@ -28,8 +28,9 @@ function TaskCard({ task, mates, past, onToggle, onNote }: TaskCardProps) {
         <Text style={[styles.reason, cancelled && styles.strike]}>{task.reason}</Text>
         <GroupMates mates={mates} />
         {task.note && <Text style={styles.note} numberOfLines={3}><Text style={styles.noteLabel}>Təmir: </Text>{task.note}</Text>}
-        <TaskNoteRow task={task} editable={task.done && !past && !cancelled} onNote={() => onNote(task)} />
-        <TaskState task={task} past={past} />
+        <TaskNoteRow task={task} editable={task.done && !past && !cancelled} onNote={() => onNote(task)}>
+          <TaskState task={task} past={past} />
+        </TaskNoteRow>
       </View>
     </View>
   );
