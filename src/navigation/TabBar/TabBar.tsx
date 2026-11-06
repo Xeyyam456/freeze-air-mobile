@@ -3,11 +3,13 @@ import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import TabBarItem from "@navigation/TabBarItem";
 import { TABS } from "@shared/config/tabs";
+import useOpenTasksCount from "@shared/hooks/useOpenTasksCount";
 import { styles } from "./TabBar.styles";
 
 // Aşağıda üzən tünd şüşəvari kart (kölgə); tablar: shared/config/tabs
 function TabBar({ state, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
+  const openTasks = useOpenTasksCount();
   return (
     <View style={[styles.wrap, { bottom: Math.max(insets.bottom, 10) }]}>
       {state.routes.map((route, i) => {
@@ -17,7 +19,8 @@ function TabBar({ state, navigation }: BottomTabBarProps) {
           if (!focused && !e.defaultPrevented) navigation.navigate(route.name);
         };
         const tab = TABS[route.name as keyof typeof TABS];
-        return <TabBarItem key={route.key} icon={tab.icon} label={tab.label} focused={focused} onPress={onPress} />;
+        const badge = route.name === "TasksTab" ? openTasks : 0;
+        return <TabBarItem key={route.key} icon={tab.icon} label={tab.label} focused={focused} badge={badge} onPress={onPress} />;
       })}
     </View>
   );
