@@ -21,25 +21,17 @@
       "predictiveBackGestureEnabled": false,
       "package": "az.freezeair.mobile"
     },
-    "web": {
-      "output": "server",
-      "favicon": "./assets/images/favicon.png"
-    },
     "plugins": [
-      "expo-router",
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#208AEF",
+          "backgroundColor": "#0e1626",
           "image": "./assets/images/splash-icon.png",
           "imageWidth": 76
         }
       ],
-      "expo-dev-client"
-    ],
-    "experiments": {
-      "typedRoutes": true,
-      "reactCompiler": true
-    }
+      "expo-dev-client",
+      "./plugins/withLocalCmake"
+    ]
   }
 }
