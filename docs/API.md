@@ -235,7 +235,7 @@ Silmə: `storage.remove(paths)` + `from("work_files").delete().in("id", ids)`.
 
 ## 12. Realtime
 
-Publikasiyadakı cədvəllər: `tasks, attendance, leave_requests, attendance_absences, tool_assignments, depot_requests, mileage_logs, fuel_payments, announcements` (`contact_requests` yalnız admin üçündür).
+Publikasiyadakı cədvəllər: `tasks, attendance, leave_requests, attendance_absences, tool_assignments, depot_requests, mileage_logs, fuel_payments, announcements, work_files` (0107) (`contact_requests` yalnız admin üçündür).
 
 **Vacib**: kanal açmazdan əvvəl `await supabase.realtime.setAuth(session.access_token)` — yoxsa anon kimi qoşulur və RLS-ə görə hadisə gəlmir. Token yenilənəndə (`onAuthStateChange: TOKEN_REFRESHED`) yenidən `setAuth`.
 
