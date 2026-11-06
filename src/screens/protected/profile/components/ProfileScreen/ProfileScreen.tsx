@@ -4,10 +4,10 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Avatar from "@shared/components/Avatar";
 import Button from "@shared/components/Button";
 import ScreenHeader from "@shared/components/ScreenHeader";
+import SignOutConfirm from "@shared/components/SignOutConfirm";
 import SourceMenu from "@shared/components/SourceMenu";
 import useMe from "@shared/hooks/useMe";
 import { CameraIcon, LogOutIcon } from "@shared/icons";
-import { signOut } from "@shared/services/auth.service";
 import useProfilePhoto from "@screens/protected/profile/hooks/useProfilePhoto";
 import { c } from "@theme/colors";
 import { styles } from "./ProfileScreen.styles";
@@ -19,6 +19,7 @@ function ProfileScreen() {
   const email = useMe().data?.email ?? "";
   const { emp, change, remove } = useProfilePhoto();
   const [menu, setMenu] = useState(false);
+  const [confirm, setConfirm] = useState(false); // çıxış həmişə təsdiqlə
   const name = emp?.full_name ?? "";
 
   return (
@@ -44,7 +45,8 @@ function ProfileScreen() {
       ) : (
         <Text style={styles.hint}>Bu hesab heç bir əməkdaşa bağlı deyil, ona görə profil şəkli yoxdur.</Text>
       )}
-      <Button title="Hesabdan çıx" variant="glass" icon={LogOutIcon} onPress={signOut} />
+      <Button title="Hesabdan çıx" variant="glass" icon={LogOutIcon} onPress={() => setConfirm(true)} />
+      {confirm && <SignOutConfirm onClose={() => setConfirm(false)} />}
       {menu && <SourceMenu title="Profil şəkli" sources={["camera", "gallery"]} onClose={() => setMenu(false)}
         onPick={(s) => void change(s === "camera" ? "camera" : "gallery")} />}
     </ScrollView>

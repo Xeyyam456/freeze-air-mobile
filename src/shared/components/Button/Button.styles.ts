@@ -9,6 +9,7 @@ export const BG: Record<ButtonVariant, string> = {
   ok: c.ok,
   navy: c.navy,
   soft: c.surface2,
+  danger: c.danger,
 };
 
 export const styles = StyleSheet.create({
