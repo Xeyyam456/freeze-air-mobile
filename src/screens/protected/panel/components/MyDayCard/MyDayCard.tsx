@@ -7,10 +7,10 @@ import type { MyDayCardProps } from "./MyDayCard.types";
 
 // Mənim bugünüm: davamiyyət düymələri (optimistik) + bir neçə seans olanda siyahı
 function MyDayCard({ employeeId }: MyDayCardProps) {
-  const { day, busy, run } = useMyDay(employeeId);
+  const { day, run } = useMyDay(employeeId);
   return (
     <Card title="Mənim bugünüm" icon={CalendarCheck}>
-      <PresenceActions day={day} busy={busy} onAction={run} />
+      <PresenceActions day={day} onAction={run} />
       {day && day.sessions.length > 1 && <SessionList sessions={day.sessions} />}
     </Card>
   );

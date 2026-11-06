@@ -26,7 +26,7 @@ Usta paneli üçün React Native app: **Expo SDK 58** (RN 0.88, development buil
 
 ## Sürət qaydaları (istifadəçi tələbi: "saat kimi gecikməsiz")
 - Keş diskdə (MMKV + TanStack persist, `shared/api/queryStorage.ts`): açılışda son məlumat dərhal görünür, boş "Yüklənir" ekranı yoxdur.
-- Hər düymə optimistik (`useMutation` + `onMutate`/`onError` geri qaytarma; nümunə `panel/hooks/useMyDay.ts`).
+- **UI DƏRHAL dəyişir (DAİMİ, istifadəçi 2026-11-06: "işə gəldimə klik edən kimi UI dəyişməlidir, bütün yerlərdə")**: hər yazı əməliyyatı optimistikdir. Klik handler-ində əvvəl keş **sinxron** dəyişir (`qc.setQueryData`), sonra `mutation.mutate({ ..., prev })`; `onError` → `prev`-ə qaytar + tost; `onSettled` → `invalidateQueries`. `onMutate` içində `await` edib sonra yazma (gecikmə). **Düymədə spinner yox** (nəticə dərhal görünür); təkrar klik `isPending` ilə bloklanır. Realtime hadisəsi yazı gedərkən keşi əzməsin (`qc.isMutating()` yoxla). Nümunə: `panel/hooks/useMyDay.ts` + `shared/utils/optimistic.ts`.
 - Yenilənmə Realtime ilə (`panel/hooks/usePanelLive.ts`: bir kanal, `setAuth` vacibdir), dövri sorğu yox. Yeni cədvəl/açar əlavə edəndə `TABLE_KEYS`-ə yaz.
 - Şəkillər `expo-image` (`cachePolicy="disk"`).
 

@@ -18,7 +18,12 @@ function usePanelLive() {
   useEffect(() => {
     let cancelled = false;
     let channel: ReturnType<typeof supabase.channel> | null = null;
-    const refresh = (names: string[]) => names.forEach((n) => qc.invalidateQueries({ queryKey: [n] }));
+    // Yazı gedərkən (optimistik vəziyyət ekrandadır) başqasının hadisəsi köhnə məlumatı geri gətirməsin:
+    // yazı bitəndə onSettled özü təzələyir
+    const refresh = (names: string[]) => {
+      if (qc.isMutating() > 0) return;
+      names.forEach((n) => qc.invalidateQueries({ queryKey: [n] }));
+    };
 
     void (async () => {
       const { data } = await supabase.auth.getSession();

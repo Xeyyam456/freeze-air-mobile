@@ -1,54 +1,48 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "@shared/queries/queryKeys";
+import { checkIn, checkOut, fetchToday, giveUpLeaveAndCheckIn } from "@shared/services/attendance.service";
+import { optimisticDay } from "@shared/utils/optimistic";
 import { timeBaku } from "@shared/utils/time";
 import { toast } from "@shared/utils/toast";
-import { checkIn, checkOut, fetchToday, giveUpLeaveAndCheckIn } from "@shared/services/attendance.service";
 import type { PresenceAction, TodayAttendance } from "@typings/panel";
 
-type Action = PresenceAction;
+type Vars = { action: PresenceAction; prev: TodayAttendance | undefined };
 
-// Optimistik: düymə basılan an ekran dəyişir ("İşdəsən · 09:41-dən"), baza arxada; xətada geri qayıdır
-function optimistic(day: TodayAttendance | undefined, action: Action, at: string): TodayAttendance | undefined {
-  if (!day) return day;
-  if (action === "out") {
-    const last = day.sessions[day.sessions.length - 1];
-    if (!last || last.out) return day;
-    return { ...day, sessions: [...day.sessions.slice(0, -1), { ...last, out: at }] };
-  }
-  return { status: "present", sessions: [...day.sessions, { in: at, out: null }], leaveId: null };
-}
+const DONE: Record<PresenceAction, string> = { in: "İşə gəldin", out: "İş günü bitdi", giveUpLeave: "İcazə ləğv edildi, işə gəldin" };
 
-const DONE: Record<Action, string> = { in: "İşə gəldin", out: "İş günü bitdi", giveUpLeave: "İcazə ləğv edildi, işə gəldin" };
-
+// Mənim bugünüm. OPTİMİSTİK: klik anında keş sinxron dəyişir (ekran dərhal), baza arxada; xətada geri qayıdır.
+// Spinner yoxdur: istifadəçi nəticəni dərhal görür (qayda: mobile/CLAUDE.md → Sürət qaydaları).
 function useMyDay(employeeId: number) {
   const qc = useQueryClient();
   const key = queryKeys.today(employeeId);
   const query = useQuery({ queryKey: key, queryFn: () => fetchToday(employeeId) });
 
   const mutation = useMutation({
-    mutationFn: async (action: Action) => {
-      const day = qc.getQueryData<TodayAttendance>(key);
+    mutationFn: async ({ action, prev }: Vars) => {
       const r = action === "out" ? await checkOut()
-        : action === "giveUpLeave" && day?.leaveId ? await giveUpLeaveAndCheckIn(day.leaveId)
+        : action === "giveUpLeave" && prev?.leaveId ? await giveUpLeaveAndCheckIn(prev.leaveId)
         : await checkIn();
       if (r.error) throw new Error(r.error);
-      return { action, time: r.time };
+      return r.time;
     },
-    onMutate: async (action) => {
-      await qc.cancelQueries({ queryKey: key });
-      const prev = qc.getQueryData<TodayAttendance>(key);
-      qc.setQueryData(key, optimistic(prev, action, new Date().toISOString()));
-      return { prev };
-    },
-    onError: (e, _a, ctx) => {
-      qc.setQueryData(key, ctx?.prev);
+    onError: (e, { prev }) => {
+      qc.setQueryData(key, prev);
       toast.error(e.message);
     },
-    onSuccess: ({ action, time }) => toast.success(DONE[action], time ? `Saat: ${timeBaku(time)}` : undefined),
+    onSuccess: (time, { action }) => toast.success(DONE[action], time ? `Saat: ${timeBaku(time)}` : undefined),
+    // Bazadan təzə vəziyyət (dəqiq saat); optimistik vəziyyət onunla əvəzlənir
     onSettled: () => qc.invalidateQueries({ queryKey: key }),
   });
 
-  return { day: query.data, busy: mutation.isPending, run: mutation.mutate };
+  function run(action: PresenceAction) {
+    if (mutation.isPending) return; // əvvəlki yazı bitmədən ikinci əməliyyat yox
+    const prev = qc.getQueryData<TodayAttendance>(key);
+    void qc.cancelQueries({ queryKey: key }); // gələn köhnə cavab optimistik vəziyyəti əzməsin
+    qc.setQueryData(key, optimisticDay(prev, action, new Date().toISOString()));
+    mutation.mutate({ action, prev });
+  }
+
+  return { day: query.data, pending: mutation.isPending, run };
 }
 
 export default useMyDay;

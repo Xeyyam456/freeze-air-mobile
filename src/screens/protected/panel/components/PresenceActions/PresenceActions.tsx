@@ -9,21 +9,21 @@ import type { PresenceActionsProps } from "./PresenceActions.types";
 
 // Bu günün davamiyyəti (web PresenceActions ilə eyni məntiq):
 // "İşə gəldim" → "İşdəsən · 09:02-dən" + "İşi bitirdim" → "İşi bitirdin · 09:02 – 18:10" + "Yenidən işə çıxdım"
-function PresenceActions({ day, busy, onAction }: PresenceActionsProps) {
+function PresenceActions({ day, onAction }: PresenceActionsProps) {
   if (!day) return <ActivityIndicator color={c.muted} />;
   const s = day.sessions;
   const last = s[s.length - 1];
   const total = s.reduce((m, x) => m + (x.out ? mins(x.in, x.out) : 0), 0);
 
   if (day.status === "absent") return <Pill text="Bu gün işdə olmayıb qeyd olunub" color={c.danger} bg={c.dangerSoft} />;
-  if (day.status === "pending") return <Button title="İşə gəldim" icon={LogIn} variant="ok" loading={busy} onPress={() => onAction("in")} />;
+  if (day.status === "pending") return <Button title="İşə gəldim" icon={LogIn} variant="ok" onPress={() => onAction("in")} />;
 
   if (day.status === "present" && last && !last.out) {
     const since = s.length > 1 ? `${timeBaku(last.in)}-dən` : `${timeBaku(s[0].in)}-dən`;
     return (
       <View style={styles.col}>
         <Pill text={`İşdəsən · ${since}`} color={c.ok} bg={c.okSoft} />
-        <Button title="İşi bitirdim" icon={LogOut} variant="navy" loading={busy} onPress={() => onAction("out")} />
+        <Button title="İşi bitirdim" icon={LogOut} variant="navy" onPress={() => onAction("out")} />
       </View>
     );
   }
@@ -33,7 +33,7 @@ function PresenceActions({ day, busy, onAction }: PresenceActionsProps) {
       <View style={styles.col}>
         <Pill text={text} color={c.ink} bg={c.surface2} />
         {/* Təcili iş çıxsa: yeni seans açılır, gün bir dəfə sayılır */}
-        <Button title="Yenidən işə çıxdım" icon={LogIn} variant="soft" loading={busy} onPress={() => onAction("in")} />
+        <Button title="Yenidən işə çıxdım" icon={LogIn} variant="soft" onPress={() => onAction("in")} />
       </View>
     );
   }
@@ -41,7 +41,7 @@ function PresenceActions({ day, busy, onAction }: PresenceActionsProps) {
     return (
       <View style={styles.col}>
         <Pill text="Bu gün icazəlisən" color={c.violet} bg={c.violetSoft} />
-        <Button title="İcazəyə ehtiyac qalmadı, işdəyəm" icon={LogIn} variant="soft" loading={busy} onPress={() => onAction("giveUpLeave")} />
+        <Button title="İcazəyə ehtiyac qalmadı, işdəyəm" icon={LogIn} variant="soft" onPress={() => onAction("giveUpLeave")} />
       </View>
     );
   }
@@ -49,7 +49,7 @@ function PresenceActions({ day, busy, onAction }: PresenceActionsProps) {
   return (
     <View style={styles.col}>
       <Pill text="Bazar: iş günü deyil" color={c.muted} bg={c.surface2} />
-      <Button title="Bazar günü işdəyəm" icon={LogIn} variant="soft" loading={busy} onPress={() => onAction("in")} />
+      <Button title="Bazar günü işdəyəm" icon={LogIn} variant="soft" onPress={() => onAction("in")} />
     </View>
   );
 }
