@@ -14,7 +14,7 @@ Usta paneli üçün React Native app: **Expo SDK 58** (RN 0.88, development buil
 ## Quruluş (DAİMİ; nümunə: github.com/Xeyyam456/TikTak-Project-RN-MobileApp)
 - Hər komponent öz qovluğunda: `Ad/Ad.tsx` (default export), `Ad.styles.ts` (StyleSheet), `Ad.types.ts` (props), `index.ts` (`export { default } from './Ad'`). Qovluqda başqa başıboş fayl yoxdur.
 - `src/app/` — Providers, AppShell, `hooks/` (useAppBootstrap, useSession).
-- `src/navigation/` — RootNavigator (auth flow: sessiyaya görə Login / Main), `*StackNavigator`, sonra TabNavigator. Ekranlarda naviqator yaratma.
+- `src/navigation/` — RootNavigator (auth flow: sessiyaya görə Login / Main), `*StackNavigator`, sonra TabNavigator. Ekranlarda naviqator yaratma. **Hər naviqator də öz qovluğunda** (`RootNavigator/RootNavigator.tsx` + `index.ts`); `navigation/` kökündə açıq fayl YOXDUR (istifadəçi ciddi tələbi). Konfiq (tab ikon/yazıları) → `shared/config/tabs.ts`.
 - `src/screens/auth/{components,hooks}/`, `src/screens/protected/<bölmə>/components/<Komponent>/` + `src/screens/protected/<bölmə>/hooks/` (komponentlər və hook-lar həmişə ayrı qovluqda; bölmənin kökündə başqa heç nə yoxdur).
 - `src/shared/` — `api/` (supabase, storage, queryClient, queryStorage), `services/*.service.ts` (yalnız burada `supabase.from/rpc`), `queries/queryKeys.ts`, `hooks/`, `components/` (Button, Card, Pill, Avatar, TextField, ErrorState), `utils/` (time, toast), `config/env.ts` (env yalnız burada).
 - `src/theme/` — `colors.ts` (web panel tokenləri ilə eyni), `navigationTheme.ts`.

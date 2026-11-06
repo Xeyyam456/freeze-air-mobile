@@ -2,10 +2,10 @@ import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import TabBarItem from "@navigation/TabBarItem";
-import { TABS } from "@navigation/tabConfig";
+import { TABS } from "@shared/config/tabs";
 import { styles } from "./TabBar.styles";
 
-// Aşağıda üzən tünd şüşəvari kart (kölgə); tablar: navigation/tabConfig
+// Aşağıda üzən tünd şüşəvari kart (kölgə); tablar: shared/config/tabs
 function TabBar({ state, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
   return (
