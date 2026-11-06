@@ -14,7 +14,7 @@ function TabBarItem({ icon: Icon, label, focused, badge = 0, onPress }: TabBarIt
     <Pressable onPress={onPress} style={styles.item} hitSlop={6} accessibilityLabel={badge ? `${label}, ${badge} yeni` : label}>
       <View style={styles.iconWrap}>
         <Animated.View style={[styles.pill, pill]} />
-        <Icon size={21} color={focused ? c.primary : c.muted} strokeWidth={focused ? 2.4 : 2} />
+        <Icon size={25} color={focused ? c.primary : c.muted} strokeWidth={focused ? 2.4 : 2} />
         {badge > 0 && (
           <Animated.View entering={ZoomIn.springify().damping(14)} exiting={ZoomOut.duration(150)} style={styles.badge}>
             <Text style={styles.badgeText}>{badge > 9 ? "9+" : badge}</Text>
