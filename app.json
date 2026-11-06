@@ -41,6 +41,12 @@
         }
       ],
       "./plugins/withLocalCmake"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "10819339-2f21-43b0-9853-740e7eb28ba0"
+      }
+    },
+    "owner": "xeyyam456"
   }
 }
