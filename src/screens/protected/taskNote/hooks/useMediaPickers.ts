@@ -1,31 +1,17 @@
 import { getDocumentAsync } from "expo-document-picker";
-import * as ImagePicker from "expo-image-picker";
+import type { ImagePickerAsset } from "expo-image-picker";
 import { formatSeconds, PDF_MAX_BYTES, videoBitrate } from "@shared/utils/media";
+import { type PickMedia, pickAssets } from "@shared/utils/picker";
 import { toast } from "@shared/utils/toast";
 import type { FileKind, NewFile, PickSource } from "@typings/taskNote";
 import type { TaskNoteForm } from "@screens/protected/taskNote/hooks/useTaskNoteForm";
 
-type Media = "images" | "videos";
-
-const toFile = (a: ImagePicker.ImagePickerAsset, kind: FileKind): NewFile =>
+const toFile = (a: ImagePickerAsset, kind: FileKind): NewFile =>
   ({ uri: a.uri, kind, mime: a.mimeType ?? "image/jpeg", width: a.width, height: a.height });
 
-// Kamera (icazə soruşulur) və ya qalereya (Android 13+ sistem seçicisi, icazə lazım deyil)
-async function pick(source: PickSource, media: Media, multiple = false) {
-  if (source === "camera") {
-    const perm = await ImagePicker.requestCameraPermissionsAsync();
-    if (!perm.granted) {
-      toast.error("Kameraya icazə verilməyib. Telefon ayarlarından icazə ver.");
-      return [];
-    }
-    const r = await ImagePicker.launchCameraAsync({ mediaTypes: [media], quality: 1 });
-    return r.canceled ? [] : r.assets;
-  }
-  const r = await ImagePicker.launchImageLibraryAsync({
-    mediaTypes: [media], quality: 1, allowsMultipleSelection: multiple, selectionLimit: multiple ? 10 : 1,
-  });
-  return r.canceled ? [] : r.assets;
-}
+// PDF mənbəyi burada ayrıca işlənir; kamera/qalereya ortaq seçicidən
+const pick = (source: PickSource, media: PickMedia, multiple = false) =>
+  pickAssets(source === "camera" ? "camera" : "gallery", media, { multiple });
 
 // Akt (şəkil və ya PDF ≤ 10 MB; yenisi köhnəni əvəz edir), şəkillər (bir neçə), video (saxlayanda arxada 720p-yə sıxılır)
 function useMediaPickers(f: TaskNoteForm) {

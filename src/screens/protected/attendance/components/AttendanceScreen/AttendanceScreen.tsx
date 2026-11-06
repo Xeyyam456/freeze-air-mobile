@@ -7,7 +7,7 @@ import ErrorState from "@shared/components/ErrorState";
 import useMe from "@shared/hooks/useMe";
 import useReload from "@shared/hooks/useReload";
 import AttendanceCard from "@screens/protected/attendance/components/AttendanceCard";
-import AttendanceHeader from "@screens/protected/attendance/components/AttendanceHeader";
+import ScreenHeader from "@shared/components/ScreenHeader";
 import MonthNav from "@screens/protected/attendance/components/MonthNav";
 import TodayStats from "@screens/protected/attendance/components/TodayStats";
 import useAttendanceBoard from "@screens/protected/attendance/hooks/useAttendanceBoard";
@@ -39,7 +39,7 @@ function AttendanceScreen() {
         )}
         ListHeaderComponent={
           <View style={styles.header}>
-            <AttendanceHeader title="Davamiyyət" sub="İşdə, icazəli, gəlmədi; gəlmə və getmə saatları" />
+            <ScreenHeader title="Davamiyyət" sub="İşdə, icazəli, gəlmədi; gəlmə və getmə saatları" />
             <MonthNav month={month} isCurrent={isCurrent} onShift={shift} />
             {isCurrent && <TodayStats totals={b.totals} ready={b.ready} />}
           </View>

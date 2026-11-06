@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import ErrorState from "@shared/components/ErrorState";
 import { ClockIcon } from "@shared/icons";
 import useReload from "@shared/hooks/useReload";
-import AttendanceHeader from "@screens/protected/attendance/components/AttendanceHeader";
+import ScreenHeader from "@shared/components/ScreenHeader";
 import CalendarGrid from "@screens/protected/attendance/components/CalendarGrid";
 import CalendarSummary from "@screens/protected/attendance/components/CalendarSummary";
 import HoursRow from "@screens/protected/attendance/components/HoursRow";
@@ -36,7 +36,7 @@ function AttendanceCalendarScreen({ route }: AttendanceCalendarScreenProps) {
         renderItem={({ item }) => <HoursRow entry={item} />}
         ListHeaderComponent={
           <View style={styles.header}>
-            <AttendanceHeader title="Davamiyyət təqvimi" sub={name} />
+            <ScreenHeader title="Davamiyyət təqvimi" sub={name} />
             <View style={styles.card}>
               <MonthNav month={month} isCurrent={isCurrent} onShift={shift} />
               <CalendarGrid month={month} days={data?.days ?? null} />

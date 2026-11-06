@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { FileTextIcon, ImagePlusIcon, VideoIcon } from "@shared/icons";
-import SourceMenu from "@screens/protected/taskNote/components/SourceMenu";
+import SourceMenu from "@shared/components/SourceMenu";
 import { formatSeconds } from "@shared/utils/media";
 import { c } from "@theme/colors";
 import type { PickSource } from "@typings/taskNote";

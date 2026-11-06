@@ -2,11 +2,11 @@ import { useNavigation } from "@react-navigation/native";
 import { Pressable, Text, View } from "react-native";
 import { ChevronLeftIcon } from "@shared/icons";
 import { c } from "@theme/colors";
-import { styles } from "./AttendanceHeader.styles";
-import type { AttendanceHeaderProps } from "./AttendanceHeader.types";
+import { styles } from "./ScreenHeader.styles";
+import type { ScreenHeaderProps } from "./ScreenHeader.types";
 
 // Ekran başlığı: geri düyməsi (telefonun "geri"si də işləyir), başlıq, alt yazı
-function AttendanceHeader({ title, sub }: AttendanceHeaderProps) {
+function ScreenHeader({ title, sub }: ScreenHeaderProps) {
   const nav = useNavigation();
   return (
     <View style={styles.row}>
@@ -21,4 +21,4 @@ function AttendanceHeader({ title, sub }: AttendanceHeaderProps) {
   );
 }
 
-export default AttendanceHeader;
+export default ScreenHeader;
