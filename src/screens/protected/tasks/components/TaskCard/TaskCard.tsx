@@ -3,6 +3,7 @@ import { Text, View } from "react-native";
 import { BuildingIcon, MapPinIcon, StoreIcon } from "@shared/icons";
 import GroupMates from "@screens/protected/tasks/components/GroupMates";
 import TaskCheck from "@screens/protected/tasks/components/TaskCheck";
+import TaskNoteRow from "@screens/protected/tasks/components/TaskNoteRow";
 import TaskState from "@screens/protected/tasks/components/TaskState";
 import { c } from "@theme/colors";
 import { styles } from "./TaskCard.styles";
@@ -11,7 +12,7 @@ import type { TaskCardProps } from "./TaskCard.types";
 const PLACE_ICON = { store: StoreIcon, company: BuildingIcon, text: MapPinIcon } as const;
 
 // Mənim tapşırığım: solda "görüldü" dairəsi, yer, səbəb, qrup yoldaşları, təmir qeydi, vəziyyət. memo: FlashList sətri
-function TaskCard({ task, mates, past, onToggle }: TaskCardProps) {
+function TaskCard({ task, mates, past, onToggle, onNote }: TaskCardProps) {
   const cancelled = !!task.cancelled_at;
   const Place = PLACE_ICON[task.placeKind];
   const tint = cancelled ? c.muted : task.done ? c.ok : c.primary;
@@ -27,6 +28,7 @@ function TaskCard({ task, mates, past, onToggle }: TaskCardProps) {
         <Text style={[styles.reason, cancelled && styles.strike]}>{task.reason}</Text>
         <GroupMates mates={mates} />
         {task.note && <Text style={styles.note} numberOfLines={3}><Text style={styles.noteLabel}>Təmir: </Text>{task.note}</Text>}
+        <TaskNoteRow task={task} editable={task.done && !past && !cancelled} onNote={() => onNote(task)} />
         <TaskState task={task} past={past} />
       </View>
     </View>

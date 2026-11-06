@@ -40,6 +40,14 @@
           "defaultChannel": "default"
         }
       ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "İş şəkillərini əlavə etmək üçün qalereyaya icazə lazımdır.",
+          "cameraPermission": "İşin şəklini və videosunu çəkmək üçün kameraya icazə lazımdır.",
+          "microphonePermission": "Video çəkəndə səs yazmaq üçün mikrofona icazə lazımdır."
+        }
+      ],
       "./plugins/withLocalCmake"
     ],
     "extra": {

@@ -11,6 +11,7 @@ import TeamCard from "@screens/protected/tasks/components/TeamCard";
 import WeekStrip from "@screens/protected/tasks/components/WeekStrip";
 import useTaskDay from "@screens/protected/tasks/hooks/useTaskDay";
 import useTasksData from "@screens/protected/tasks/hooks/useTasksData";
+import useOpenTaskNote from "@screens/protected/tasks/hooks/useOpenTaskNote";
 import useTaskToggle from "@screens/protected/tasks/hooks/useTaskToggle";
 import { c } from "@theme/colors";
 import type { TaskListRow } from "@typings/tasks";
@@ -24,12 +25,13 @@ function TasksScreen() {
   const { today, day, from, days, past, setDay, shiftWeek } = useTaskDay();
   const { rows, strip, summary, error, loading, reload } = useTasksData(day, from, days, me);
   const toggle = useTaskToggle(day);
+  const openNote = useOpenTaskNote(day);
   const { refreshing, onRefresh } = useReload(reload);
 
   const renderItem = ({ item }: { item: TaskListRow }) => {
     if (item.kind === "title") return <View style={styles.title}><SectionTitle title={item.title} count={item.count} /></View>;
     if (item.kind === "empty") return <Text style={styles.empty}>{item.text}</Text>;
-    if (item.kind === "mine") return <TaskCard task={item.task} mates={item.mates} past={past} onToggle={toggle} />;
+    if (item.kind === "mine") return <TaskCard task={item.task} mates={item.mates} past={past} onToggle={toggle} onNote={openNote} />;
     return <TeamCard employee={item.employee} tasks={item.tasks} />;
   };
 

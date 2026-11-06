@@ -6,6 +6,7 @@ import { styles } from "./toast.styles";
 export const toast = {
   success: (title: string, detail?: string) => Toast.show({ type: "success", text1: title, text2: detail }),
   error: (message: string) => Toast.show({ type: "error", text1: message }),
+  info: (title: string, detail?: string) => Toast.show({ type: "info", text1: title, text2: detail }),
 };
 
 // Tünd tema: kart fonu, solda rəngli zolaq

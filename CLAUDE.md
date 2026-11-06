@@ -20,7 +20,7 @@ Usta paneli üçün React Native app: **Expo SDK 58** (RN 0.88, development buil
 - `src/theme/` — `colors.ts` (web panel tokenləri ilə eyni), `navigationTheme.ts`.
 - Tiplər kökdə `types/` (`navigation.ts`, `panel.ts`, `database.ts` — Supabase-dən, əl ilə dəyişmə; kökdəki `supabase/database.types.ts`-dən kopyala).
 - **Importlar yalnız alias ilə**: `@app/*`, `@navigation/*`, `@screens/*`, `@shared/*`, `@theme/*`, `@typings/*`, `@assets/*` (`tsconfig.json`). `../` yoxdur; yalnız komponentin öz `./Ad.styles` / `./Ad.types` faylları `./` ilə.
-- **İkonlar (TikTak qəlibi)**: öz inline SVG dəsti `src/shared/icons/` (istifadəyə görə qrup faylları: `navigation.tsx`, `account.tsx`, `work.tsx` + `base.tsx` (`IconBase`), `icon.types.ts` (`IconProps`, `Icon`), `index.ts`). **Yeganə import yolu `@shared/icons`**. İkon kitabxanası (lucide və s.) YOXDUR: Metro tree-shaking etmir, barrel import bütün ikonları bundle-a salır. Yeni ikon lazımdırsa path-ı uyğun qrupa əlavə et. Komponentə ikon ötürmək: `icon?: Icon`.
+- **İkonlar (TikTak qəlibi)**: öz inline SVG dəsti `src/shared/icons/` (istifadəyə görə qrup faylları: `navigation.tsx`, `account.tsx`, `work.tsx`, `media.tsx` + `base.tsx` (`IconBase`), `icon.types.ts` (`IconProps`, `Icon`), `index.ts`). **Yeganə import yolu `@shared/icons`**. İkon kitabxanası (lucide və s.) YOXDUR: Metro tree-shaking etmir, barrel import bütün ikonları bundle-a salır. Yeni ikon lazımdırsa path-ı uyğun qrupa əlavə et. Komponentə ikon ötürmək: `icon?: Icon`.
 - **SVG çəkən komponentlər** (halqa, qrafik, qradiyent fon): `Svg`-yə ölçü **rəqəm** ver (`onLayout`), `"100%"` yox (Android-də kart böyüyəndə yenilənmir). Davamlı animasiya yalnız reanimated `useAnimatedStyle/Props` ilə (UI thread); saniyəlik taymer yalnız onu göstərən kiçik komponentdə olsun (bütün kart render olmasın).
 - **Siyahılar yalnız `@shopify/flash-list`** (FlatList, böyük ScrollView yox). Sətir komponenti `memo`.
 - Fayl max ~100 sətir; böyüyürsə böl.
@@ -52,3 +52,8 @@ Usta paneli üçün React Native app: **Expo SDK 58** (RN 0.88, development buil
 
 ## Git
 - Kök repoda commit (hər bitmiş addım dərhal lokal commit, mesaj Azərbaycanca). Push yalnız istifadəçi deyəndə: kökdən `node scripts/push-all.mjs` (kök + dəyişən web/admin/mobile, saniyələr).
+
+## Təmir qeydi (tapşırıq → yazı + akt/şəkil/video)
+- Kartda `TaskNoteRow` (görülmüş, bu günün tapşırığı) → root stack `TaskNote` ekranı (tab bar-ın üstündə). Məntiq web `TaskNoteModal` ilə eynidir: `task_set_note` → silinənlər → yükləmə (`shared/services/taskNote.service.ts`).
+- Seçicilər: `expo-image-picker` (kamera/qalereya), `expo-document-picker` (PDF akt). Şəkil yükləmədən əvvəl `expo-image-manipulator` ilə WebP-yə kiçilir (akt 2400, şəkil 1600 px); video seçilən kimi `react-native-compressor` ilə 720p, bitreyt müddətə görə (≤ 50 MB, web `lib/video` ilə eyni hədlər). Baytlar `expo-file-system` `File.arrayBuffer()`.
+- Saxla optimistikdir: yazı kartda dərhal, ekran dərhal bağlanır, RPC + yükləmə arxada (`useSaveTaskNote`), sonda tost.

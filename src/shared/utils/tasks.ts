@@ -33,6 +33,12 @@ export function flipDone(d: DayTasks, t: Pick<Task, "id" | "group_id">, done: bo
   return { ...d, tasks: d.tasks.map((x) => (hit(x) ? { ...x, done } : x)) };
 }
 
+// Optimistik təmir yazısı: bazada da qrupun görülmüş üzvlərinə eyni yazı düşür (task_set_note)
+export function setNote(d: DayTasks, t: Pick<Task, "id" | "group_id">, note: string | null): DayTasks {
+  const hit = (x: Task) => x.id === t.id || (!!t.group_id && x.group_id === t.group_id && !x.cancelled_at && x.done);
+  return { ...d, tasks: d.tasks.map((x) => (hit(x) ? { ...x, note } : x)) };
+}
+
 // Həftənin hər günü: cəmi (qrup = 1 tapşırıq) və mənimkilər
 export function weekDays(days: string[], rows: WeekRow[], me: number | undefined): WeekDay[] {
   return days.map((day) => {
