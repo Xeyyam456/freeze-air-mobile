@@ -1,11 +1,10 @@
 import { useRef, useState } from "react";
 import { ActivityIndicator, Animated, Keyboard, Modal, PanResponder, Pressable, ScrollView, Text, TextInput, useWindowDimensions, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Avatar from "@shared/components/Avatar";
 import GradientBg from "@shared/components/GradientBg";
 import useKeyboardHeight from "@shared/hooks/useKeyboardHeight";
-import { CloseIcon, SendIcon, TrashIcon } from "@shared/icons";
-import { feedWhen } from "@shared/utils/feed";
+import { CloseIcon, SendIcon } from "@shared/icons";
+import CommentBubble from "@screens/protected/feed/components/CommentBubble";
 import useFeedComments from "@screens/protected/feed/hooks/useFeedComments";
 import { c, gradients } from "@theme/colors";
 import { styles } from "./CommentsSheet.styles";
@@ -41,11 +40,16 @@ function CommentsSheet({ logId, group, moderator, onClose }: CommentsSheetProps)
     onPanResponderTerminate: () => Animated.spring(dy, { toValue: 0, useNativeDriver: true }).start(),
   })).current;
 
+  // Avtomatik sona sürüşmə (web/admin kimi): panel açılanda son şərhə düşür; yeni şərh gələndə istifadəçi aşağıdadırsa (və ya özü yazıbsa) sona sürüşür,
+  // yuxarıda köhnə şərhləri oxuyursa yerində qalır
+  const stick = useRef(true);
+  const opened = useRef(false);
+
   const send = () => {
     if (!can) return;
+    stick.current = true;
     m.send(text);
     setText("");
-    setTimeout(() => scroll.current?.scrollToEnd({ animated: true }), 60);
   };
 
   return (
@@ -63,28 +67,22 @@ function CommentsSheet({ logId, group, moderator, onClose }: CommentsSheetProps)
             </View>
           </View>
           <ScrollView ref={(r) => { scroll.current = r as unknown as typeof scroll.current; }} style={styles.list} contentContainerStyle={m.comments.length ? styles.listContent : { flexGrow: 1 }}
-            showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
+            showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled" scrollEventThrottle={32}
+            onScroll={(e) => {
+              const { contentOffset, layoutMeasurement, contentSize } = e.nativeEvent;
+              stick.current = contentOffset.y + layoutMeasurement.height >= contentSize.height - 80;
+            }}
+            onContentSizeChange={() => {
+              if (!m.comments.length || !stick.current) return;
+              scroll.current?.scrollToEnd({ animated: opened.current });
+              opened.current = true; // ilk dəfə (açılış) animasiyasız, sonrakı şərhlərdə yumşaq
+            }}>
             {m.loading ? <ActivityIndicator color={c.muted} style={{ marginVertical: 24 }} />
               : !m.comments.length ? (
                 <View style={styles.empty}><Text style={styles.emptyEmoji}>💬</Text><Text style={styles.emptyText}>Hələ şərh yoxdur.{"\n"}İlk şərhi sən yaz.</Text></View>
-              ) : m.comments.map((cm) => {
-                const mine = cm.employeeId === m.me;
-                return (
-                  <View key={cm.id} style={[styles.row, mine && styles.rowMine]}>
-                    {!mine ? <Avatar name={cm.name} photo={cm.photo} size={32} /> : null}
-                    <View style={[styles.bubble, mine && styles.bubbleMine]}>
-                      {!mine ? <Text style={styles.name} numberOfLines={1}>{cm.name}</Text> : null}
-                      <Text style={styles.body}>{cm.body}</Text>
-                      <View style={styles.meta}>
-                        <Text style={styles.when}>{feedWhen(cm.at)}</Text>
-                        {cm.id > 0 && (mine || moderator) ? (
-                          <Pressable onPress={() => m.remove(cm)} hitSlop={10} accessibilityLabel="Şərhi sil"><TrashIcon size={14} color={c.faint} /></Pressable>
-                        ) : null}
-                      </View>
-                    </View>
-                  </View>
-                );
-              })}
+              ) : m.comments.map((cm) => (
+                <CommentBubble key={cm.id} comment={cm} mine={cm.employeeId === m.me} canDelete={cm.employeeId === m.me || moderator} onDelete={m.remove} />
+              ))}
           </ScrollView>
           <View style={[styles.inputRow, { paddingBottom: (kb ? 10 : insets.bottom) + 10 }]}>
             <TextInput value={text} onChangeText={setText} placeholder="Şərh yaz..." placeholderTextColor={c.muted} style={styles.input} multiline maxLength={1000} />
