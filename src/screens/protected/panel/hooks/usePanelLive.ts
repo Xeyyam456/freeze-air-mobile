@@ -6,9 +6,9 @@ import { supabase } from "@shared/api/supabase";
 // Bir ümumi Realtime kanalı (API.md §12): dəyişiklik gələndə aid keş açarları təzələnir (dövri sorğu yox).
 // Kanal açmazdan əvvəl setAuth vacibdir, yoxsa anon kimi qoşulur və RLS-ə görə hadisə gəlmir.
 const TABLE_KEYS: Record<string, string[]> = {
-  attendance: ["my-today", "month-attendance", "employee-month"],
+  attendance: ["my-today", "month-attendance", "employee-month", "team-employees"],
   attendance_absences: ["my-today", "month-attendance", "employee-month"],
-  leave_requests: ["my-today", "month-attendance", "employee-month", "my-leaves"],
+  leave_requests: ["my-today", "month-attendance", "employee-month", "my-leaves", "team-employees"],
   tasks: ["tasks-view", "tasks-week", "my-day-stats", "work-history", "my-overview"],
   tool_assignments: ["my-day-stats"],
   // Yanacaq (0077–0081): yürüşlər və şirkətin verdiyi pul (admin ödəniş yazanda dərhal görünür)
@@ -45,7 +45,7 @@ function usePanelLive() {
 
     // Fondan qayıdanda: fonda buraxılmış hadisələr ola bilər → hamısını təzələ
     const sub = AppState.addEventListener("change", (s) => {
-      if (s === "active") refresh(["my-today", "my-day-stats", "work-history", "my-overview", "tasks-view", "tasks-week", "work-files", "month-attendance", "employee-month", "announcements", "unread-announcements", "my-leaves", "my-fuel"]);
+      if (s === "active") refresh(["my-today", "my-day-stats", "work-history", "my-overview", "tasks-view", "tasks-week", "work-files", "month-attendance", "employee-month", "announcements", "unread-announcements", "my-leaves", "my-fuel", "team-employees"]);
     });
     // Token yenilənəndə Realtime-a da yeni token
     const auth = supabase.auth.onAuthStateChange((event, s) => {

@@ -8,10 +8,4 @@ export const styles = StyleSheet.create({
   kicker: { color: c.muted, fontSize: 11, fontWeight: "700", letterSpacing: 1.2 },
   big: { color: c.ink, fontSize: 26, fontWeight: "800", fontVariant: ["tabular-nums"] },
   bigSub: { color: c.muted, fontSize: 15, fontWeight: "600" },
-  cells: { flexDirection: "row", gap: 6 },
-  cell: { flex: 1, backgroundColor: "rgba(255, 255, 255, 0.06)", borderRadius: 12, paddingHorizontal: 10, paddingVertical: 8, gap: 2 },
-  cellLabel: { color: c.muted, fontSize: 11, fontWeight: "600" },
-  cellValue: { color: c.ink, fontSize: 16, fontWeight: "800", fontVariant: ["tabular-nums"] },
-  dim: { color: c.faint },
-  accent: { color: c.primary },
 });

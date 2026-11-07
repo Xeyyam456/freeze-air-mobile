@@ -6,11 +6,12 @@ import MoreRow from "@screens/protected/more/components/MoreRow";
 import type { MoreStackParamList } from "@typings/navigation";
 import { styles } from "./MoreScreen.styles";
 
-// Daha çox: web usta panelinin yan menyusu kimi qruplar (Gündəlik, Məlumat, Komanda); hər sətir öz ekranını açır
+// Daha çox (status bar örtüyü: sürüşən məzmun saat/şəbəkə/batareya altında görünmür): web usta panelinin yan menyusu kimi qruplar (Gündəlik, Məlumat, Komanda); hər sətir öz ekranını açır
 function MoreScreen() {
   const insets = useSafeAreaInsets();
   const nav = useNavigation<NavigationProp<MoreStackParamList>>();
   return (
+    <View style={styles.flex}>
     <ScrollView style={styles.flex} contentContainerStyle={[styles.content, { paddingTop: insets.top + 12 }]} showsVerticalScrollIndicator={false}>
       <Text style={styles.title}>Daha çox</Text>
       {MORE_GROUPS.map((g) => (
@@ -22,6 +23,8 @@ function MoreScreen() {
         </View>
       ))}
     </ScrollView>
+      <View pointerEvents="none" style={[styles.statusBar, { height: insets.top }]} />
+    </View>
   );
 }
 

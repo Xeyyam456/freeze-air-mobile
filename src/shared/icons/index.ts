@@ -7,3 +7,4 @@ export * from "./media";
 export * from "./actions";
 export * from "./sections";
 export type { Icon, IconProps } from "./icon.types";
+export * from "./team";

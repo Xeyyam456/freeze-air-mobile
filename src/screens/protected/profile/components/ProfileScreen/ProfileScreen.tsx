@@ -23,6 +23,7 @@ function ProfileScreen() {
   const name = emp?.full_name ?? "";
 
   return (
+    <View style={styles.flex}>
     <ScrollView style={styles.flex} contentContainerStyle={[styles.content, { paddingTop: insets.top + 12 }]}>
       <ScreenHeader title="Profil" sub={email} />
       {emp ? (
@@ -50,6 +51,8 @@ function ProfileScreen() {
       {menu && <SourceMenu title="Profil şəkli" sources={["camera", "gallery"]} onClose={() => setMenu(false)}
         onPick={(s) => void change(s === "camera" ? "camera" : "gallery")} />}
     </ScrollView>
+      <View pointerEvents="none" style={[styles.statusBar, { height: insets.top }]} />
+    </View>
   );
 }
 

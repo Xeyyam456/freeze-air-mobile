@@ -11,9 +11,9 @@ export function leaveWorkdays({ date_from, date_to }: Range) {
   return n;
 }
 
-// "21.10" / "21.10 – 23.10"
+// "21.10.2026" / "21.10.2026 – 23.10.2026" (il həmişə hər iki tarixdə)
 export function leaveRange({ date_from, date_to }: Range) {
-  const f = (d: string) => `${d.slice(8, 10)}.${d.slice(5, 7)}`;
+  const f = (d: string) => `${d.slice(8, 10)}.${d.slice(5, 7)}.${d.slice(0, 4)}`;
   return date_from === date_to ? f(date_from) : `${f(date_from)} – ${f(date_to)}`;
 }
 

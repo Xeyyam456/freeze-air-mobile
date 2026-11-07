@@ -33,6 +33,7 @@ export const styles = StyleSheet.create({
   name: { color: c.ink, fontSize: 22, fontWeight: "800", textAlign: "center" },
   position: { color: c.muted, fontSize: 14, fontWeight: "600" },
   actions: { flexDirection: "row", gap: space.sm, alignSelf: "stretch" },
+  statusBar: { position: "absolute", top: 0, left: 0, right: 0, backgroundColor: c.bg },
   grow: { flex: 1 },
   hint: { color: c.muted, fontSize: 12, textAlign: "center", lineHeight: 17 },
 });
