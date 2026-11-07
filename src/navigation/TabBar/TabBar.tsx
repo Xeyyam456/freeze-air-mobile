@@ -1,4 +1,5 @@
 import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
+import { type NavigationState, StackActions } from "@react-navigation/native";
 import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import TabBarItem from "@navigation/TabBarItem";
@@ -13,12 +14,16 @@ function TabBar({ state, navigation }: BottomTabBarProps) {
   const openTasks = useOpenTasksCount();
   const unread = useUnreadAnnouncements();
   return (
-    <View style={[styles.wrap, { paddingBottom: Math.max(insets.bottom, 8) + 4 }]}>
+    <View style={[styles.wrap, { paddingBottom: Math.max(insets.bottom, 8) + 5 }]}>
       {state.routes.map((route, i) => {
         const focused = state.index === i;
+        // Tab HƏMİŞƏ öz əsas ekranında açılır (istifadəçi): içində açılmış ekran (məs. Daha çox → Davamiyyət) qalıbsa əvvəl kökə qayıdır
         const onPress = () => {
           const e = navigation.emit({ type: "tabPress", target: route.key, canPreventDefault: true });
-          if (!focused && !e.defaultPrevented) navigation.navigate(route.name);
+          if (e.defaultPrevented) return;
+          const nested = route.state as NavigationState | undefined;
+          if (nested?.key && nested.index > 0) navigation.dispatch({ ...StackActions.popToTop(), target: nested.key });
+          if (!focused) navigation.navigate(route.name);
         };
         const tab = TABS[route.name as keyof typeof TABS];
         const badge = route.name === "TasksTab" ? openTasks : route.name === "AnnouncementsTab" ? unread : 0;

@@ -21,5 +21,5 @@ export const styles = StyleSheet.create({
   warn: { color: c.orange, backgroundColor: c.orangeSoft, fontSize: 13, lineHeight: 18, padding: space.md, borderRadius: radius.sm, overflow: "hidden" },
   empty: { color: c.muted, fontSize: 14, textAlign: "center", paddingVertical: space.lg },
   loader: { marginTop: space.xl },
-  statusBar: { position: "absolute", top: 0, left: 0, right: 0, backgroundColor: c.bg, opacity: 0.94 },
+  statusBar: { position: "absolute", top: 0, left: 0, right: 0, backgroundColor: c.bg },
 });

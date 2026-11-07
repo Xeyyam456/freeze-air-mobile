@@ -10,5 +10,5 @@ export const styles = StyleSheet.create({
   sub: { color: c.muted, fontSize: 13, paddingHorizontal: 4, marginBottom: space.sm },
   day: { color: c.muted, fontSize: 12, fontWeight: "700", letterSpacing: 1, textTransform: "uppercase", paddingHorizontal: 6, paddingTop: space.sm, paddingBottom: space.sm },
   loader: { marginTop: space.xl },
-  statusBar: { position: "absolute", top: 0, left: 0, right: 0, backgroundColor: c.bg, opacity: 0.94 },
+  statusBar: { position: "absolute", top: 0, left: 0, right: 0, backgroundColor: c.bg },
 });

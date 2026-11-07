@@ -7,7 +7,8 @@ import { c } from "@theme/colors";
 import { styles } from "./HoursRow.styles";
 import type { HoursRowProps } from "./HoursRow.types";
 
-// Bir gün (web HoursRow): tarix, həftənin günü · müddət; hər seans ayrıca sətirdə gəlmə → getmə. memo: FlashList sətri
+// Bir gün (web HoursRow): tarix, həftənin günü · müddət; hər seans ayrıca sətirdə gəlmə → getmə. memo: FlashList sətri.
+// Sütunlar bütün günlərdə eyni xətdə: nömrə yeri həmişə saxlanır (tək seansda boş), saat qutularının eni sabitdir (simmetriya)
 function HoursRow({ entry: { day, presence: p } }: HoursRowProps) {
   const dur = durationText(p);
   const multi = p.sessions.length > 1;
@@ -20,7 +21,7 @@ function HoursRow({ entry: { day, presence: p } }: HoursRowProps) {
       <View style={styles.sessions}>
         {p.sessions.map((x, i) => (
           <View key={x.in} style={styles.session}>
-            {multi && <Text style={styles.no}>{i + 1})</Text>}
+            <Text style={styles.no}>{multi ? `${i + 1})` : ""}</Text>
             <View style={[styles.time, styles.in]}>
               <LogInIcon size={11} color={c.ok} />
               <Text style={[styles.timeText, { color: c.ok }]}>{timeBaku(x.in)}</Text>
