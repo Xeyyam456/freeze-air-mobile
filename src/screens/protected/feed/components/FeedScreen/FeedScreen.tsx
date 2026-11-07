@@ -37,8 +37,8 @@ function FeedScreen() {
   const react = useFeedReaction(group, m.me);
   const moderator = useQuery({ queryKey: queryKeys.announcer, queryFn: fetchAnnouncer, staleTime: 10 * 60_000 }).data?.canSend ?? false; // rəhbərlik
   const focused = useIsFocused();
-  // Qrup açıqdırsa ən yeni paylaşım "baxıldı" yazılır (yeni gələn də dərhal oxunmuş sayılır → qrup siyahısındakı say sıfırlanır)
-  useEffect(() => { if (focused && m.latest) markFeedSeen(group, m.latest); }, [focused, m.latest, group]);
+  // Qrup açıqdırsa "baxıldı" indiki ana yazılır; məlumat yenilənəndə (yeni paylaşım, şərh, reaksiya) də — beləcə açıq qrupda gələn hadisə oxunmuş sayılır
+  useEffect(() => { if (focused) markFeedSeen(group, new Date().toISOString()); }, [focused, m.posts, group]);
   const [reactors, setReactors] = useState<number | null>(null); // kimlər reaksiya verib: paylaşım
   const [commenting, setCommenting] = useState<number | null>(null); // şərhlər: paylaşım
   const [viewer, setViewer] = useState<{ images: string[]; start: number } | null>(null);

@@ -44,12 +44,19 @@ export async function fetchFeed(group: FeedGroup, me: number | null): Promise<Fe
   });
 }
 
-// Oxunmamış paylaşım sayı: "since"-dən sonra yüklənmiş fayllı iş qeydləri (öz işlərim sayılmır). Yüngül sorğu — yalnız yeni sətirlər
+// Oxunmamış hadisə sayı: "since"-dən sonra başqalarının yüklədiyi fayllı iş qeydləri + verdiyi reaksiyalar + yazdığı şərhlər
+// (öz hərəkətlərim sayılmır). Yüngül sorğular — yalnız say
 export async function fetchFeedUnread(group: FeedGroup, since: string, me: number | null): Promise<number> {
-  let q = supabase.from("work_files").select("work_log_id, work_logs!inner(employee_id)")
+  let files = supabase.from("work_files").select("work_log_id, work_logs!inner(employee_id)")
     .in("kind", group === "act" ? ["act"] : ["photo", "video"]).gt("created_at", since).limit(500);
-  if (me) q = q.neq("work_logs.employee_id", me);
-  const { data, error } = await q;
-  if (error) throw error;
-  return new Set((data ?? []).map((r) => r.work_log_id)).size;
+  let likes = supabase.from("feed_likes").select("work_log_id", { count: "exact", head: true }).eq("grp", group).gt("created_at", since);
+  let comments = supabase.from("feed_comments").select("id", { count: "exact", head: true }).eq("grp", group).gt("created_at", since);
+  if (me) {
+    files = files.neq("work_logs.employee_id", me);
+    likes = likes.neq("employee_id", me);
+    comments = comments.neq("employee_id", me);
+  }
+  const [f, l, c] = await Promise.all([files, likes, comments]);
+  if (f.error) throw f.error;
+  return new Set((f.data ?? []).map((r) => r.work_log_id)).size + (l.count ?? 0) + (c.count ?? 0);
 }

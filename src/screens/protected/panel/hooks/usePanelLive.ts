@@ -19,8 +19,8 @@ const TABLE_KEYS: Record<string, string[]> = {
   // Elanlar (0098): siyahı + tab nişanı; Elanlar ekranı açıqdırsa yenisi dərhal oxunmuş sayılır (useAnnouncementsSeen)
   announcements: ["announcements", "unread-announcements"],
   // İş lenti: başqası bəyənəndə say kartda dəyişsin
-  feed_likes: ["feed"],
-  feed_comments: ["feed"],
+  feed_likes: ["feed", "feed-unread"],
+  feed_comments: ["feed", "feed-unread"],
   feed_comment_reactions: ["feed"],
 };
 
@@ -36,16 +36,29 @@ function usePanelLive() {
       names.forEach((n) => qc.invalidateQueries({ queryKey: [n] }));
     };
 
-    void (async () => {
+    // Kanal qoparsa (Wi-Fi yuxusu, şəbəkə dəyişməsi) 3 san sonra yenidən qurulur; hər uğurlu qoşulmada fonda buraxılmış hadisələr üçün hamısı təzələnir
+    const open = async () => {
       const { data } = await supabase.auth.getSession();
       if (cancelled || !data.session) return;
       supabase.realtime.setAuth(data.session.access_token);
-      let ch = supabase.channel("panel");
+      let ch = supabase.channel(`panel-${Date.now()}`);
       for (const [table, names] of Object.entries(TABLE_KEYS)) {
         ch = ch.on("postgres_changes", { event: "*", schema: "public", table }, () => refresh(names));
       }
-      channel = ch.subscribe();
-    })();
+      const mine: ReturnType<typeof supabase.channel> = ch.subscribe((status) => {
+        if (cancelled || channel !== mine) return; // köhnə (artıq bağlanmış) kanalın siqnalı sayılmır
+        if (status === "SUBSCRIBED") refresh(Object.values(TABLE_KEYS).flat());
+        if (status === "CHANNEL_ERROR" || status === "TIMED_OUT" || status === "CLOSED") {
+          const old = channel;
+          channel = null;
+          if (old) void supabase.removeChannel(old);
+          retry = setTimeout(() => void open(), 3000);
+        }
+      });
+      channel = mine;
+    };
+    let retry: ReturnType<typeof setTimeout> | null = null;
+    void open();
 
     // Fondan qayıdanda: fonda buraxılmış hadisələr ola bilər → hamısını təzələ
     const sub = AppState.addEventListener("change", (s) => {
@@ -58,6 +71,7 @@ function usePanelLive() {
 
     return () => {
       cancelled = true;
+      if (retry) clearTimeout(retry);
       sub.remove();
       auth.data.subscription.unsubscribe();
       if (channel) void supabase.removeChannel(channel);
