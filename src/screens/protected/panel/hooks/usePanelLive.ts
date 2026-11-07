@@ -21,6 +21,7 @@ const TABLE_KEYS: Record<string, string[]> = {
   // İş lenti: başqası bəyənəndə say kartda dəyişsin
   feed_likes: ["feed"],
   feed_comments: ["feed"],
+  feed_comment_reactions: ["feed"],
 };
 
 function usePanelLive() {

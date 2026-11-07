@@ -3,13 +3,12 @@ import { ActivityIndicator, Modal, Pressable, ScrollView, Text, View } from "rea
 import Avatar from "@shared/components/Avatar";
 import { CloseIcon } from "@shared/icons";
 import { queryKeys } from "@shared/queries/queryKeys";
+import { REACTIONS } from "@shared/config/reactions";
 import { fetchFeedLikers } from "@shared/services/feedMeta.service";
 import { c } from "@theme/colors";
-import type { FeedLiker, Reaction } from "@typings/feed";
+import type { FeedLiker } from "@typings/feed";
 import { styles } from "./LikesSheet.styles";
 import type { LikesSheetProps } from "./LikesSheet.types";
-
-const SECTIONS: { kind: Reaction; emoji: string }[] = [{ kind: "up", emoji: "👍" }, { kind: "down", emoji: "👎" }];
 
 function Row({ p, first }: { p: FeedLiker; first: boolean }) {
   return (
@@ -20,7 +19,7 @@ function Row({ p, first }: { p: FeedLiker; first: boolean }) {
   );
 }
 
-// Kimlər reaksiya verib: 👍 və 👎 bölmələri (ad, şəkil, ixtisas/vəzifə). Canlı: feed_likes Realtime. X, fon və "geri" bağlayır
+// Kimlər reaksiya verib: hər reaksiya növü ayrı bölmə (ad, şəkil, ixtisas/vəzifə). Canlı: feed_likes Realtime. X, fon və "geri" bağlayır
 function LikesSheet({ logId, group, onClose }: LikesSheetProps) {
   const q = useQuery({ queryKey: [...queryKeys.feed(group), "likers", logId], queryFn: () => fetchFeedLikers(logId, group) });
   const list = q.data ?? [];
@@ -35,7 +34,7 @@ function LikesSheet({ logId, group, onClose }: LikesSheetProps) {
             : !list.length ? <Text style={styles.empty}>Hələ reaksiya yoxdur.</Text>
             : (
               <ScrollView showsVerticalScrollIndicator={false}>
-                {SECTIONS.map((s) => {
+                {REACTIONS.map((s) => {
                   const rows = list.filter((p) => p.kind === s.kind);
                   if (!rows.length) return null;
                   return (

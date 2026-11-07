@@ -31,8 +31,7 @@ export async function fetchFeed(group: FeedGroup, me: number | null): Promise<Fe
       company: l.stores?.companies?.name ?? null,
       description: l.description,
       files: [file],
-      up: 0,
-      down: 0,
+      reactions: {},
       mine: null,
       comments: 0,
       partners: [],
@@ -41,7 +40,7 @@ export async function fetchFeed(group: FeedGroup, me: number | null): Promise<Fe
   const meta = await fetchFeedMeta(group, new Map([...posts.values()].map((p) => [p.logId, p.employeeId])), me);
   return [...posts.values()].map((p) => {
     const r = meta.reactions.get(p.logId);
-    return { ...p, files: p.files.reverse(), up: r?.up ?? 0, down: r?.down ?? 0, mine: r?.mine ?? null, comments: meta.comments.get(p.logId) ?? 0, partners: meta.partners.get(p.logId) ?? [] };
+    return { ...p, files: p.files.reverse(), reactions: r?.counts ?? {}, mine: r?.mine ?? null, comments: meta.comments.get(p.logId) ?? 0, partners: meta.partners.get(p.logId) ?? [] };
   });
 }
 

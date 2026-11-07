@@ -5,7 +5,7 @@ import { setFeedReaction } from "@shared/services/feedMeta.service";
 import { toast } from "@shared/utils/toast";
 import type { FeedGroup, FeedPost, Reaction } from "@typings/feed";
 
-// 👍 / 👎 — OPTİMİSTİK: say və seçim klik anında dəyişir, baza arxada; xətada geri qayıdır.
+// Reaksiya (👍 👎 ❤️ 👏 🙏) — OPTİMİSTİK: say və seçim klik anında dəyişir, baza arxada; xətada geri qayıdır.
 // Eyni işarəyə təkrar toxunuş geri götürür; digərinə toxunuş əvəzləyir (bir usta bir paylaşıma bir reaksiya verir)
 function useFeedReaction(group: FeedGroup, me: number | null) {
   const qc = useQueryClient();
@@ -15,8 +15,10 @@ function useFeedReaction(group: FeedGroup, me: number | null) {
     const key = queryKeys.feed(group);
     void qc.cancelQueries({ queryKey: key });
     const prev = qc.getQueryData<FeedPost[]>(key);
-    const count = (k: Reaction, n: number) => n - (post.mine === k ? 1 : 0) + (next === k ? 1 : 0);
-    qc.setQueryData<FeedPost[]>(key, (l) => l?.map((p) => (p.logId === post.logId ? { ...p, mine: next, up: count("up", p.up), down: count("down", p.down) } : p)));
+    const reactions = { ...(post.reactions ?? {}) };
+    if (post.mine) reactions[post.mine] = Math.max(0, (reactions[post.mine] ?? 0) - 1);
+    if (next) reactions[next] = (reactions[next] ?? 0) + 1;
+    qc.setQueryData<FeedPost[]>(key, (l) => l?.map((p) => (p.logId === post.logId ? { ...p, mine: next, reactions } : p)));
     setFeedReaction(post.logId, group, me, next)
       .catch((e: Error) => { qc.setQueryData(key, prev); toast.error(e.message); })
       .finally(() => qc.invalidateQueries({ queryKey: key }));

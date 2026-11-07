@@ -6,6 +6,7 @@ import PartnerLines from "@shared/components/PartnerLines";
 import { FileTextIcon, MapPinIcon, VideoIcon } from "@shared/icons";
 import { feedWhen } from "@shared/utils/feed";
 import { c } from "@theme/colors";
+import ReactionBar from "../ReactionBar";
 import { PLACE, styles } from "./FeedCard.styles";
 import type { FeedCardProps } from "./FeedCard.types";
 
@@ -14,14 +15,13 @@ const GAP = 6;
 const SHOW = 9; // kartda ən çox 3 sətir (9 fayl), qalanı "+N"
 
 // Lent kartı (WhatsApp mesajı kimi): usta + vaxt, yer (rəngli), birlikdə işləyən ustalar, yazı, fayllar (3-3 düz sıra),
-// altda: solda 💬 şərh, sağda 👍 / 👎. Şəkil → tam ekran; video/PDF → telefonun öz tətbiqi.
-// Reaksiya: müəllifdən başqa hamı (ustalar, rəhbərlik); müəllif sayları görür, rəqəmə toxunuş → kimlər. memo
+// altda: ReactionBar (şərh + reaksiyalar). Şəkil → tam ekran; video/PDF → telefonun öz tətbiqi.
+// memo
 function FeedCard({ post, mine, onImages, onReact, onReactors, onComments }: FeedCardProps) {
   const [cell, setCell] = useState(0); // xana ölçüsü: torun enindən (3 bərabər sütun, boşluq GAP)
   const images = post.files.filter((f) => f.kind !== "video" && !f.path.endsWith(".pdf") && f.url).map((f) => f.url as string);
   const shown = post.files.slice(0, SHOW);
   const rest = post.files.length - SHOW;
-  const react = (kind: "up" | "down") => (mine ? onReactors(post) : onReact(post, kind));
   return (
     <View style={styles.card}>
       <View style={styles.head}>
@@ -56,27 +56,7 @@ function FeedCard({ post, mine, onImages, onReact, onReactors, onComments }: Fee
           );
         })}
       </View>
-      <View style={styles.bar}>
-        <Pressable onPress={() => onComments(post)} hitSlop={8} style={styles.react} accessibilityLabel={`${post.comments} şərh`}>
-          <Text style={[styles.emoji, !post.comments && styles.emojiOff]}>💬</Text>
-          {post.comments > 0 ? <Text style={styles.count}>{post.comments}</Text> : null}
-        </Pressable>
-        <View style={styles.reactions}>
-          {([["up", "👍", post.up], ["down", "👎", post.down]] as const).map(([kind, emoji, n]) => (
-            <View key={kind} style={styles.react}>
-              {/* emoji: toxunuş seçir / geri götürür (müəllif seçə bilməz → siyahı açılır); rəqəm → kimlər */}
-              <Pressable onPress={() => react(kind)} hitSlop={8} accessibilityLabel={mine ? "Kimlər reaksiya verib" : post.mine === kind ? "Reaksiyanı geri götür" : kind === "up" ? "Bəyən" : "Bəyənmə"}>
-                <Text style={[styles.emoji, post.mine !== kind && styles.emojiOff]}>{emoji}</Text>
-              </Pressable>
-              {n > 0 ? (
-                <Pressable onPress={() => onReactors(post)} hitSlop={8} accessibilityLabel={`${n} reaksiya, kimlər`}>
-                  <Text style={[styles.count, post.mine === kind && { color: c.primary }]}>{n}</Text>
-                </Pressable>
-              ) : null}
-            </View>
-          ))}
-        </View>
-      </View>
+      <ReactionBar post={post} mine={mine} onReact={onReact} onReactors={onReactors} onComments={onComments} />
     </View>
   );
 }

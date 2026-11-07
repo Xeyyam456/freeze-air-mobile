@@ -19,8 +19,4 @@ export const styles = StyleSheet.create({
   empty: { flex: 1, alignItems: "center", justifyContent: "center", gap: space.sm, paddingVertical: space.xl },
   emptyEmoji: { fontSize: 44, opacity: 0.6 },
   emptyText: { color: c.muted, fontSize: 14, textAlign: "center" },
-  inputRow: { flexDirection: "row", alignItems: "flex-end", gap: space.sm, paddingHorizontal: space.md, paddingTop: space.sm, borderTopWidth: 1, borderTopColor: c.line, backgroundColor: c.surface },
-  input: { flex: 1, minHeight: 46, maxHeight: 110, color: c.ink, fontSize: 15, paddingHorizontal: 18, paddingVertical: 12, backgroundColor: c.glass, borderWidth: 1, borderColor: c.glassBorder, borderRadius: 23 },
-  send: { width: 46, height: 46, borderRadius: 23, alignItems: "center", justifyContent: "center", overflow: "hidden" },
-  sendOff: { backgroundColor: c.surface2 },
 });

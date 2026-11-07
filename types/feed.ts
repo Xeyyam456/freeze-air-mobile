@@ -3,8 +3,9 @@ export type FeedGroup = "work" | "act";
 
 export type FeedFile = { id: number; kind: "act" | "photo" | "video"; path: string; url?: string };
 
-// Reaksiya: 👍 ("up") və ya 👎 ("down"); hər usta bir paylaşıma bir reaksiya verir
-export type Reaction = "up" | "down";
+// Reaksiya: 👍 up, 👎 down, ❤️ heart, 👏 clap, 🙏 pray; hər usta bir paylaşıma bir reaksiya verir
+export type Reaction = "up" | "down" | "heart" | "clap" | "pray";
+export type ReactionCounts = Partial<Record<Reaction, number>>;
 
 // Bir iş qeydinin paylaşımı: usta, yer, yazı, faylları (bir kartda), reaksiyalar, şərh sayı, birlikdə işləyən ustalar
 export type FeedPost = {
@@ -17,8 +18,7 @@ export type FeedPost = {
   company: string | null;
   description: string;
   files: FeedFile[];
-  up: number; // 👍 sayı
-  down: number; // 👎 sayı
+  reactions: ReactionCounts; // növ üzrə say
   mine: Reaction | null; // mənim reaksiyam
   comments: number;
   partners: string[]; // eyni tapşırıq qrupundakı digər ustalar (ad və soyad)
@@ -27,4 +27,5 @@ export type FeedPost = {
 // Reaksiya verən usta/rəhbər (siyahı pəncərəsi)
 export type FeedLiker = { id: number; name: string; photo: string | null; role: string; kind: Reaction };
 
-export type FeedComment = { id: number; employeeId: number; name: string; photo: string | null; body: string; at: string };
+// Şərh + ona verilən reaksiyalar (növ üzrə say) və mənim reaksiyam
+export type FeedComment = { id: number; employeeId: number; name: string; photo: string | null; body: string; at: string; reactions: ReactionCounts; mine: Reaction | null };

@@ -1,12 +1,12 @@
 import { useRef, useState } from "react";
-import { ActivityIndicator, Animated, Keyboard, Modal, PanResponder, Pressable, ScrollView, Text, TextInput, useWindowDimensions, View } from "react-native";
+import { ActivityIndicator, Animated, Keyboard, Modal, PanResponder, Pressable, ScrollView, Text, useWindowDimensions, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import GradientBg from "@shared/components/GradientBg";
 import useKeyboardHeight from "@shared/hooks/useKeyboardHeight";
-import { CloseIcon, SendIcon } from "@shared/icons";
+import { CloseIcon } from "@shared/icons";
+import CommentInput from "@screens/protected/feed/components/CommentInput";
 import CommentBubble from "@screens/protected/feed/components/CommentBubble";
 import useFeedComments from "@screens/protected/feed/hooks/useFeedComments";
-import { c, gradients } from "@theme/colors";
+import { c } from "@theme/colors";
 import { styles } from "./CommentsSheet.styles";
 import type { CommentsSheetProps } from "./CommentsSheet.types";
 
@@ -21,9 +21,8 @@ function CommentsSheet({ logId, group, moderator, onClose }: CommentsSheetProps)
   const m = useFeedComments(logId, group);
   const [text, setText] = useState("");
   const scroll = useRef<{ scrollToEnd: (o?: { animated?: boolean }) => void } | null>(null);
-  const can = text.trim().length > 0;
   // Panelin hündürlüyü: ekranın 64%-i; klaviatura açıqdırsa qalan sahəyə sığır
-  const sheetHeight = Math.min(height * 0.64, height - kb - insets.top - 24);
+  const sheetHeight = Math.min(height * 0.64, height - (kb ? kb + insets.bottom : 0) - insets.top - 24);
 
   // Sürüşdürmə: tutacaq sahəsində PanResponder; panel barmağı izləyir, buraxanda ya bağlanır ya geri qayıdır
   const dy = useRef(new Animated.Value(0)).current;
@@ -46,7 +45,7 @@ function CommentsSheet({ logId, group, moderator, onClose }: CommentsSheetProps)
   const opened = useRef(false);
 
   const send = () => {
-    if (!can) return;
+    if (!text.trim()) return;
     stick.current = true;
     m.send(text);
     setText("");
@@ -56,7 +55,7 @@ function CommentsSheet({ logId, group, moderator, onClose }: CommentsSheetProps)
     <Modal transparent animationType="slide" statusBarTranslucent navigationBarTranslucent onRequestClose={onClose}>
       <Pressable style={styles.backdrop} onPress={onClose} />
       <View style={styles.wrap} pointerEvents="box-none">
-        <Animated.View style={[styles.sheet, { height: sheetHeight, marginBottom: kb, transform: [{ translateY: dy }] }]}>
+        <Animated.View style={[styles.sheet, { height: sheetHeight, marginBottom: kb ? kb + insets.bottom : 0, transform: [{ translateY: dy }] }]}>
           <View {...drag.panHandlers}>
             <View style={styles.handleArea}><View style={styles.handle} /></View>
             <View style={styles.head}>
@@ -81,16 +80,10 @@ function CommentsSheet({ logId, group, moderator, onClose }: CommentsSheetProps)
               : !m.comments.length ? (
                 <View style={styles.empty}><Text style={styles.emptyEmoji}>💬</Text><Text style={styles.emptyText}>Hələ şərh yoxdur.{"\n"}İlk şərhi sən yaz.</Text></View>
               ) : m.comments.map((cm) => (
-                <CommentBubble key={cm.id} comment={cm} mine={cm.employeeId === m.me} canDelete={cm.employeeId === m.me || moderator} onDelete={m.remove} />
+                <CommentBubble key={cm.id} comment={cm} mine={cm.employeeId === m.me} canDelete={cm.employeeId === m.me || moderator} canReact={!!m.me} onDelete={m.remove} onReact={m.react} />
               ))}
           </ScrollView>
-          <View style={[styles.inputRow, { paddingBottom: (kb ? 10 : insets.bottom) + 10 }]}>
-            <TextInput value={text} onChangeText={setText} placeholder="Şərh yaz..." placeholderTextColor={c.muted} style={styles.input} multiline maxLength={1000} />
-            <Pressable onPress={send} disabled={!can} style={[styles.send, !can && styles.sendOff]} accessibilityLabel="Göndər">
-              {can ? <GradientBg colors={gradients.accent} radius={23} /> : null}
-              <SendIcon size={19} color={can ? c.white : c.faint} />
-            </Pressable>
-          </View>
+          <CommentInput text={text} onChange={setText} onSend={send} keyboard={kb} />
         </Animated.View>
       </View>
     </Modal>

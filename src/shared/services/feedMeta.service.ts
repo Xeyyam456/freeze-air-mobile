@@ -1,8 +1,9 @@
 import { supabase } from "@shared/api/supabase";
-import type { FeedGroup, FeedLiker, Reaction } from "@typings/feed";
+import { isReaction } from "@shared/config/reactions";
+import type { FeedGroup, FeedLiker, Reaction, ReactionCounts } from "@typings/feed";
 
 export type FeedMeta = {
-  reactions: Map<number, { up: number; down: number; mine: Reaction | null }>;
+  reactions: Map<number, { counts: ReactionCounts; mine: Reaction | null }>;
   comments: Map<number, number>;
   partners: Map<number, string[]>;
 };
@@ -20,9 +21,10 @@ export async function fetchFeedMeta(group: FeedGroup, authors: Map<number, numbe
     supabase.from("tasks").select("work_log_id, group_id").in("work_log_id", ids).not("group_id", "is", null),
   ]);
   for (const k of likes.data ?? []) {
-    const r = meta.reactions.get(k.work_log_id) ?? { up: 0, down: 0, mine: null };
-    if (k.kind === "down") r.down += 1; else r.up += 1;
-    if (k.employee_id === me) r.mine = k.kind === "down" ? "down" : "up";
+    const r = meta.reactions.get(k.work_log_id) ?? { counts: {}, mine: null };
+    const kind = isReaction(k.kind) ? k.kind : "up";
+    r.counts[kind] = (r.counts[kind] ?? 0) + 1;
+    if (k.employee_id === me) r.mine = kind;
     meta.reactions.set(k.work_log_id, r);
   }
   for (const c of comments.data ?? []) meta.comments.set(c.work_log_id, (meta.comments.get(c.work_log_id) ?? 0) + 1);
@@ -41,7 +43,7 @@ export async function fetchFeedMeta(group: FeedGroup, authors: Map<number, numbe
   return meta;
 }
 
-// Reaksiya: kind = null → geri götür; "up"/"down" → seç (başqası seçilibsə əvəzlənir). RLS: yalnız öz adından, öz paylaşımına yox
+// Reaksiya: kind = null → geri götür; növ → seç (başqası seçilibsə əvəzlənir). RLS: yalnız öz adından, öz paylaşımına yox
 export async function setFeedReaction(logId: number, group: FeedGroup, me: number, kind: Reaction | null) {
   const key = { work_log_id: logId, grp: group, employee_id: me };
   const { error } = kind
@@ -61,6 +63,6 @@ export async function fetchFeedLikers(logId: number, group: FeedGroup): Promise<
   const byId = new Map((emps ?? []).map((e) => [e.id, e]));
   return rows.flatMap((r) => {
     const e = byId.get(r.employee_id);
-    return e ? [{ id: r.employee_id, name: e.full_name, photo: e.photo_url, role: e.specialty ?? e.position, kind: (r.kind === "down" ? "down" : "up") as Reaction }] : [];
+    return e ? [{ id: r.employee_id, name: e.full_name, photo: e.photo_url, role: e.specialty ?? e.position, kind: (isReaction(r.kind) ? r.kind : "up") as Reaction }] : [];
   });
 }
