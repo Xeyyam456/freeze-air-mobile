@@ -4,6 +4,7 @@ import Animated, { FadeInDown } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import ErrorState from "@shared/components/ErrorState";
 import ScreenHeader from "@shared/components/ScreenHeader";
+import SearchPill from "@shared/components/SearchPill";
 import useReload from "@shared/hooks/useReload";
 import Ambient from "@screens/protected/errorCodes/components/Ambient";
 import CodeRow from "@screens/protected/errorCodes/components/CodeRow";
@@ -11,7 +12,6 @@ import CodeSheet from "@screens/protected/errorCodes/components/CodeSheet";
 import GroupHead from "@screens/protected/errorCodes/components/GroupHead";
 import ModelPicker from "@screens/protected/errorCodes/components/ModelPicker";
 import RecentCodes from "@screens/protected/errorCodes/components/RecentCodes";
-import SearchPill from "@screens/protected/errorCodes/components/SearchPill";
 import useErrorCodes from "@screens/protected/errorCodes/hooks/useErrorCodes";
 import { c } from "@theme/colors";
 import type { CodeRowItem } from "@typings/errorCodes";
@@ -40,7 +40,7 @@ function ErrorCodesScreen() {
         ListHeaderComponent={
           <View style={styles.header}>
             <ScreenHeader title="Xəta kodları" sub="Kondisioner xəta kodları və edilecək iş" />
-            <Animated.View entering={FadeInDown.duration(380)}><SearchPill value={m.query} onChange={m.setQuery} onSubmit={() => m.total === 1 && first && m.openCode(first.code)}
+            <Animated.View entering={FadeInDown.duration(380)}><SearchPill upper placeholder="Kod və ya söz: E4, kompressor..." value={m.query} onChange={m.setQuery} onSubmit={() => m.total === 1 && first && m.openCode(first.code)}
               hint={m.query && m.total ? `${m.total} uyğun kod` : " "} /></Animated.View>
             <Animated.View entering={FadeInDown.delay(70).duration(380)}><ModelPicker models={m.models} counts={m.counts} value={m.modelId} onChange={m.setModelId} /></Animated.View>
             {!m.query ? <Animated.View entering={FadeInDown.delay(140).duration(380)}><RecentCodes codes={m.recent} names={m.names} onOpen={m.openCode} /></Animated.View> : null}

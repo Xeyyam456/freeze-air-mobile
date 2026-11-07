@@ -48,7 +48,14 @@
           "microphonePermission": "Video çəkəndə səs yazmaq üçün mikrofona icazə lazımdır."
         }
       ],
-      "./plugins/withLocalCmake"
+      "./plugins/withLocalCmake",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Mağazanın dəqiq koordinatını yazmaq üçün cari yerinə icazə lazımdır."
+        }
+      ],
+      "@maplibre/maplibre-react-native"
     ],
     "extra": {
       "eas": {

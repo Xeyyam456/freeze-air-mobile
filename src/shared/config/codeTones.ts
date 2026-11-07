@@ -6,3 +6,6 @@ export function toneOf(ch: string): string {
   const i = ORDER.indexOf(ch.toUpperCase());
   return PALETTE[(i < 0 ? 0 : i) % PALETTE.length];
 }
+
+// Ada görə sabit rəng (şirkət lövhəsi): ilk simvolun kodu
+export const toneOfText = (s: string) => PALETTE[(s.trim().toUpperCase().charCodeAt(0) || 0) % PALETTE.length];

@@ -1,7 +1,7 @@
 import { AlertTriangleIcon, BuildingIcon, CalendarCheckIcon, CalendarOffIcon, FuelIcon, StoreIcon, UserCogIcon, UsersIcon, WrenchIcon, type Icon } from "@shared/icons";
 import type { MoreStackParamList } from "@typings/navigation";
 
-export type MoreRoute = Exclude<keyof MoreStackParamList, "MoreMain" | "AttendanceCalendar">;
+export type MoreRoute = Exclude<keyof MoreStackParamList, "MoreMain" | "AttendanceCalendar" | "CompanyDetail">;
 export type MoreLink = { route: MoreRoute; label: string; hint: string; icon: Icon; color: string };
 
 // "Daha çox" menyusu (web usta panelinin yan menyusu kimi qruplar). Hazır olmayan bölmə "Tezliklə" ekranı açır
