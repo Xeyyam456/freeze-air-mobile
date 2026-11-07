@@ -1,7 +1,7 @@
 import { supabase } from "@shared/api/supabase";
 import { buildStatus, countWork } from "@shared/utils/team";
 import { isSunday, monthStartBaku, todayBaku } from "@shared/utils/time";
-import type { EmployeesData, Person } from "@typings/team";
+import type { EmployeesData, Person, WorkEntry } from "@typings/team";
 
 const COLS = "id, full_name, photo_url, position, specialty, phone, start_date, has_car, car_plate, car_model";
 
@@ -36,4 +36,20 @@ export async function fetchManagers(): Promise<Person[]> {
   const { data, error } = await supabase.from("employees").select(COLS).eq("is_management", true).eq("is_active", true).order("full_name");
   if (error) throw error;
   return data ?? [];
+}
+
+// Ustanın bu ayki iş qeydləri (harada, nə iş): yeni üstdə. Digər ustaların qeydlərini də oxumaq olar (API.md §3)
+export async function fetchEmployeeWork(employeeId: number): Promise<WorkEntry[]> {
+  const { data, error } = await supabase.from("work_logs")
+    .select("id, work_date, created_at, description, place_text, stores(code, name, companies(name)), companies(name)")
+    .eq("employee_id", employeeId).gte("work_date", monthStartBaku()).order("work_date", { ascending: false }).order("created_at", { ascending: false }).limit(500);
+  if (error) throw error;
+  return (data ?? []).map((l) => ({
+    id: l.id,
+    work_date: l.work_date,
+    created_at: l.created_at,
+    description: l.description,
+    place: l.stores ? `${l.stores.code} ${l.stores.name}` : l.companies?.name ?? l.place_text ?? "Yer yazılmayıb",
+    company: l.stores?.companies?.name ?? null,
+  }));
 }

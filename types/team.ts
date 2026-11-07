@@ -22,3 +22,6 @@ export type EmployeesData = {
 };
 
 export type EmployeeFilter = "all" | PersonStatus["kind"];
+
+// Ustanın bir iş qeydi (ətraflı: harada, nə iş)
+export type WorkEntry = { id: number; work_date: string; created_at: string; description: string; place: string; company: string | null };

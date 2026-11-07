@@ -17,5 +17,6 @@ export const queryKeys = {
   myLeaves: (employeeId: number) => ["my-leaves", employeeId] as const,
   team: ["team-employees"] as const,
   managers: ["team-managers"] as const,
+  employeeWork: (id: number) => ["employee-work", id] as const,
   myFuel: (employeeId: number, from: string, to: string) => ["my-fuel", employeeId, from, to] as const,
 };

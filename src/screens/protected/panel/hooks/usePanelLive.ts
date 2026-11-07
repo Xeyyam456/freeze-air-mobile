@@ -9,7 +9,7 @@ const TABLE_KEYS: Record<string, string[]> = {
   attendance: ["my-today", "month-attendance", "employee-month", "team-employees"],
   attendance_absences: ["my-today", "month-attendance", "employee-month"],
   leave_requests: ["my-today", "month-attendance", "employee-month", "my-leaves", "team-employees"],
-  tasks: ["tasks-view", "tasks-week", "my-day-stats", "work-history", "my-overview"],
+  tasks: ["tasks-view", "tasks-week", "my-day-stats", "work-history", "my-overview", "employee-work"],
   tool_assignments: ["my-day-stats"],
   // Yanacaq (0077–0081): yürüşlər və şirkətin verdiyi pul (admin ödəniş yazanda dərhal görünür)
   mileage_logs: ["my-fuel"],
@@ -45,7 +45,7 @@ function usePanelLive() {
 
     // Fondan qayıdanda: fonda buraxılmış hadisələr ola bilər → hamısını təzələ
     const sub = AppState.addEventListener("change", (s) => {
-      if (s === "active") refresh(["my-today", "my-day-stats", "work-history", "my-overview", "tasks-view", "tasks-week", "work-files", "month-attendance", "employee-month", "announcements", "unread-announcements", "my-leaves", "my-fuel", "team-employees"]);
+      if (s === "active") refresh(["my-today", "my-day-stats", "work-history", "my-overview", "tasks-view", "tasks-week", "work-files", "month-attendance", "employee-month", "announcements", "unread-announcements", "my-leaves", "my-fuel", "team-employees", "employee-work"]);
     });
     // Token yenilənəndə Realtime-a da yeni token
     const auth = supabase.auth.onAuthStateChange((event, s) => {
