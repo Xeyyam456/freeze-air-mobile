@@ -1,8 +1,8 @@
 import { memo } from "react";
 import { Pressable, Text, View } from "react-native";
 import Avatar from "@shared/components/Avatar";
-import { ChevronRightIcon, UsersIcon } from "@shared/icons";
-import { partnerText } from "@shared/utils/team";
+import PartnerLines from "@shared/components/PartnerLines";
+import { ChevronRightIcon } from "@shared/icons";
 import { c } from "@theme/colors";
 import type { PersonStatus } from "@typings/team";
 import { styles } from "./PersonCard.styles";
@@ -30,18 +30,7 @@ function PersonCard({ person, subtitle, badge, highlight, status, partners, stat
             <Text style={[styles.status, { color: status.kind === "none" ? c.muted : tone }]} numberOfLines={1}>{status.text}</Text>
           </View>
         ) : null}
-        {partners?.length ? (
-          <View style={styles.partners}>
-            {partners.length === 1
-              ? <View style={styles.statusRow}><UsersIcon size={12} color={c.primary} /><Text style={styles.partner} numberOfLines={1}>{partnerText(partners)}</Text></View>
-              : (
-                <>
-                  <View style={styles.statusRow}><UsersIcon size={12} color={c.primary} /><Text style={styles.partner}>Birlikdə:</Text></View>
-                  {partners.map((n) => <Text key={n} style={styles.partnerName} numberOfLines={1}>{n}</Text>)}
-                </>
-              )}
-          </View>
-        ) : null}
+        {partners?.length ? <PartnerLines names={partners} /> : null}
       </View>
       {stats ? (
         <View style={styles.stats}>

@@ -3,12 +3,24 @@ import { ActivityIndicator, Modal, Pressable, ScrollView, Text, View } from "rea
 import Avatar from "@shared/components/Avatar";
 import { CloseIcon } from "@shared/icons";
 import { queryKeys } from "@shared/queries/queryKeys";
-import { fetchFeedLikers } from "@shared/services/feed.service";
+import { fetchFeedLikers } from "@shared/services/feedMeta.service";
 import { c } from "@theme/colors";
+import type { FeedLiker, Reaction } from "@typings/feed";
 import { styles } from "./LikesSheet.styles";
 import type { LikesSheetProps } from "./LikesSheet.types";
 
-// Paylaşımı kimlər bəyənib: ad, şəkil, ixtisas/vəzifə. Canlı: feed_likes Realtime (açıqkən başqası bəyənəndə siyahı yenilənir). X, fon və "geri" bağlayır
+const SECTIONS: { kind: Reaction; emoji: string }[] = [{ kind: "up", emoji: "👍" }, { kind: "down", emoji: "👎" }];
+
+function Row({ p, first }: { p: FeedLiker; first: boolean }) {
+  return (
+    <View style={[styles.row, !first && styles.line]}>
+      <Avatar name={p.name} photo={p.photo} size={40} />
+      <View style={styles.text}><Text style={styles.name} numberOfLines={1}>{p.name}</Text><Text style={styles.role} numberOfLines={1}>{p.role}</Text></View>
+    </View>
+  );
+}
+
+// Kimlər reaksiya verib: 👍 və 👎 bölmələri (ad, şəkil, ixtisas/vəzifə). Canlı: feed_likes Realtime. X, fon və "geri" bağlayır
 function LikesSheet({ logId, group, onClose }: LikesSheetProps) {
   const q = useQuery({ queryKey: [...queryKeys.feed(group), "likers", logId], queryFn: () => fetchFeedLikers(logId, group) });
   const list = q.data ?? [];
@@ -18,17 +30,21 @@ function LikesSheet({ logId, group, onClose }: LikesSheetProps) {
       <View style={styles.center} pointerEvents="box-none">
         <View style={styles.card}>
           <Pressable onPress={onClose} hitSlop={10} style={styles.close} accessibilityLabel="Bağla"><CloseIcon size={18} color={c.muted} /></Pressable>
-          <View style={styles.head}><Text style={styles.emoji}>👍</Text><Text style={styles.title}>Bəyənənlər{list.length ? ` · ${list.length}` : ""}</Text></View>
+          <Text style={styles.title}>Reaksiyalar</Text>
           {q.isPending ? <ActivityIndicator color={c.muted} style={{ marginVertical: 20 }} />
-            : !list.length ? <Text style={styles.empty}>Hələ bəyənən yoxdur.</Text>
+            : !list.length ? <Text style={styles.empty}>Hələ reaksiya yoxdur.</Text>
             : (
               <ScrollView showsVerticalScrollIndicator={false}>
-                {list.map((p, i) => (
-                  <View key={p.id} style={[styles.row, i > 0 && styles.line]}>
-                    <Avatar name={p.name} photo={p.photo} size={40} />
-                    <View style={styles.text}><Text style={styles.name} numberOfLines={1}>{p.name}</Text><Text style={styles.role} numberOfLines={1}>{p.role}</Text></View>
-                  </View>
-                ))}
+                {SECTIONS.map((s) => {
+                  const rows = list.filter((p) => p.kind === s.kind);
+                  if (!rows.length) return null;
+                  return (
+                    <View key={s.kind}>
+                      <View style={styles.head}><Text style={styles.emoji}>{s.emoji}</Text><Text style={styles.count}>{rows.length}</Text></View>
+                      {rows.map((p, i) => <Row key={p.id} p={p} first={i === 0} />)}
+                    </View>
+                  );
+                })}
               </ScrollView>
             )}
         </View>

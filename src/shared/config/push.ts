@@ -12,6 +12,8 @@ export const URL_TAB: Record<string, UrlTarget> = {
   "/icazelerim": { tab: "MoreTab", more: "Leaves" },
   "/davamiyyet": { tab: "MoreTab", more: "Attendance" },
   "/yanacaq": { tab: "MoreTab", more: "Fuel" },
+  // İş lenti: yeni iş/akt və şərh bildirişi (yalnız mobil; veb push getmir)
+  "/qruplar": { tab: "GroupsTab" },
 };
 
 // Android bildiriş kanalları: Edge Function `push` növə görə bu id-lərlə göndərir (STYLE). Telefon ayarlarında hər birinin
@@ -21,5 +23,6 @@ export const PUSH_CHANNELS = [
   { id: "tasks", name: "Tapşırıqlar", description: "Sənə verilən yeni tapşırıqlar" },
   { id: "leave", name: "İcazələr", description: "İcazə sorğusunun cavabı" },
   { id: "depot", name: "Depo", description: "Verilən alət və materiallar" },
+  { id: "feed", name: "Qruplar", description: "Yeni görülən iş, akt və şərhlər" },
   { id: "default", name: "Digər bildirişlər", description: "Qalan bildirişlər" },
 ] as const;

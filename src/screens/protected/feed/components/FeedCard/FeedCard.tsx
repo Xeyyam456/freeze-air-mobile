@@ -2,24 +2,26 @@ import { Image } from "expo-image";
 import { memo, useState } from "react";
 import { Linking, Pressable, Text, View } from "react-native";
 import Avatar from "@shared/components/Avatar";
+import PartnerLines from "@shared/components/PartnerLines";
 import { FileTextIcon, MapPinIcon, VideoIcon } from "@shared/icons";
-import { PLACE } from "./FeedCard.styles";
 import { feedWhen } from "@shared/utils/feed";
 import { c } from "@theme/colors";
-import { styles } from "./FeedCard.styles";
+import { PLACE, styles } from "./FeedCard.styles";
 import type { FeedCardProps } from "./FeedCard.types";
 
 const COLS = 3; // şəkillər sətir üzrə 3-3
 const GAP = 6;
 const SHOW = 9; // kartda ən çox 3 sətir (9 fayl), qalanı "+N"
 
-// Lent kartı (WhatsApp mesajı kimi): usta + vaxt, yer, yazı, fayllar (3-3 düz sıra), altda sağda bravo (bəyənmə).
-// Şəkil → tam ekran (yana sürüşdür); video/PDF → telefonun öz tətbiqi. Bəyənmə (bravo): müəllifdən başqa hamı (ustalar, rəhbərlik); müəllif sayı görür. memo
-function FeedCard({ post, mine, onImages, onLike, onLikers }: FeedCardProps) {
+// Lent kartı (WhatsApp mesajı kimi): usta + vaxt, yer (rəngli), birlikdə işləyən ustalar, yazı, fayllar (3-3 düz sıra),
+// altda: solda 💬 şərh, sağda 👍 / 👎. Şəkil → tam ekran; video/PDF → telefonun öz tətbiqi.
+// Reaksiya: müəllifdən başqa hamı (ustalar, rəhbərlik); müəllif sayları görür, rəqəmə toxunuş → kimlər. memo
+function FeedCard({ post, mine, onImages, onReact, onReactors, onComments }: FeedCardProps) {
   const [cell, setCell] = useState(0); // xana ölçüsü: torun enindən (3 bərabər sütun, boşluq GAP)
   const images = post.files.filter((f) => f.kind !== "video" && !f.path.endsWith(".pdf") && f.url).map((f) => f.url as string);
   const shown = post.files.slice(0, SHOW);
   const rest = post.files.length - SHOW;
+  const react = (kind: "up" | "down") => (mine ? onReactors(post) : onReact(post, kind));
   return (
     <View style={styles.card}>
       <View style={styles.head}>
@@ -29,12 +31,12 @@ function FeedCard({ post, mine, onImages, onLike, onLikers }: FeedCardProps) {
           <Text style={styles.when}>{feedWhen(post.at)}</Text>
         </View>
       </View>
-      {/* Yer adı fərqli rəngdə (açıq mavi-yaşıl) və yer nişanı ilə: mətndən, ustanın adından ayrılsın */}
       <View style={styles.placeRow}>
         <MapPinIcon size={18} color={PLACE} />
         <Text style={styles.place}>{post.place}</Text>
       </View>
       {post.company ? <Text style={styles.company}>{post.company}</Text> : null}
+      <PartnerLines names={post.partners} />
       {post.description ? <Text style={styles.desc}>{post.description}</Text> : null}
       <View style={styles.grid} onLayout={(e) => setCell(Math.floor((e.nativeEvent.layout.width - GAP * (COLS - 1)) / COLS))}>
         {cell > 0 && shown.map((f, i) => {
@@ -55,15 +57,25 @@ function FeedCard({ post, mine, onImages, onLike, onLikers }: FeedCardProps) {
         })}
       </View>
       <View style={styles.bar}>
-        {/* 👍: toxunuş bəyənir / geri götürür (müəllif bəyənə bilməz → siyahı açılır); rəqəm → kimlər bəyənib */}
-        <Pressable onPress={() => (mine ? onLikers(post) : onLike(post))} hitSlop={8} style={styles.like} accessibilityLabel={mine ? "Kimlər bəyənib" : post.liked ? "Bəyənməni geri götür" : "Bəyən"}>
-          <Text style={[styles.emoji, !post.liked && styles.emojiOff]}>👍</Text>
+        <Pressable onPress={() => onComments(post)} hitSlop={8} style={styles.react} accessibilityLabel={`${post.comments} şərh`}>
+          <Text style={[styles.emoji, !post.comments && styles.emojiOff]}>💬</Text>
+          {post.comments > 0 ? <Text style={styles.count}>{post.comments}</Text> : null}
         </Pressable>
-        {post.likes > 0 ? (
-          <Pressable onPress={() => onLikers(post)} hitSlop={8} accessibilityLabel={`${post.likes} bəyənmə, kimlər bəyənib`}>
-            <Text style={[styles.likes, post.liked && { color: c.primary }]}>{post.likes}</Text>
-          </Pressable>
-        ) : null}
+        <View style={styles.reactions}>
+          {([["up", "👍", post.up], ["down", "👎", post.down]] as const).map(([kind, emoji, n]) => (
+            <View key={kind} style={styles.react}>
+              {/* emoji: toxunuş seçir / geri götürür (müəllif seçə bilməz → siyahı açılır); rəqəm → kimlər */}
+              <Pressable onPress={() => react(kind)} hitSlop={8} accessibilityLabel={mine ? "Kimlər reaksiya verib" : post.mine === kind ? "Reaksiyanı geri götür" : kind === "up" ? "Bəyən" : "Bəyənmə"}>
+                <Text style={[styles.emoji, post.mine !== kind && styles.emojiOff]}>{emoji}</Text>
+              </Pressable>
+              {n > 0 ? (
+                <Pressable onPress={() => onReactors(post)} hitSlop={8} accessibilityLabel={`${n} reaksiya, kimlər`}>
+                  <Text style={[styles.count, post.mine === kind && { color: c.primary }]}>{n}</Text>
+                </Pressable>
+              ) : null}
+            </View>
+          ))}
+        </View>
       </View>
     </View>
   );
