@@ -51,3 +51,31 @@ export function countWork(logs: { employee_id: number; work_date: string }[], to
   }
   return { day, month };
 }
+
+// "Əlizadə Xəyyam" → "Xəyyam" (soyad əvvəldə)
+const firstName = (full: string) => full.trim().split(/\s+/).pop() ?? full;
+
+// Azərbaycan dilində "ilə" şəkilçisi: son saitə görə la/lə, sait ilə bitirsə y əlavə olur ("Fərhad" → "Fərhadla", "Nigar" → "Nigarla")
+export function withIle(name: string) {
+  const vowels = "aıoueəiöü";
+  const last = [...name.toLocaleLowerCase("az")].reverse().find((ch) => vowels.includes(ch)) ?? "ə";
+  const suffix = "aıou".includes(last) ? "la" : "lə";
+  return vowels.includes(name.slice(-1).toLocaleLowerCase("az")) ? `${name}y${suffix}` : `${name}${suffix}`;
+}
+
+// Bu günkü qrup tapşırığı üzrə hər ustanın tərəfdaşlarının ad və soyadı
+export function buildPartners(people: Person[], rows: { employee_id: number; group_id: string }[]) {
+  const nameOf = new Map(people.map((p) => [p.id, p.full_name.trim()]));
+  const byGroup = new Map<string, number[]>();
+  for (const r of rows) byGroup.set(r.group_id, [...new Set([...(byGroup.get(r.group_id) ?? []), r.employee_id])]);
+  const out: Record<number, string[]> = {};
+  for (const p of people) {
+    const names = [...new Set([...byGroup.values()].filter((m) => m.includes(p.id)).flatMap((m) => m.filter((id) => id !== p.id)))]
+      .map((id) => nameOf.get(id)).filter((n): n is string => !!n);
+    if (names.length) out[p.id] = names;
+  }
+  return out;
+}
+
+// Bir sətirlik yazı: "Fərhadla birlikdə" / "A, B və Cilə birlikdə"
+export const partnerText = (names: string[]) => `${names.length > 1 ? `${names.slice(0, -1).join(", ")} və ` : ""}${withIle(names[names.length - 1])} birlikdə`;

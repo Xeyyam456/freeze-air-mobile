@@ -15,8 +15,8 @@ export const queryKeys = {
   announcer: ["announcer"] as const,
   unreadAnnouncements: ["unread-announcements"] as const,
   myLeaves: (employeeId: number) => ["my-leaves", employeeId] as const,
-  team: ["team-employees"] as const,
+  team: ["team-employees", "v2"] as const, // v2: partner artıq siyahıdır (köhnə disk keşi atılsın)
   managers: ["team-managers"] as const,
-  employeeWork: (id: number) => ["employee-work", id] as const,
+  employeeWork: (id: number) => ["employee-work", id, "v2"] as const, // v2: qeydlərdə logIds var (köhnə disk keşi atılsın)
   myFuel: (employeeId: number, from: string, to: string) => ["my-fuel", employeeId, from, to] as const,
 };

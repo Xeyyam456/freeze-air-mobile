@@ -21,11 +21,12 @@ function EmployeesScreen() {
   const { refreshing, onRefresh } = useReload(m.reload);
   const [open, setOpen] = useState<Person | null>(null);
 
+  const partnersOf = (id: number) => { const p = m.data?.partner?.[id]; return Array.isArray(p) ? p : undefined; };
   const statsOf = (id: number) => [{ label: "BU GÜN", value: m.data?.today[id] ?? 0 }, { label: "BU AY", value: m.data?.month[id] ?? 0 }];
 
   const renderItem = ({ item }: { item: Person }) => (
     <PersonCard person={item} subtitle={item.specialty ?? "İxtisas yazılmayıb"} badge={item.id === m.me ? "Sən" : undefined} highlight={item.id === m.me}
-      status={m.data?.status[item.id]} onPress={setOpen}
+      status={m.data?.status[item.id]} partners={partnersOf(item.id)} onPress={setOpen}
       stats={statsOf(item.id)} />
   );
 
@@ -55,7 +56,7 @@ function EmployeesScreen() {
         showsVerticalScrollIndicator={false}
       />
       <View pointerEvents="none" style={[styles.statusBar, { height: insets.top }]} />
-      {open && <PersonSheet person={open} subtitle={open.specialty ?? "İxtisas yazılmayıb"} status={m.data?.status[open.id]} stats={statsOf(open.id)} onClose={() => setOpen(null)} />}
+      {open && <PersonSheet person={open} subtitle={open.specialty ?? "İxtisas yazılmayıb"} status={m.data?.status[open.id]} partners={partnersOf(open.id)} stats={statsOf(open.id)} onClose={() => setOpen(null)} />}
     </View>
   );
 }

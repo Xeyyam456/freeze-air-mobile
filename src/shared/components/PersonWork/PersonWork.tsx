@@ -54,7 +54,7 @@ function PersonWork({ employeeId, period }: PersonWorkProps) {
           {list.map((e) => <Entry key={e.id} e={e} onPress={setOpen} />)}
         </View>
       ))}
-      {open && <WorkFiles logId={open.id} title={open.place} sub={open.company} onClose={() => setOpen(null)} />}
+      {open && <WorkFiles logIds={open.logIds ?? [open.id]} title={open.place} sub={open.company} onClose={() => setOpen(null)} />}
     </View>
   );
 }

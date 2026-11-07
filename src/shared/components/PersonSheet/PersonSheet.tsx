@@ -6,6 +6,7 @@ import PersonAbout from "@shared/components/PersonAbout";
 import PersonWork from "@shared/components/PersonWork";
 import useEmployeeWork from "@shared/hooks/useEmployeeWork";
 import { CloseIcon } from "@shared/icons";
+import { partnerText } from "@shared/utils/team";
 import { todayBaku } from "@shared/utils/time";
 import { c, gradients, space } from "@theme/colors";
 import type { PersonStatus } from "@typings/team";
@@ -18,7 +19,7 @@ type Tab = "day" | "month" | "about";
 // Usta/rəhbər məlumat pəncərəsi (yalnız baxış). Ustada üç tab: "Bu gün" / "Bu ay" (harada, nə iş gördü) və "Haqqında"; rəhbərdə yalnız "Haqqında".
 // Hündürlük SABİTDİR ("Haqqında" tabının ölçüsü qədər): tab dəyişəndə və ya iş sayı dəyişəndə pəncərə uzanıb-qısalmır, məzmun içində sürüşür.
 // X, fon və telefonun "geri"si bağlayır
-function PersonSheet({ person: p, subtitle, status, stats, onClose }: PersonSheetProps) {
+function PersonSheet({ person: p, subtitle, status, partners, stats, onClose }: PersonSheetProps) {
   const { height } = useWindowDimensions();
   const [about, setAbout] = useState(0); // "Haqqında" məzmununun ölçülmüş hündürlüyü = məzmun sahəsinin sabit hündürlüyü
   const [tab, setTab] = useState<Tab>(stats ? "day" : "about");
@@ -52,6 +53,7 @@ function PersonSheet({ person: p, subtitle, status, stats, onClose }: PersonShee
                 <Text style={[styles.status, { color: status.kind === "none" ? c.muted : tone }]}>{status.text}</Text>
               </View>
             ) : null}
+            {stats ? <Text style={styles.partner} numberOfLines={2}>{partners?.length ? partnerText(partners) : " "}</Text> : null}
             {stats ? (
               <View style={styles.tabs}>
                 {tabs.map((t) => (

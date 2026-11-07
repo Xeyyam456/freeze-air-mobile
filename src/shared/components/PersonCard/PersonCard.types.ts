@@ -6,6 +6,7 @@ export type PersonCardProps = {
   badge?: string; // "Sən"
   highlight?: boolean; // öz kartım: mavi çərçivə
   status?: PersonStatus;
+  partners?: string[]; // bu günkü qrup tərəfdaşları
   stats?: { label: string; value: number }[];
   onPress: (person: Person) => void;
 };

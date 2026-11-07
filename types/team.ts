@@ -19,9 +19,11 @@ export type EmployeesData = {
   status: Record<number, PersonStatus>;
   today: Record<number, number>; // bu gün yazılan iş
   month: Record<number, number>; // bu ay yazılan iş
+  partner: Record<number, string[]>; // bu günkü qrup tərəfdaşları (ad və soyad)
 };
 
 export type EmployeeFilter = "all" | PersonStatus["kind"];
 
 // Ustanın bir iş qeydi (ətraflı: harada, nə iş)
-export type WorkEntry = { id: number; work_date: string; created_at: string; description: string; place: string; company: string | null; files: number };
+export type WorkEntry = { id: number; logIds: number[]; // qrupda: bütün üzvlərin qeydləri (fayllar birləşir)
+  work_date: string; created_at: string; description: string; place: string; company: string | null; files: number };

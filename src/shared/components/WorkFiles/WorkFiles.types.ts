@@ -1,1 +1,1 @@
-export type WorkFilesProps = { logId: number; title: string; sub?: string | null; onClose: () => void };
+export type WorkFilesProps = { logIds: number[]; title: string; sub?: string | null; onClose: () => void };

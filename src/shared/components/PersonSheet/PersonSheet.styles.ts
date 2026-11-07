@@ -14,6 +14,7 @@ export const styles = StyleSheet.create({
   statusRow: { flexDirection: "row", alignItems: "center", gap: 6 },
   dot: { width: 8, height: 8, borderRadius: 4 },
   status: { fontSize: 13, fontWeight: "700" },
+  partner: { color: c.primary, fontSize: 13, fontWeight: "700", textAlign: "center", minHeight: 36 }, // 2 sətir yeri sabit: pəncərə ölçüsü dəyişməsin
   tabs: { alignSelf: "stretch", flexDirection: "row", gap: 6, marginTop: space.sm },
   tab: { flex: 1, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 6, paddingVertical: 9, borderRadius: 12, backgroundColor: c.glass, borderWidth: 1, borderColor: c.glassBorder },
   tabOn: { backgroundColor: c.primarySoft, borderColor: "rgba(79, 141, 255, 0.5)" },

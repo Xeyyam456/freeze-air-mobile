@@ -6,8 +6,8 @@ const ext = (mime: string) => (mime === "application/pdf" ? "pdf" : mime === "vi
 const randomName = () => `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
 
 // İş qeydinin faylları (API.md §4): bucket gizlidir → şəkillər imzalı linklə (1 saat)
-export async function fetchLogFiles(logId: number): Promise<SavedFile[]> {
-  const { data, error } = await supabase.from("work_files").select("id, kind, path").eq("work_log_id", logId).order("id");
+export async function fetchLogFiles(logId: number | number[]): Promise<SavedFile[]> {
+  const { data, error } = await supabase.from("work_files").select("id, kind, path").in("work_log_id", Array.isArray(logId) ? logId : [logId]).order("id");
   if (error) throw error;
   const rows = (data ?? []).map((r) => ({ ...r, kind: r.kind as FileKind }));
   if (!rows.length) return [];

@@ -11,8 +11,8 @@ import { styles } from "./WorkFiles.styles";
 import type { WorkFilesProps } from "./WorkFiles.types";
 
 // İşin faylları (akt, şəkillər, video): şəkillər kiçik önizləmə → toxunuş tam ekran (yana sürüşdür); PDF və video telefonun öz tətbiqində açılır
-function WorkFiles({ logId, title, sub, onClose }: WorkFilesProps) {
-  const q = useQuery({ queryKey: queryKeys.workFiles(logId), queryFn: () => fetchLogFiles(logId) });
+function WorkFiles({ logIds, title, sub, onClose }: WorkFilesProps) {
+  const q = useQuery({ queryKey: [...queryKeys.workFiles(logIds[0]), "group", ...logIds], queryFn: () => fetchLogFiles(logIds) });
   const [view, setView] = useState<number | null>(null);
   const files = q.data ?? [];
   const isImage = (f: (typeof files)[number]) => f.kind !== "video" && !f.path.endsWith(".pdf") && !!f.url;
@@ -42,7 +42,7 @@ function WorkFiles({ logId, title, sub, onClose }: WorkFilesProps) {
                           : (
                             <View style={styles.tile}>
                               {f.kind === "video" ? <VideoIcon size={26} color={c.primary} /> : <FileTextIcon size={26} color={c.primary} />}
-                              <Text style={styles.tileText}>{f.kind === "video" ? "Video" : "PDF akt"}</Text>
+                              <Text style={styles.tileText}>{f.kind === "video" ? "Video" : f.path.endsWith(".pdf") ? "PDF akt" : "Şəkil"}</Text>
                             </View>
                           )}
                         {img && f.kind === "act" ? <Text style={styles.badge}>Akt</Text> : null}
