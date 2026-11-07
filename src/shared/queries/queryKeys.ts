@@ -16,6 +16,7 @@ export const queryKeys = {
   unreadAnnouncements: ["unread-announcements"] as const,
   myLeaves: (employeeId: number) => ["my-leaves", employeeId] as const,
   team: ["team-employees", "v2"] as const, // v2: partner artıq siyahıdır (köhnə disk keşi atılsın)
+  errorCodes: ["error-codes"] as const, // dəyişmir: uzun keş
   feed: (group: string) => ["feed", group] as const,
   managers: ["team-managers"] as const,
   employeeWork: (id: number) => ["employee-work", id, "v2"] as const, // v2: qeydlərdə logIds var (köhnə disk keşi atılsın)

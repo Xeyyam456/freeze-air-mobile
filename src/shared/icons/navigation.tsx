@@ -77,3 +77,9 @@ export const ClockIcon = (p: IconProps) => (
     <Path d="M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0" />
   </IconBase>
 );
+
+export const ChevronDownIcon = (p: IconProps) => (
+  <IconBase {...p}>
+    <Path d="m6 9 6 6 6-6" />
+  </IconBase>
+);
