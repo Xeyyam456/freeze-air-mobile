@@ -18,6 +18,8 @@ const TABLE_KEYS: Record<string, string[]> = {
   work_files: ["tasks-view", "work-files", "work-history", "employee-work", "feed", "feed-unread"],
   // Elanlar (0098): siyahı + tab nişanı; Elanlar ekranı açıqdırsa yenisi dərhal oxunmuş sayılır (useAnnouncementsSeen)
   announcements: ["announcements", "unread-announcements"],
+  // İş lenti: başqası bəyənəndə say kartda dəyişsin
+  feed_likes: ["feed"],
 };
 
 function usePanelLive() {

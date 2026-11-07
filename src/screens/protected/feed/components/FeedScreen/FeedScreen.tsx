@@ -10,7 +10,9 @@ import useReload from "@shared/hooks/useReload";
 import { markFeedSeen } from "@shared/stores/feedSeen";
 import { SearchIcon } from "@shared/icons";
 import FeedCard from "@screens/protected/feed/components/FeedCard";
+import LikesSheet from "@screens/protected/feed/components/LikesSheet";
 import useFeed from "@screens/protected/feed/hooks/useFeed";
+import useFeedLike from "@screens/protected/feed/hooks/useFeedLike";
 import { c } from "@theme/colors";
 import type { FeedGroup, FeedPost } from "@typings/feed";
 import { styles } from "./FeedScreen.styles";
@@ -28,9 +30,11 @@ function FeedScreen() {
   const t = TEXT[group];
   const m = useFeed(group);
   const { refreshing, onRefresh } = useReload(m.reload);
+  const like = useFeedLike(group, m.me);
   const focused = useIsFocused();
   // Qrup açıqdırsa ən yeni paylaşım "baxıldı" yazılır (yeni gələn də dərhal oxunmuş sayılır → qrup siyahısındakı say sıfırlanır)
   useEffect(() => { if (focused && m.latest) markFeedSeen(group, m.latest); }, [focused, m.latest, group]);
+  const [likers, setLikers] = useState<number | null>(null); // bəyənənlər siyahısı açılan paylaşım
   const [viewer, setViewer] = useState<{ images: string[]; start: number } | null>(null);
 
   return (
@@ -38,7 +42,7 @@ function FeedScreen() {
       <FlashList
         data={m.posts}
         keyExtractor={(p: FeedPost) => String(p.logId)}
-        renderItem={({ item }) => <FeedCard post={item} onImages={(images, start) => setViewer({ images, start })} />}
+        renderItem={({ item }) => <FeedCard post={item} mine={item.employeeId === m.me} onLike={like} onLikers={(p) => setLikers(p.logId)} onImages={(images, start) => setViewer({ images, start })} />}
         ItemSeparatorComponent={() => <View style={styles.gap} />}
         ListHeaderComponent={
           <View style={styles.header}>
@@ -58,6 +62,7 @@ function FeedScreen() {
         showsVerticalScrollIndicator={false}
       />
       <View pointerEvents="none" style={[styles.statusBar, { height: insets.top }]} />
+      {likers !== null && <LikesSheet logId={likers} group={group} onClose={() => setLikers(null)} />}
       {viewer && <ImageViewer images={viewer.images} start={viewer.start} onClose={() => setViewer(null)} />}
     </View>
   );
