@@ -15,7 +15,7 @@ const TABLE_KEYS: Record<string, string[]> = {
   mileage_logs: ["my-fuel"],
   fuel_payments: ["my-fuel"],
   // Akt/şəkil/video (0107): kartdakı fayl sayları + təmir qeydi ekranındakı mövcud fayllar (məs. web-də silinəndə)
-  work_files: ["tasks-view", "work-files", "work-history", "employee-work"],
+  work_files: ["tasks-view", "work-files", "work-history", "employee-work", "feed", "feed-unread"],
   // Elanlar (0098): siyahı + tab nişanı; Elanlar ekranı açıqdırsa yenisi dərhal oxunmuş sayılır (useAnnouncementsSeen)
   announcements: ["announcements", "unread-announcements"],
 };
@@ -45,7 +45,7 @@ function usePanelLive() {
 
     // Fondan qayıdanda: fonda buraxılmış hadisələr ola bilər → hamısını təzələ
     const sub = AppState.addEventListener("change", (s) => {
-      if (s === "active") refresh(["my-today", "my-day-stats", "work-history", "my-overview", "tasks-view", "tasks-week", "work-files", "month-attendance", "employee-month", "announcements", "unread-announcements", "my-leaves", "my-fuel", "team-employees", "employee-work"]);
+      if (s === "active") refresh(["my-today", "my-day-stats", "work-history", "my-overview", "tasks-view", "tasks-week", "work-files", "month-attendance", "employee-month", "announcements", "unread-announcements", "my-leaves", "my-fuel", "team-employees", "employee-work", "feed", "feed-unread"]);
     });
     // Token yenilənəndə Realtime-a da yeni token
     const auth = supabase.auth.onAuthStateChange((event, s) => {

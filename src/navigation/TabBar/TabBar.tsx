@@ -4,6 +4,7 @@ import { View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import TabBarItem from "@navigation/TabBarItem";
 import { TABS } from "@shared/config/tabs";
+import useFeedUnread from "@shared/hooks/useFeedUnread";
 import useOpenTasksCount from "@shared/hooks/useOpenTasksCount";
 import useUnreadAnnouncements from "@shared/hooks/useUnreadAnnouncements";
 import { styles } from "./TabBar.styles";
@@ -13,6 +14,9 @@ function TabBar({ state, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
   const openTasks = useOpenTasksCount();
   const unread = useUnreadAnnouncements();
+  const newWork = useFeedUnread("work");
+  const newAct = useFeedUnread("act");
+  const groupsNew = newWork + newAct > 0; // Qruplar tabı: yeni iş/akt var → yanıb-sönən qırmızı nöqtə
   return (
     <View style={[styles.wrap, { paddingBottom: Math.max(insets.bottom, 8) + 5 }]}>
       {state.routes.map((route, i) => {
@@ -27,7 +31,7 @@ function TabBar({ state, navigation }: BottomTabBarProps) {
         };
         const tab = TABS[route.name as keyof typeof TABS];
         const badge = route.name === "TasksTab" ? openTasks : route.name === "AnnouncementsTab" ? unread : 0;
-        return <TabBarItem key={route.key} icon={tab.icon} label={tab.label} focused={focused} badge={badge} onPress={onPress} />;
+        return <TabBarItem key={route.key} icon={tab.icon} label={tab.label} focused={focused} badge={badge} dot={route.name === "GroupsTab" && groupsNew} onPress={onPress} />;
       })}
     </View>
   );

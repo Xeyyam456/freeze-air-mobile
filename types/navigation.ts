@@ -13,6 +13,7 @@ export type RootStackParamList = {
 export type MainTabParamList = {
   PanelTab: NavigatorScreenParams<PanelStackParamList> | undefined;
   TasksTab: undefined;
+  GroupsTab: NavigatorScreenParams<GroupsStackParamList> | undefined;
   AnnouncementsTab: undefined;
   MoreTab: NavigatorScreenParams<MoreStackParamList> | undefined;
 };
@@ -37,4 +38,11 @@ export type MoreStackParamList = {
   ErrorCodes: undefined;
   Employees: undefined;
   Management: undefined;
+};
+
+// "Qruplar" tabının stack-i: qrup siyahısı → qrupun lenti (Görülən işlər / Aktlar)
+export type GroupsStackParamList = {
+  GroupsMain: undefined;
+  WorkFeed: undefined;
+  ActFeed: undefined;
 };

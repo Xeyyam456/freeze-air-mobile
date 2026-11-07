@@ -1,5 +1,6 @@
 import { type BottomTabBarProps, createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import type { MainTabParamList } from "@typings/navigation";
+import GroupsStackNavigator from "@navigation/GroupsStackNavigator";
 import PanelStackNavigator from "@navigation/PanelStackNavigator";
 import TabBar from "@navigation/TabBar";
 import AnnouncementsScreen from "@screens/protected/announcements/components/AnnouncementsScreen";
@@ -21,6 +22,7 @@ function MainTabNavigator() {
     <Tab.Navigator screenOptions={{ headerShown: false, animation: "shift" }} tabBar={renderTabBar}>
       <Tab.Screen name="PanelTab" component={PanelStackNavigator} />
       <Tab.Screen name="TasksTab" component={TasksScreen} />
+      <Tab.Screen name="GroupsTab" component={GroupsStackNavigator} />
       <Tab.Screen name="AnnouncementsTab" component={AnnouncementsScreen} />
       <Tab.Screen name="MoreTab" component={MoreStackNavigator} />
     </Tab.Navigator>
