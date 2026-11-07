@@ -15,7 +15,7 @@ const TABLE_KEYS: Record<string, string[]> = {
   mileage_logs: ["my-fuel"],
   fuel_payments: ["my-fuel"],
   // Akt/şəkil/video (0107): kartdakı fayl sayları + təmir qeydi ekranındakı mövcud fayllar (məs. web-də silinəndə)
-  work_files: ["tasks-view", "work-files", "work-history"],
+  work_files: ["tasks-view", "work-files", "work-history", "employee-work"],
   // Elanlar (0098): siyahı + tab nişanı; Elanlar ekranı açıqdırsa yenisi dərhal oxunmuş sayılır (useAnnouncementsSeen)
   announcements: ["announcements", "unread-announcements"],
 };

@@ -41,7 +41,7 @@ export async function fetchManagers(): Promise<Person[]> {
 // Ustanın bu ayki iş qeydləri (harada, nə iş): yeni üstdə. Digər ustaların qeydlərini də oxumaq olar (API.md §3)
 export async function fetchEmployeeWork(employeeId: number): Promise<WorkEntry[]> {
   const { data, error } = await supabase.from("work_logs")
-    .select("id, work_date, created_at, description, place_text, stores(code, name, companies(name)), companies(name)")
+    .select("id, work_date, created_at, description, place_text, stores(code, name, companies(name)), companies(name), work_files(id)")
     .eq("employee_id", employeeId).gte("work_date", monthStartBaku()).order("work_date", { ascending: false }).order("created_at", { ascending: false }).limit(500);
   if (error) throw error;
   return (data ?? []).map((l) => ({
@@ -51,5 +51,6 @@ export async function fetchEmployeeWork(employeeId: number): Promise<WorkEntry[]
     description: l.description,
     place: l.stores ? `${l.stores.code} ${l.stores.name}` : l.companies?.name ?? l.place_text ?? "Yer yazılmayıb",
     company: l.stores?.companies?.name ?? null,
+    files: l.work_files?.length ?? 0,
   }));
 }

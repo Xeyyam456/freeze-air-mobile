@@ -1,29 +1,34 @@
-import { useMemo } from "react";
-import { ActivityIndicator, Text, View } from "react-native";
+import { useMemo, useState } from "react";
+import { ActivityIndicator, Pressable, Text, View } from "react-native";
 import ErrorState from "@shared/components/ErrorState";
+import WorkFiles from "@shared/components/WorkFiles";
 import useEmployeeWork from "@shared/hooks/useEmployeeWork";
+import { PaperclipIcon } from "@shared/icons";
 import { dayLabel, timeBaku, todayBaku } from "@shared/utils/time";
 import { c } from "@theme/colors";
 import type { WorkEntry } from "@typings/team";
 import { styles } from "./PersonWork.styles";
 import type { PersonWorkProps } from "./PersonWork.types";
 
-function Entry({ e }: { e: WorkEntry }) {
+// İşin kartı: toxunuş → işin faylları (akt, şəkil, video); fayl varsa sağda sancaq və say
+function Entry({ e, onPress }: { e: WorkEntry; onPress: (e: WorkEntry) => void }) {
   return (
-    <View style={styles.item}>
+    <Pressable style={({ pressed }) => [styles.item, pressed && styles.pressed]} onPress={() => onPress(e)} accessibilityLabel={`${e.place}: faylları aç`}>
       <Text style={styles.time}>{timeBaku(e.created_at)}</Text>
       <View style={styles.text}>
         <Text style={styles.place}>{e.place}</Text>
         {e.company ? <Text style={styles.company}>{e.company}</Text> : null}
         {e.description ? <Text style={styles.desc}>{e.description}</Text> : null}
       </View>
-    </View>
+      {e.files > 0 ? <View style={styles.files}><PaperclipIcon size={14} color={c.primary} /><Text style={styles.filesText}>{e.files}</Text></View> : null}
+    </Pressable>
   );
 }
 
 // Ustanın işləri: harada, nə iş gördü. "Bu gün" — günün qeydləri vaxtla; "Bu ay" — günlərə görə qruplaşmış
 function PersonWork({ employeeId, period }: PersonWorkProps) {
   const q = useEmployeeWork(employeeId);
+  const [open, setOpen] = useState<WorkEntry | null>(null);
   const today = todayBaku();
   const groups = useMemo(() => {
     const list = (q.data ?? []).filter((e) => period === "month" || e.work_date === today);
@@ -46,9 +51,10 @@ function PersonWork({ employeeId, period }: PersonWorkProps) {
           {period === "month" ? (
             <View style={styles.day}><Text style={styles.dayText}>{dayLabel(day)}</Text><Text style={styles.dayCount}>{list.length} iş</Text></View>
           ) : null}
-          {list.map((e) => <Entry key={e.id} e={e} />)}
+          {list.map((e) => <Entry key={e.id} e={e} onPress={setOpen} />)}
         </View>
       ))}
+      {open && <WorkFiles logId={open.id} title={open.place} sub={open.company} onClose={() => setOpen(null)} />}
     </View>
   );
 }
