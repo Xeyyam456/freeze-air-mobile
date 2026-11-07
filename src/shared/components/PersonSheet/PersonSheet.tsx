@@ -7,9 +7,9 @@ import PersonWork from "@shared/components/PersonWork";
 import useEmployeeWork from "@shared/hooks/useEmployeeWork";
 import { CloseIcon } from "@shared/icons";
 import { todayBaku } from "@shared/utils/time";
-import { c, gradients } from "@theme/colors";
+import { c, gradients, space } from "@theme/colors";
 import type { PersonStatus } from "@typings/team";
-import { BOTTOM, styles } from "./PersonSheet.styles";
+import { styles } from "./PersonSheet.styles";
 import type { PersonSheetProps } from "./PersonSheet.types";
 
 const TONE: Record<PersonStatus["kind"], string> = { in: c.ok, done: c.primary, leave: c.violet, none: c.faint };
@@ -63,8 +63,8 @@ function PersonSheet({ person: p, subtitle, status, stats, onClose }: PersonShee
               </View>
             ) : null}
           </View>
-          <View style={{ height: (about || 300) + BOTTOM }}>
-            <ScrollView key={tab} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+          <View style={{ height: (about || 300) + space.lg }}>
+            <ScrollView key={tab} contentContainerStyle={[styles.content, tab === "about" && styles.contentAbout]} showsVerticalScrollIndicator={false}>
               {tab === "about" ? <PersonAbout person={p} /> : <PersonWork employeeId={p.id} period={tab} />}
             </ScrollView>
             {/* Görünməz ölçmə: "Haqqında" nə qədər yer tutursa, pəncərə həmişə o qədər olur */}
