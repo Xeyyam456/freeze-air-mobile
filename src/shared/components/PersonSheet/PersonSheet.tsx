@@ -4,31 +4,40 @@ import Avatar from "@shared/components/Avatar";
 import GradientBg from "@shared/components/GradientBg";
 import PersonAbout from "@shared/components/PersonAbout";
 import PersonWork from "@shared/components/PersonWork";
+import useEmployeeWork from "@shared/hooks/useEmployeeWork";
 import { CloseIcon } from "@shared/icons";
+import { todayBaku } from "@shared/utils/time";
 import { c, gradients } from "@theme/colors";
 import type { PersonStatus } from "@typings/team";
-import { styles } from "./PersonSheet.styles";
+import { BOTTOM, styles } from "./PersonSheet.styles";
 import type { PersonSheetProps } from "./PersonSheet.types";
 
 const TONE: Record<PersonStatus["kind"], string> = { in: c.ok, done: c.primary, leave: c.violet, none: c.faint };
 type Tab = "day" | "month" | "about";
 
 // Usta/rəhbər məlumat pəncərəsi (yalnız baxış). Ustada üç tab: "Bu gün" / "Bu ay" (harada, nə iş gördü) və "Haqqında"; rəhbərdə yalnız "Haqqında".
+// Hündürlük SABİTDİR ("Haqqında" tabının ölçüsü qədər): tab dəyişəndə və ya iş sayı dəyişəndə pəncərə uzanıb-qısalmır, məzmun içində sürüşür.
 // X, fon və telefonun "geri"si bağlayır
 function PersonSheet({ person: p, subtitle, status, stats, onClose }: PersonSheetProps) {
   const { height } = useWindowDimensions();
+  const [about, setAbout] = useState(0); // "Haqqında" məzmununun ölçülmüş hündürlüyü = məzmun sahəsinin sabit hündürlüyü
   const [tab, setTab] = useState<Tab>(stats ? "day" : "about");
+  // Say tablarda işin özündən hesablanır (siyahı keşi köhnə ola bilər); yüklənənə qədər siyahıdakı say
+  const work = useEmployeeWork(p.id, !!stats).data;
+  const today = todayBaku();
+  const dayCount = work ? work.filter((e) => e.work_date === today).length : stats?.[0].value;
+  const monthCount = work ? work.length : stats?.[1].value;
   const tone = status ? TONE[status.kind] : c.glassBorder;
   const tabs: { key: Tab; label: string; count?: number }[] = [
-    { key: "day", label: "Bu gün", count: stats?.[0].value },
-    { key: "month", label: "Bu ay", count: stats?.[1].value },
+    { key: "day", label: "Bu gün", count: dayCount },
+    { key: "month", label: "Bu ay", count: monthCount },
     { key: "about", label: "Haqqında" },
   ];
   return (
     <Modal transparent animationType="fade" statusBarTranslucent navigationBarTranslucent onRequestClose={onClose}>
       <Pressable style={styles.backdrop} onPress={onClose} />
       <View style={styles.center} pointerEvents="box-none">
-        <View style={[styles.card, { maxHeight: height * 0.9 }]}>
+        <View style={[styles.card, { maxHeight: height * 0.92 }]}>
           <View style={styles.banner}>
             <GradientBg colors={gradients.hero} glow={c.primary} radius={0} />
             <Pressable onPress={onClose} hitSlop={10} style={styles.close} accessibilityLabel="Bağla"><CloseIcon size={18} color={c.ink} /></Pressable>
@@ -54,9 +63,15 @@ function PersonSheet({ person: p, subtitle, status, stats, onClose }: PersonShee
               </View>
             ) : null}
           </View>
-          <ScrollView style={{ flexShrink: 1 }} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-            {tab === "about" ? <PersonAbout person={p} /> : <PersonWork employeeId={p.id} period={tab} />}
-          </ScrollView>
+          <View style={{ height: (about || 300) + BOTTOM }}>
+            <ScrollView key={tab} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+              {tab === "about" ? <PersonAbout person={p} /> : <PersonWork employeeId={p.id} period={tab} />}
+            </ScrollView>
+            {/* Görünməz ölçmə: "Haqqında" nə qədər yer tutursa, pəncərə həmişə o qədər olur */}
+            <View style={styles.measure} pointerEvents="none" onLayout={(e) => setAbout(Math.round(e.nativeEvent.layout.height))}>
+              <PersonAbout person={p} />
+            </View>
+          </View>
         </View>
       </View>
     </Modal>

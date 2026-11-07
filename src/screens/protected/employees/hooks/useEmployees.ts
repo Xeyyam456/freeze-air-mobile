@@ -13,7 +13,7 @@ function useEmployees() {
   const me = useMe().data?.employee?.id ?? null;
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<EmployeeFilter>("all");
-  const q = useQuery({ queryKey: queryKeys.team, queryFn: fetchEmployees });
+  const q = useQuery({ queryKey: queryKeys.team, queryFn: fetchEmployees, refetchOnMount: "always" });
 
   const counts = useMemo(() => {
     const n = { in: 0, done: 0, leave: 0, none: 0 };

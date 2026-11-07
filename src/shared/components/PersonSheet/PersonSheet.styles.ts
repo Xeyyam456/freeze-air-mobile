@@ -1,6 +1,9 @@
 import { StyleSheet } from "react-native";
 import { c, radius, space } from "@theme/colors";
 
+// Siyahının altındakı boşluq: son iş kartı pəncərənin kənarına yapışmasın
+export const BOTTOM = 28;
+
 export const styles = StyleSheet.create({
   backdrop: { ...StyleSheet.absoluteFill, backgroundColor: "rgba(0, 0, 0, 0.65)" },
   center: { ...StyleSheet.absoluteFill, alignItems: "center", justifyContent: "center", paddingHorizontal: space.lg },
@@ -21,5 +24,6 @@ export const styles = StyleSheet.create({
   tabTextOn: { color: c.ink },
   count: { color: c.muted, fontSize: 11, fontWeight: "800", backgroundColor: c.surface2, paddingHorizontal: 7, paddingVertical: 1, borderRadius: 999, overflow: "hidden" },
   countOn: { color: c.white, backgroundColor: c.primary },
-  content: { paddingHorizontal: space.lg, paddingBottom: space.lg },
+  content: { paddingHorizontal: space.lg, paddingBottom: BOTTOM },
+  measure: { position: "absolute", top: 0, left: space.lg, right: space.lg, opacity: 0 },
 });
