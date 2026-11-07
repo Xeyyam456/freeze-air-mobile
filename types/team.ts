@@ -20,3 +20,5 @@ export type EmployeesData = {
   today: Record<number, number>; // bu gün yazılan iş
   month: Record<number, number>; // bu ay yazılan iş
 };
+
+export type EmployeeFilter = "all" | PersonStatus["kind"];

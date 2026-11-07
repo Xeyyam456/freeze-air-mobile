@@ -8,6 +8,7 @@ import PersonSheet from "@shared/components/PersonSheet";
 import ScreenHeader from "@shared/components/ScreenHeader";
 import useReload from "@shared/hooks/useReload";
 import { SearchIcon } from "@shared/icons";
+import TeamSummary from "@screens/protected/employees/components/TeamSummary";
 import useEmployees from "@screens/protected/employees/hooks/useEmployees";
 import { c } from "@theme/colors";
 import type { Person } from "@typings/team";
@@ -21,9 +22,9 @@ function EmployeesScreen() {
   const [open, setOpen] = useState<Person | null>(null);
 
   const renderItem = ({ item }: { item: Person }) => (
-    <PersonCard person={item} subtitle={item.specialty ?? "İxtisas yazılmayıb"} badge={item.id === m.me ? "Sən" : undefined}
+    <PersonCard person={item} subtitle={item.specialty ?? "İxtisas yazılmayıb"} badge={item.id === m.me ? "Sən" : undefined} highlight={item.id === m.me}
       status={m.data?.status[item.id]} onPress={setOpen}
-      stats={[{ label: "Bu gün iş", value: m.data?.today[item.id] ?? 0 }, { label: "Bu ay iş", value: m.data?.month[item.id] ?? 0 }]} />
+      stats={[{ label: "BU GÜN", value: m.data?.today[item.id] ?? 0 }, { label: "BU AY", value: m.data?.month[item.id] ?? 0 }]} />
   );
 
   return (
@@ -35,7 +36,8 @@ function EmployeesScreen() {
         ItemSeparatorComponent={() => <View style={styles.gap} />}
         ListHeaderComponent={
           <View style={styles.header}>
-            <ScreenHeader title="Ustalar" sub={m.data ? `${m.data.people.length} usta` : "Komanda, əlaqə"} />
+            <ScreenHeader title="Ustalar" sub="Komanda, bu günün vəziyyəti, əlaqə" />
+            {m.data ? <TeamSummary total={m.data.people.length} counts={m.counts} filter={m.filter} onChange={m.setFilter} /> : null}
             <View style={styles.search}>
               <SearchIcon size={18} color={c.muted} />
               <TextInput value={m.query} onChangeText={m.setQuery} placeholder="Ad, ixtisas və ya telefon" placeholderTextColor={c.muted} style={styles.input} autoCorrect={false} />
