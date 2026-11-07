@@ -1,5 +1,5 @@
 export const MAX_ACC = 100; // GPS dəqiqliyi bundan pisdirsə koordinat yazılmır (metr)
-export const MAP_STYLE = "https://tiles.openfreemap.org/styles/liberty"; // OpenFreeMap: API açarı lazım deyil
+export const MAP_STYLE = "https://tiles.openfreemap.org/styles/bright"; // OpenFreeMap: API açarı lazım deyil
 
 // "40.40930, 49.86710" (Google Maps-dən kopyalanan) → koordinat; səhvdirsə null
 export function parseCoordinates(input: string): { lat: number; lng: number } | null {

@@ -11,7 +11,7 @@ import type { PlaceMapProps } from "./PlaceMap.types";
 
 // Xəritə (MapLibre + OpenFreeMap vektor plitələri, API açarı yoxdur): yerin nişanı; interaktivdə toxunuşla nişan köçürülür (koordinat seçmək üçün).
 // Sağ aşağıda iki düymə: "Mənim yerim" (icazə → cari yerə uçur, mavi nöqtə) və "Yerə qayıt". Atribusiya (OpenFreeMap / OpenStreetMap) xəritənin özündə qalır
-function PlaceMap({ lat, lng, height = 220, zoom = 16, interactive = true, onPick }: PlaceMapProps) {
+function PlaceMap({ lat, lng, height = 220, zoom = 15, interactive = true, onPick }: PlaceMapProps) {
   const cam = useRef<CameraRef>(null);
   const [me, setMe] = useState<{ lat: number; lng: number } | null>(null);
   const [busy, setBusy] = useState(false);
