@@ -1,7 +1,7 @@
 import { useIsFocused, useRoute } from "@react-navigation/native";
 import { FlashList } from "@shopify/flash-list";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ActivityIndicator, RefreshControl, Text, TextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import ErrorState from "@shared/components/ErrorState";
@@ -12,18 +12,19 @@ import { SearchIcon } from "@shared/icons";
 import { queryKeys } from "@shared/queries/queryKeys";
 import { fetchAnnouncer } from "@shared/services/announcements.service";
 import { markFeedSeen } from "@shared/stores/feedSeen";
+import { feedRows, type FeedRow } from "@shared/utils/feed";
 import CommentsSheet from "@screens/protected/feed/components/CommentsSheet";
 import FeedCard from "@screens/protected/feed/components/FeedCard";
 import LikesSheet from "@screens/protected/feed/components/LikesSheet";
 import useFeed from "@screens/protected/feed/hooks/useFeed";
 import useFeedReaction from "@screens/protected/feed/hooks/useFeedReaction";
 import { c } from "@theme/colors";
-import type { FeedGroup, FeedPost } from "@typings/feed";
+import type { FeedGroup } from "@typings/feed";
 import { styles } from "./FeedScreen.styles";
 
-const TEXT: Record<FeedGroup, { title: string; sub: string; empty: string }> = {
-  work: { title: "Görülən işlər", sub: "Ustaların şəkil və videoları", empty: "Hələ görülən iş paylaşılmayıb." },
-  act: { title: "Aktlar", sub: "Ustaların yüklədiyi aktlar", empty: "Hələ akt yüklənməyib." },
+const TEXT: Record<FeedGroup, { title: string; sub: string; empty: string; unit: string }> = {
+  work: { title: "Görülən işlər", sub: "Ustaların şəkil və videoları", empty: "Hələ görülən iş paylaşılmayıb.", unit: "iş" },
+  act: { title: "Aktlar", sub: "Ustaların yüklədiyi aktlar", empty: "Hələ akt yüklənməyib.", unit: "akt" },
 };
 
 // İş lenti (WhatsApp qrupu kimi): usta tapşırıq qeydinə şəkil/video/akt yükləyəndə avtomatik burada görünür (usta adı + yer + birlikdə işləyənlər).
@@ -42,14 +43,16 @@ function FeedScreen() {
   const [reactors, setReactors] = useState<number | null>(null); // kimlər reaksiya verib: paylaşım
   const [commenting, setCommenting] = useState<number | null>(null); // şərhlər: paylaşım
   const [viewer, setViewer] = useState<{ images: string[]; start: number } | null>(null);
+  const rows = useMemo(() => feedRows(m.posts, t.unit), [m.posts, t.unit]); // gün başlıqları + paylaşımlar
 
   return (
     <View style={styles.flex}>
       <FlashList
-        data={m.posts}
-        keyExtractor={(p: FeedPost) => String(p.logId)}
-        renderItem={({ item }) => (
-          <FeedCard post={item} mine={item.employeeId === m.me} onReact={react} onReactors={(p) => setReactors(p.logId)}
+        data={rows}
+        keyExtractor={(r: FeedRow) => r.key}
+        getItemType={(r: FeedRow) => r.kind}
+        renderItem={({ item: r }) => r.kind === "day" ? <View style={styles.dayRow}><Text style={styles.day}>{r.label}</Text></View> : (
+          <FeedCard post={r.post} mine={r.post.employeeId === m.me} onReact={react} onReactors={(p) => setReactors(p.logId)}
             onComments={(p) => setCommenting(p.logId)} onImages={(images, start) => setViewer({ images, start })} />
         )}
         ItemSeparatorComponent={() => <View style={styles.gap} />}

@@ -24,3 +24,26 @@ export function searchPosts(posts: FeedPost[], query: string) {
     return words.every((w) => hay.includes(w));
   });
 }
+
+// Lentdə gün başlığı (WhatsApp kimi): "Bu gün", "Dünən", sonra "Şənbə, 7 noyabr"
+export function dayHeading(iso: string) {
+  const day = bakuDay(iso);
+  const today = todayBaku();
+  return day === today ? "Bu gün" : day === addDays(today, -1) ? "Dünən" : dayLabel(day);
+}
+
+// Lent sətirləri: hər günün əvvəlində başlıq ("Bu gün · 3 iş"), sonra həmin günün paylaşımları (yeni üstdə)
+export type FeedRow = { key: string; kind: "day"; label: string } | { key: string; kind: "post"; post: FeedPost };
+export function feedRows(posts: FeedPost[], unit: string): FeedRow[] {
+  const rows: FeedRow[] = [];
+  let i = 0;
+  while (i < posts.length) {
+    const day = bakuDay(posts[i].at);
+    let j = i;
+    while (j < posts.length && bakuDay(posts[j].at) === day) j++;
+    rows.push({ key: `d${day}`, kind: "day", label: `${dayHeading(posts[i].at)} · ${j - i} ${unit}` });
+    for (const p of posts.slice(i, j)) rows.push({ key: `p${p.logId}`, kind: "post", post: p });
+    i = j;
+  }
+  return rows;
+}

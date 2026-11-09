@@ -1,59 +1,34 @@
-import { Image } from "expo-image";
-import { memo, useState } from "react";
-import { Linking, Pressable, Text, View } from "react-native";
+import { memo } from "react";
+import { Text, View } from "react-native";
 import Avatar from "@shared/components/Avatar";
 import PartnerLines from "@shared/components/PartnerLines";
 import { MapPinIcon } from "@shared/icons";
-import FileArt from "@screens/protected/feed/components/FileArt";
-import { feedWhen } from "@shared/utils/feed";
-import { c } from "@theme/colors";
+import MediaGrid from "@screens/protected/feed/components/MediaGrid";
+import { timeBaku } from "@shared/utils/time";
 import ReactionBar from "../ReactionBar";
 import { PLACE, styles } from "./FeedCard.styles";
 import type { FeedCardProps } from "./FeedCard.types";
 
-const COLS = 3; // şəkillər sətir üzrə 3-3
-const GAP = 6;
-const SHOW = 9; // kartda ən çox 3 sətir (9 fayl), qalanı "+N"
-
-// Lent kartı (WhatsApp mesajı kimi): usta + vaxt, yer (rəngli), birlikdə işləyən ustalar, yazı, fayllar (3-3 düz sıra),
-// altda: ReactionBar (şərh + reaksiyalar). Şəkil → tam ekran; video/PDF → telefonun öz tətbiqi.
-// memo
+// Lent kartı (yığcam, səliqəli): başlıqda usta + altında yer (rəngli) və şirkət, sağda yalnız saat (gün — siyahının gün başlığında);
+// birlikdə işləyənlər, yazı (ən çox 4 sətir), fayllar kollaj kimi (MediaGrid), nazik ayırıcı, altda ReactionBar. memo
 function FeedCard({ post, mine, onImages, onReact, onReactors, onComments }: FeedCardProps) {
-  const [cell, setCell] = useState(0); // xana ölçüsü: torun enindən (3 bərabər sütun, boşluq GAP)
-  const images = post.files.filter((f) => f.kind !== "video" && !f.path.endsWith(".pdf") && f.url).map((f) => f.url as string);
-  const shown = post.files.slice(0, SHOW);
-  const rest = post.files.length - SHOW;
   return (
     <View style={styles.card}>
       <View style={styles.head}>
-        <Avatar name={post.name} photo={post.photo} size={40} />
+        <Avatar name={post.name} photo={post.photo} size={42} />
         <View style={styles.who}>
           <Text style={styles.name} numberOfLines={1}>{post.name}</Text>
-          <Text style={styles.when}>{feedWhen(post.at)}</Text>
+          <View style={styles.placeRow}>
+            <MapPinIcon size={13} color={PLACE} />
+            <Text style={styles.place} numberOfLines={1}>{post.place}{post.company ? <Text style={styles.company}>  ·  {post.company}</Text> : null}</Text>
+          </View>
         </View>
+        <Text style={styles.time}>{timeBaku(post.at)}</Text>
       </View>
-      <View style={styles.placeRow}>
-        <MapPinIcon size={18} color={PLACE} />
-        <Text style={styles.place}>{post.place}</Text>
-      </View>
-      {post.company ? <Text style={styles.company}>{post.company}</Text> : null}
       <PartnerLines names={post.partners} />
-      {post.description ? <Text style={styles.desc}>{post.description}</Text> : null}
-      <View style={styles.grid} onLayout={(e) => setCell(Math.floor((e.nativeEvent.layout.width - GAP * (COLS - 1)) / COLS))}>
-        {cell > 0 && shown.map((f, i) => {
-          const img = f.kind !== "video" && !f.path.endsWith(".pdf") && !!f.url;
-          const open = () => (img ? onImages(images, images.indexOf(f.url as string)) : f.url && void Linking.openURL(f.url));
-          return (
-            <Pressable key={f.id} onPress={open} style={[styles.cell, { width: cell, height: cell }]} accessibilityLabel={f.kind === "video" ? "Video" : f.kind === "act" ? "Akt" : "Şəkil"}>
-              {img ? <Image source={{ uri: f.url }} style={styles.image} contentFit="cover" cachePolicy="disk" /> : (
-                <FileArt kind={f.kind === "video" ? "video" : "pdf"} />
-              )}
-              {img && f.kind === "act" ? <Text style={styles.badge}>Akt</Text> : null}
-              {i === SHOW - 1 && rest > 0 ? <View style={styles.more}><Text style={styles.moreText}>+{rest + 1}</Text></View> : null}
-            </Pressable>
-          );
-        })}
-      </View>
+      {post.description ? <Text style={styles.desc} numberOfLines={4}>{post.description}</Text> : null}
+      {post.files.length ? <MediaGrid files={post.files} onImages={onImages} /> : null}
+      <View style={styles.divider} />
       <ReactionBar post={post} mine={mine} onReact={onReact} onReactors={onReactors} onComments={onComments} />
     </View>
   );
