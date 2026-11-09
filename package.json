@@ -56,7 +56,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "apk": "node scripts/build-apk.js",
-    "update": "eas update --channel production --environment production --message"
+    "update": "node scripts/ota-update.js"
   },
   "private": true
 }
