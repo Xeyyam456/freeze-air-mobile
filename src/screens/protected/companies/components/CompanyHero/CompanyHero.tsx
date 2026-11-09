@@ -4,14 +4,15 @@ import PlaceLogo from "@screens/protected/companies/components/PlaceLogo";
 import StatBox from "@screens/protected/companies/components/StatBox";
 import { LocateFixedIcon, MapIcon, MapPinIcon, NavigationIcon, PhoneIcon, UserIcon } from "@shared/icons";
 import { hasLocation, shortDate, telUrl } from "@shared/utils/companies";
+import { KIND, isFixed } from "@shared/config/kinds";
 import { c } from "@theme/colors";
 import { styles } from "./CompanyHero.styles";
 import type { CompanyHeroProps } from "./CompanyHero.types";
 
 // Vizit kartı (web "ClientHero"): tünd mavi, frost işıq; gradient lövhə, ad, əlaqə çipləri (əlaqə şəxsi, telefon — toxunanda zəng, sabit məkanda ünvan),
 // rəqəm qutuları (filial, koordinatlı %, bu ay iş, son iş) və "Naviqator" düyməsi (Waze / Google Maps seçimi)
-function CompanyHero({ company: co, units, coordPct, works, last, onNav, onMap, onFix }: CompanyHeroProps) {
-  const fixed = units === 0;
+function CompanyHero({ kind, company: co, units, coordPct, works, last, onNav, onMap, onFix }: CompanyHeroProps) {
+  const fixed = isFixed(kind, units);
   const can = hasLocation(co) || units > 0;
   return (
     <View style={styles.card}>
@@ -30,7 +31,7 @@ function CompanyHero({ company: co, units, coordPct, works, last, onNav, onMap, 
         {fixed ? <View style={[styles.chip, styles.chipFull]}><MapPinIcon size={14} color="rgba(255,255,255,0.5)" /><Text style={styles.chipText}>{co.address ?? "Ünvan yazılmayıb"}</Text></View> : null}
       </View>
       <View style={styles.grid}>
-        {!fixed ? <View style={{ flexDirection: "row", gap: 8, width: "100%" }}><StatBox dark label="Filial" value={units} /><StatBox dark label="Koordinatlı" value={`${coordPct}%`} /></View> : null}
+        {!fixed ? <View style={{ flexDirection: "row", gap: 8, width: "100%" }}><StatBox dark label={KIND[kind].unit} value={units} /><StatBox dark label="Koordinatlı" value={`${coordPct}%`} /></View> : null}
         <View style={{ flexDirection: "row", gap: 8, width: "100%" }}><StatBox dark label="Bu ay iş" value={works} tone="#22c3e6" /><StatBox dark label="Son iş" value={last ? shortDate(last) : "—"} /></View>
       </View>
       <Pressable disabled={!can} onPress={onNav} style={[styles.nav, !can && styles.navOff]} accessibilityLabel="Naviqator">

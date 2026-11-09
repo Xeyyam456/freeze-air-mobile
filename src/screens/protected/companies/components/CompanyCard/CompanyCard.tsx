@@ -4,16 +4,19 @@ import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-na
 import PlaceLogo from "@screens/protected/companies/components/PlaceLogo";
 import StatBox from "@screens/protected/companies/components/StatBox";
 import { ArrowUpRightIcon, MapPinIcon, PhoneIcon, UserIcon } from "@shared/icons";
+import { KIND, isFixed } from "@shared/config/kinds";
 import { c } from "@theme/colors";
 import { styles } from "./CompanyCard.styles";
 import type { CompanyCardProps } from "./CompanyCard.types";
 
 // Şirkət kartı (web "ClientCard" ilə eyni quruluş): gradient lövhə + ad + "N filial"/"Sabit məkan" + ok düyməsi; rəqəm qutuları
 // (filial / bu ay iş; sabit məkanda ünvan / bu ay iş); altda əlaqə şəxsi və telefon. Basanda yumşaq kiçilir. memo: FlashList sətri
-function CompanyCard({ company: co, works, onPress }: CompanyCardProps) {
+function CompanyCard({ kind, company: co, works, onPress }: CompanyCardProps) {
   const k = useSharedValue(1);
   const scale = useAnimatedStyle(() => ({ transform: [{ scale: k.value }] }));
   const units = co.stores.length;
+  const fixed = isFixed(kind, units);
+  const kk = KIND[kind];
   const tone = works ? "#22c3e6" : undefined;
   return (
     <Animated.View style={scale}>
@@ -22,12 +25,12 @@ function CompanyCard({ company: co, works, onPress }: CompanyCardProps) {
           <PlaceLogo name={co.name} logo={co.logo_url} size={50} />
           <View style={styles.text}>
             <Text style={styles.name} numberOfLines={2}>{co.name}</Text>
-            <Text style={styles.sub}>{units ? `${units} filial` : "Sabit məkan"}</Text>
+            <Text style={styles.sub}>{fixed ? "Sabit məkan" : `${units} ${kk.unitLow}`}</Text>
           </View>
           <View style={styles.arrow}><ArrowUpRightIcon size={18} color={c.muted} /></View>
         </View>
         <View style={styles.stats}>
-          {units ? <StatBox label="Filial" value={units} /> : (
+          {!fixed ? <StatBox label={kk.unit} value={units} /> : (
             <View style={styles.addr}>
               <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}><MapPinIcon size={11} color={c.faint} /><Text style={styles.addrLabel}>ÜNVAN</Text></View>
               <Text style={styles.addrText} numberOfLines={2}>{co.address ?? "Yazılmayıb"}</Text>

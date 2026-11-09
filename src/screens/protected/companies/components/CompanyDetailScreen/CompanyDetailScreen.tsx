@@ -16,6 +16,7 @@ import UnitCard from "@screens/protected/companies/components/UnitCard";
 import WorkItem from "@screens/protected/companies/components/WorkItem";
 import useCompanyDetail from "@screens/protected/companies/hooks/useCompanyDetail";
 import { hasCoords, pct } from "@shared/utils/companies";
+import { KIND, isFixed } from "@shared/config/kinds";
 import { c } from "@theme/colors";
 import type { NavPlace, PlaceRef, PlaceWork, Unit } from "@typings/companies";
 import { styles } from "./CompanyDetailScreen.styles";
@@ -32,7 +33,10 @@ function CompanyDetailScreen({ route }: CompanyDetailScreenProps) {
   const [fix, setFix] = useState<PlaceRef | null>(null);
   const ref = (u: Unit): PlaceRef => ({ kind: "store", id: u.id, code: u.code, name: u.name, address: u.address, lat: u.lat, lng: u.lng });
   const coRef = (): PlaceRef => ({ kind: "company", id: m.company?.id ?? 0, name: m.company?.name ?? "", address: m.company?.address ?? null, lat: m.company?.lat ?? null, lng: m.company?.lng ?? null });
-  const hasUnits = m.allUnits.length > 0;
+  const kind = route.params.kind ?? "company";
+  const k = KIND[kind];
+  const fixed = isFixed(kind, m.allUnits.length);
+  const hasUnits = !fixed;
   const tab = hasUnits ? m.tab : "work";
   const data: (Unit | PlaceWork)[] = tab === "units" ? m.units : m.work;
 
@@ -51,23 +55,23 @@ function CompanyDetailScreen({ route }: CompanyDetailScreenProps) {
         ItemSeparatorComponent={() => <View style={tab === "units" ? styles.gap : undefined} />}
         ListHeaderComponent={m.company ? (
           <View style={styles.header}>
-            <ScreenHeader title="Şirkət" sub={hasUnits ? `${m.allUnits.length} filial` : "Sabit məkan"} />
-            <CompanyHero company={m.company} units={m.allUnits.length} coordPct={pct(m.allUnits.filter(hasCoords).length, m.allUnits.length)} works={m.monthWorks} last={m.lastWork}
+            <ScreenHeader title={k.one} sub={hasUnits ? `${m.allUnits.length} ${k.unitLow}` : "Sabit məkan"} />
+            <CompanyHero kind={kind} company={m.company} units={m.allUnits.length} coordPct={pct(m.allUnits.filter(hasCoords).length, m.allUnits.length)} works={m.monthWorks} last={m.lastWork}
               onNav={() => setNav({ name: m.company?.name ?? "", address: m.company?.address ?? null, lat: m.company?.lat ?? null, lng: m.company?.lng ?? null })} onMap={() => setMap(coRef())} onFix={() => setFix(coRef())} />
-            {!hasUnits ? <PlaceMapCard place={coRef()} /> : null}
+            {fixed ? <PlaceMapCard place={coRef()} /> : null}
             {hasUnits ? (
               <View style={styles.tabs}>
-                {([["units", "Filiallar", m.allUnits.length], ["work", "Son işlər", m.work.length]] as const).map(([k, label, n]) => (
+                {([["units", k.units, m.allUnits.length], ["work", "Son işlər", m.work.length]] as const).map(([k, label, n]) => (
                   <Pressable key={k} onPress={() => m.setTab(k)} style={[styles.tab, tab === k && styles.tabOn]}>
                     <Text style={[styles.tabText, tab === k && styles.tabTextOn]}>{label}</Text><Text style={styles.tabCount}>{n}</Text>
                   </Pressable>
                 ))}
               </View>
             ) : null}
-            {tab === "units" && m.allUnits.length >= 7 ? <SearchPill placeholder="Filial: kod, ad, ünvan..." value={m.query} onChange={m.setQuery} /> : null}
+            {tab === "units" && m.allUnits.length >= 7 ? <SearchPill placeholder={k.unitSearch} value={m.query} onChange={m.setQuery} /> : null}
           </View>
-        ) : <View style={styles.header}><ScreenHeader title="Şirkət" /></View>}
-        ListEmptyComponent={m.error ? <ErrorState message="Şirkət yüklənmədi." onRetry={m.reload} />
+        ) : <View style={styles.header}><ScreenHeader title={k.one} /></View>}
+        ListEmptyComponent={m.error ? <ErrorState message={k.oneError} onRetry={m.reload} />
           : m.missing ? <Text style={styles.empty}>Şirkət tapılmadı.</Text>
           : m.loading || (tab === "work" && m.workLoading) ? <ActivityIndicator color={c.muted} style={styles.loader} />
           : <Text style={styles.empty}>{tab === "units" ? "Heç nə tapılmadı." : "Hələ iş yazılmayıb."}</Text>}

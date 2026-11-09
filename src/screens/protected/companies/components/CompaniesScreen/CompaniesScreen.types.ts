@@ -1,1 +1,3 @@
-export type CompaniesScreenProps = Record<string, never>;
+import type { CompanyKind } from "@typings/companies";
+
+export type CompaniesScreenProps = { kind: CompanyKind };

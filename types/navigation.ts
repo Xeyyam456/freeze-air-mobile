@@ -34,7 +34,7 @@ export type MoreStackParamList = {
   Tools: undefined;
   Fuel: undefined;
   Companies: undefined;
-  CompanyDetail: { id: number; name: string };
+  CompanyDetail: { id: number; name: string; kind?: "company" | "market" };
   Stores: undefined;
   ErrorCodes: undefined;
   Employees: undefined;

@@ -1,3 +1,3 @@
-import type { Company } from "@typings/companies";
+import type { Company, CompanyKind } from "@typings/companies";
 
-export type CompanyCardProps = { company: Company; works: number; onPress: (c: Company) => void };
+export type CompanyCardProps = { kind: CompanyKind; company: Company; works: number; onPress: (c: Company) => void };
