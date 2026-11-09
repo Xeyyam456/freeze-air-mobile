@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
   banner: { alignItems: "center", paddingTop: 30, paddingBottom: 14 },
   glow: { position: "absolute", top: 0 },
   handle: { position: "absolute", top: 8, alignSelf: "center", width: 44, height: 5, borderRadius: 3, backgroundColor: "rgba(255, 255, 255, 0.22)" },
-  close: { position: "absolute", top: 16, right: 16, width: 34, height: 34, borderRadius: 17, alignItems: "center", justifyContent: "center", backgroundColor: "rgba(255, 255, 255, 0.08)" },
+  close: { position: "absolute", zIndex: 10, elevation: 10, top: 16, right: 16, width: 34, height: 34, borderRadius: 17, alignItems: "center", justifyContent: "center", backgroundColor: "rgba(255, 255, 255, 0.08)" },
   model: { color: c.muted, fontSize: 11, fontWeight: "800", letterSpacing: 1.6 },
   code: { color: c.ink, fontSize: 92, lineHeight: 104, fontWeight: "800", letterSpacing: 6, fontVariant: ["tabular-nums"] },
   body: { paddingHorizontal: space.lg + 4, paddingTop: 4, paddingBottom: space.lg, gap: 22 },

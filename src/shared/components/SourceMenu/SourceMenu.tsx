@@ -1,6 +1,7 @@
 import { Modal, Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { CameraIcon, CloseIcon, FileTextIcon, ImageIcon } from "@shared/icons";
+import DragSheet from "@shared/components/DragSheet";
 import { c } from "@theme/colors";
 import { styles } from "./SourceMenu.styles";
 import type { SourceMenuProps } from "./SourceMenu.types";
@@ -17,7 +18,7 @@ function SourceMenu({ title, sources, onPick, onClose }: SourceMenuProps) {
   return (
     <Modal transparent animationType="fade" statusBarTranslucent navigationBarTranslucent onRequestClose={onClose}>
       <Pressable style={styles.backdrop} onPress={onClose} />
-      <View style={[styles.sheet, { paddingBottom: insets.bottom + 16 }]}>
+      <DragSheet style={[styles.sheet, { paddingBottom: insets.bottom + 16 }]} onClose={onClose}>
         <View style={styles.head}>
           <Text style={styles.title}>{title}</Text>
           <Pressable onPress={onClose} hitSlop={10} style={styles.close} accessibilityLabel="Bağla">
@@ -34,7 +35,7 @@ function SourceMenu({ title, sources, onPick, onClose }: SourceMenuProps) {
             </Pressable>
           );
         })}
-      </View>
+      </DragSheet>
     </Modal>
   );
 }

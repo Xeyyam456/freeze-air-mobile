@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
   head: { flexDirection: "row", alignItems: "center", gap: space.sm, paddingTop: space.sm },
   emoji: { fontSize: 20 },
   count: { color: c.muted, fontSize: 14, fontWeight: "800" },
-  close: { position: "absolute", top: 12, right: 12, width: 32, height: 32, borderRadius: 16, alignItems: "center", justifyContent: "center", backgroundColor: c.glass },
+  close: { position: "absolute", zIndex: 10, elevation: 10, top: 12, right: 12, width: 32, height: 32, borderRadius: 16, alignItems: "center", justifyContent: "center", backgroundColor: c.glass },
   row: { flexDirection: "row", alignItems: "center", gap: space.md, paddingVertical: 8 },
   line: { borderTopWidth: 1, borderTopColor: c.line },
   text: { flex: 1, gap: 1 },

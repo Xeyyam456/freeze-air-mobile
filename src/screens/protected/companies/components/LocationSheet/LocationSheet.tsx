@@ -6,6 +6,7 @@ import AddressSection from "@screens/protected/companies/components/AddressSecti
 import CoordSection from "@screens/protected/companies/components/CoordSection";
 import usePlaceLocation from "@screens/protected/companies/hooks/usePlaceLocation";
 import { CloseIcon, LocateFixedIcon } from "@shared/icons";
+import DragSheet from "@shared/components/DragSheet";
 import { c } from "@theme/colors";
 import { styles } from "./LocationSheet.styles";
 import type { LocationSheetProps } from "./LocationSheet.types";
@@ -21,7 +22,7 @@ function LocationSheet({ place, onClose }: LocationSheetProps) {
     <Modal transparent animationType="slide" statusBarTranslucent navigationBarTranslucent onRequestClose={onClose}>
       <Pressable style={styles.backdrop} onPress={onClose} />
       <View style={styles.wrap} pointerEvents="box-none">
-        <View style={[styles.sheet, { maxHeight: height * 0.92 - (kb ? kb : 0), marginBottom: kb ? kb + insets.bottom : 0 }]}>
+        <DragSheet style={[styles.sheet, { maxHeight: height * 0.92 - (kb ? kb : 0), marginBottom: kb ? kb + insets.bottom : 0 }]} onClose={onClose}>
           <View style={styles.handle} />
           <View style={styles.head}>
             <View style={styles.text}>
@@ -34,7 +35,7 @@ function LocationSheet({ place, onClose }: LocationSheetProps) {
             <AddressSection loc={loc} />
             <CoordSection place={place} loc={loc} />
           </ScrollView>
-        </View>
+        </DragSheet>
       </View>
       {loc.confirm && loc.fix ? (
         <ConfirmModal title={loc.has ? "Koordinat dəyişsin?" : "Koordinat yazılsın?"} icon={LocateFixedIcon} confirmTitle="Yaz"

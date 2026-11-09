@@ -2,6 +2,7 @@ import { Linking, Modal, Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { CloseIcon, NavigationIcon } from "@shared/icons";
 import { mapsUrl, wazeUrl } from "@shared/utils/companies";
+import DragSheet from "@shared/components/DragSheet";
 import { c } from "@theme/colors";
 import { styles } from "./NavSheet.styles";
 import type { NavSheetProps } from "./NavSheet.types";
@@ -15,7 +16,7 @@ function NavSheet({ place, onClose }: NavSheetProps) {
     <Modal transparent animationType="slide" statusBarTranslucent navigationBarTranslucent onRequestClose={onClose}>
       <Pressable style={styles.backdrop} onPress={onClose} />
       <View style={styles.wrap} pointerEvents="box-none">
-        <View style={[styles.sheet, { paddingBottom: insets.bottom + 16 }]}>
+        <DragSheet style={[styles.sheet, { paddingBottom: insets.bottom + 16 }]} onClose={onClose}>
           <View style={styles.handle} />
           <View style={styles.head}>
             <View>
@@ -26,7 +27,7 @@ function NavSheet({ place, onClose }: NavSheetProps) {
           </View>
           <Pressable onPress={() => go(wazeUrl(place))} style={[styles.btn, styles.waze]}><NavigationIcon size={20} color="#06192b" /><Text style={styles.wazeText}>Waze ilə get</Text></Pressable>
           <Pressable onPress={() => go(mapsUrl(place))} style={[styles.btn, styles.google]}><NavigationIcon size={20} color={c.white} /><Text style={styles.googleText}>Google Maps ilə get</Text></Pressable>
-        </View>
+        </DragSheet>
       </View>
     </Modal>
   );

@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
   head: { paddingRight: 40, gap: 2 },
   title: { color: c.ink, fontSize: 17, fontWeight: "800" },
   sub: { color: c.muted, fontSize: 13 },
-  close: { position: "absolute", top: 12, right: 12, width: 32, height: 32, borderRadius: 16, alignItems: "center", justifyContent: "center", backgroundColor: c.glass },
+  close: { position: "absolute", zIndex: 10, elevation: 10, top: 12, right: 12, width: 32, height: 32, borderRadius: 16, alignItems: "center", justifyContent: "center", backgroundColor: c.glass },
   grid: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
   cell: { width: "31.5%", aspectRatio: 1, borderRadius: 14, overflow: "hidden", backgroundColor: c.glass, borderWidth: 1, borderColor: c.glassBorder },
   image: { width: "100%", height: "100%" },

@@ -7,6 +7,7 @@ import { toneOf } from "@shared/config/codeTones";
 import { ChevronLeftIcon, ChevronRightIcon, CloseIcon } from "@shared/icons";
 import { isNoInfo, splitSteps } from "@shared/utils/errorCodes";
 import WorkSteps from "@screens/protected/errorCodes/components/WorkSteps";
+import DragSheet from "@shared/components/DragSheet";
 import { c } from "@theme/colors";
 import { styles } from "./CodeSheet.styles";
 import type { CodeSheetProps } from "./CodeSheet.types";
@@ -25,7 +26,7 @@ function CodeSheet({ code, modelName, twins, prev, next, onSelect, onClose }: Co
     <Modal transparent animationType="slide" statusBarTranslucent navigationBarTranslucent onRequestClose={onClose}>
       <Pressable style={styles.backdrop} onPress={onClose} />
       <View style={styles.wrap} pointerEvents="box-none">
-        <View style={[styles.sheet, { maxHeight: height * 0.9 }]}>
+        <DragSheet style={[styles.sheet, { maxHeight: height * 0.9 }]} onClose={onClose}>
           <View style={styles.banner}>
             <Animated.View style={[styles.glow, glowStyle]} pointerEvents="none">
               <Svg width={width} height={210}>
@@ -65,7 +66,7 @@ function CodeSheet({ code, modelName, twins, prev, next, onSelect, onClose }: Co
               </Pressable>
             </View>
           </ScrollView>
-        </View>
+        </DragSheet>
       </View>
     </Modal>
   );

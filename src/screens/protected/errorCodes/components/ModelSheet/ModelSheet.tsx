@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { Modal, Pressable, ScrollView, Text, TextInput, useWindowDimensions, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { CheckIcon, CloseIcon } from "@shared/icons";
+import DragSheet from "@shared/components/DragSheet";
 import { c } from "@theme/colors";
 import { styles } from "./ModelSheet.styles";
 import type { ModelSheetProps } from "./ModelSheet.types";
@@ -18,7 +19,7 @@ function ModelSheet({ models, counts, value, onPick, onClose }: ModelSheetProps)
     <Modal transparent animationType="slide" statusBarTranslucent navigationBarTranslucent onRequestClose={onClose}>
       <Pressable style={styles.backdrop} onPress={onClose} />
       <View style={styles.wrap} pointerEvents="box-none">
-        <View style={[styles.sheet, { maxHeight: height * 0.8, paddingBottom: insets.bottom + 12 }]}>
+        <DragSheet style={[styles.sheet, { maxHeight: height * 0.8, paddingBottom: insets.bottom + 12 }]} onClose={onClose}>
           <View style={styles.handle} />
           <View style={styles.head}>
             <Text style={styles.title}>Model seç</Text>
@@ -35,7 +36,7 @@ function ModelSheet({ models, counts, value, onPick, onClose }: ModelSheetProps)
             ))}
             {!list.length ? <Text style={styles.empty}>Model tapılmadı.</Text> : null}
           </ScrollView>
-        </View>
+        </DragSheet>
       </View>
     </Modal>
   );

@@ -28,7 +28,6 @@ function LikesSheet({ logId, group, onClose }: LikesSheetProps) {
       <Pressable style={styles.backdrop} onPress={onClose} />
       <View style={styles.center} pointerEvents="box-none">
         <View style={styles.card}>
-          <Pressable onPress={onClose} hitSlop={10} style={styles.close} accessibilityLabel="Bağla"><CloseIcon size={18} color={c.muted} /></Pressable>
           <Text style={styles.title}>Reaksiyalar</Text>
           {q.isPending ? <ActivityIndicator color={c.muted} style={{ marginVertical: 20 }} />
             : !list.length ? <Text style={styles.empty}>Hələ reaksiya yoxdur.</Text>
@@ -46,6 +45,7 @@ function LikesSheet({ logId, group, onClose }: LikesSheetProps) {
                 })}
               </ScrollView>
             )}
+          <Pressable onPress={onClose} hitSlop={10} style={styles.close} accessibilityLabel="Bağla"><CloseIcon size={18} color={c.muted} /></Pressable>
         </View>
       </View>
     </Modal>

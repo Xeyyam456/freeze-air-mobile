@@ -3,6 +3,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import PlaceMap from "@shared/components/PlaceMap";
 import usePlacePoint from "@screens/protected/companies/hooks/usePlacePoint";
 import { CloseIcon, MapPinIcon, NavigationIcon } from "@shared/icons";
+import DragSheet from "@shared/components/DragSheet";
 import { c } from "@theme/colors";
 import { styles } from "./MapSheet.styles";
 import type { MapSheetProps } from "./MapSheet.types";
@@ -17,7 +18,7 @@ function MapSheet({ place, onNav, onClose }: MapSheetProps) {
     <Modal transparent animationType="slide" statusBarTranslucent navigationBarTranslucent onRequestClose={onClose}>
       <Pressable style={styles.backdrop} onPress={onClose} />
       <View style={styles.wrap} pointerEvents="box-none">
-        <View style={[styles.sheet, { paddingBottom: insets.bottom + 14 }]}>
+        <DragSheet style={[styles.sheet, { paddingBottom: insets.bottom + 14 }]} onClose={onClose}>
           <View style={styles.handle} />
           <View style={styles.head}>
             <View style={styles.text}>
@@ -33,7 +34,7 @@ function MapSheet({ place, onNav, onClose }: MapSheetProps) {
           </View>
           {p.byAddress ? <Text style={styles.note}>Nöqtə ünvana görə təxmini tapılıb. Dəqiq yer üçün koordinat yaz.</Text> : null}
           <Pressable onPress={onNav} style={styles.nav}><NavigationIcon size={18} color={c.white} /><Text style={styles.navText}>Naviqator</Text></Pressable>
-        </View>
+        </DragSheet>
       </View>
     </Modal>
   );
