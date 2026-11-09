@@ -1,7 +1,7 @@
 import { memo, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import ConfirmModal from "@shared/components/ConfirmModal";
-import { PackageIcon, TrashIcon, UndoIcon, WrenchIcon } from "@shared/icons";
+import { CheckIcon, PackageIcon, TrashIcon, UndoIcon, WrenchIcon } from "@shared/icons";
 import { stamp } from "@shared/utils/leaves";
 import { showQty, unitOf } from "@shared/utils/tools";
 import { c } from "@theme/colors";
@@ -9,7 +9,7 @@ import { styles } from "./HoldCard.styles";
 import type { HoldCardProps } from "./HoldCard.types";
 
 // "Məndə olanlar" sətri: ad, nə vaxtdan, miqdar, vəziyyət; «Qaytar» (təsdiqlənmişdə) və ya gözləyən qaytarmada «Geri götür» (təsdiqlə). memo: FlashList sətri
-function HoldCard({ hold: h, returning, onReturn, onCancel }: HoldCardProps) {
+function HoldCard({ hold: h, returning, selected, canSelect, onToggle, onReturn, onCancel }: HoldCardProps) {
   const [ask, setAsk] = useState(false);
   const t = h.tools;
   if (!t) return null;
@@ -21,6 +21,7 @@ function HoldCard({ hold: h, returning, onReturn, onCancel }: HoldCardProps) {
   return (
     <View style={styles.card}>
       <View style={styles.top}>
+        {canSelect ? <Pressable onPress={() => onToggle(h)} hitSlop={8} style={[styles.box, selected && styles.boxOn]} accessibilityLabel="Seç">{selected ? <CheckIcon size={14} color={c.white} /> : null}</Pressable> : null}
         <View style={styles.tile}>{material ? <PackageIcon size={18} color={c.ok} /> : <WrenchIcon size={18} color={c.primary} />}</View>
         <View style={styles.text}>
           <Text style={styles.name} numberOfLines={2}>{t.name}</Text>

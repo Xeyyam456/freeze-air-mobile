@@ -1,23 +1,27 @@
 import { supabase } from "@shared/api/supabase";
-import type { MyHold, MyRequest, MyToolsData, StockTool } from "@typings/tools";
+import type { Held, MyHold, MyRequest, MyToolsData, StockTool } from "@typings/tools";
 
 const REQ = "id, type, status, tool_id, tool_name, tool_kind, unit, quantity, used, returned, assignment_id, created_at, decided_by_name, decision_note";
 
 // Alətlərim (API.md §8): üzərimdəkilər, sorğularım (son 60), depodakı qalıq (istəmək üçün)
 export async function fetchMyTools(employeeId: number): Promise<MyToolsData> {
-  const [h, r, s] = await Promise.all([
+  const [h, r, s, a] = await Promise.all([
     supabase.from("tool_assignments").select("id, tool_id, quantity, taken_at, received_at, disputed_at, tools(name, kind, unit, pack_name, pack_size)")
       .eq("employee_id", employeeId).is("returned_at", null).order("taken_at"),
     supabase.from("depot_requests").select(REQ).eq("employee_id", employeeId).in("type", ["return", "request", "writeoff"]).order("created_at", { ascending: false }).limit(60),
     supabase.from("tool_stock").select("id, name, kind, unit, available, pack_name, pack_size").order("name"),
+    // Kimdə nə var: bütün ustaların üzərindəkilər (yalnız baxış)
+    supabase.from("tool_assignments").select("id, tool_id, employee_id, quantity, taken_at, employees(full_name, photo_url), tools(name, kind, unit, pack_name, pack_size)")
+      .is("returned_at", null).order("taken_at"),
   ]);
+  if (a.error) throw a.error;
   if (h.error) throw h.error;
   if (r.error) throw r.error;
   if (s.error) throw s.error;
   const stock = (s.data ?? []).filter((t) => t.id !== null && t.name).map((t): StockTool => ({
     id: t.id as number, name: t.name as string, kind: t.kind ?? "tool", unit: t.unit ?? "", available: t.available ?? 0, pack_name: t.pack_name, pack_size: t.pack_size,
   }));
-  return { holds: (h.data ?? []) as unknown as MyHold[], requests: (r.data ?? []) as MyRequest[], stock };
+  return { holds: (h.data ?? []) as unknown as MyHold[], requests: (r.data ?? []) as MyRequest[], stock, all: (a.data ?? []) as unknown as Held[] };
 }
 
 const fail = (e: { message: string } | null) => { if (e) throw new Error(e.message); };
@@ -38,6 +42,15 @@ export async function createReturn(a: { assignmentId: number; material: boolean;
     p_assignment_id: a.assignmentId, p_note: a.note.trim() || undefined,
     p_quantity: a.material ? undefined : a.quantity, p_used: a.material ? a.used : undefined, p_returned: a.material ? a.returned : undefined,
   })).error);
+}
+
+// Toplu qaytarma: hər biri ayrıca sorğu olur; alınmayanlar xəta mətnində toplanır
+export async function createReturns(list: { assignmentId: number; name: string; material: boolean; quantity: number; used: number; returned: number }[], note: string) {
+  const bad: string[] = [];
+  for (const it of list) {
+    try { await createReturn({ ...it, note }); } catch (e) { bad.push(`${it.name}: ${(e as Error).message}`); }
+  }
+  if (bad.length) throw new Error(bad.join("\n"));
 }
 
 // Alət/material istəyi (bir neçə sətir, eyni batch): alınmayanlar xəta mətnində toplanır

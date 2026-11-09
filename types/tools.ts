@@ -7,7 +7,10 @@ export type MyRequest = {
   used: number | null; returned: number | null; assignment_id: number | null; created_at: string; decided_by_name: string | null; decision_note: string | null;
 };
 export type StockTool = { id: number; name: string; kind: string; unit: string; available: number; pack_name: string | null; pack_size: number | null };
-export type MyToolsData = { holds: MyHold[]; requests: MyRequest[]; stock: StockTool[] };
+// Kimdə nə var: bütün ustaların üzərindəkilər (yalnız baxış)
+export type Held = { id: number; tool_id: number; employee_id: number; quantity: number; taken_at: string; employees: { full_name: string; photo_url: string | null } | null; tools: ToolInfo | null };
+export type Person = { id: number; name: string; photo: string | null; items: Held[] };
+export type MyToolsData = { holds: MyHold[]; requests: MyRequest[]; stock: StockTool[]; all: Held[] };
 
 // Qaytarma qaralaması: alətdə say; materialda "qaytarıram" + "qalanı işlətdim / məndə qalır" (+ balonla/kq ilə)
 export type ReturnDraft = { qty: string; ret: string; byPack: boolean; restUsed: boolean };
@@ -17,5 +20,6 @@ export type ReturnCalc = { ok: boolean; over: boolean; quantity: number; used: n
 export type ToolRow =
   | { key: string; kind: "title"; text: string; sub?: string }
   | { key: string; kind: "empty"; text: string }
+  | { key: string; kind: "who" }
   | { key: string; kind: "hold"; hold: MyHold }
   | { key: string; kind: "req"; req: MyRequest };

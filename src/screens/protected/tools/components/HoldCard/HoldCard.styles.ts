@@ -4,6 +4,8 @@ import { c, radius, space } from "@theme/colors";
 export const styles = StyleSheet.create({
   card: { backgroundColor: c.glass, borderWidth: 1, borderColor: c.glassBorder, borderRadius: radius.md, padding: space.md, gap: space.md },
   top: { flexDirection: "row", alignItems: "center", gap: space.md },
+  box: { width: 24, height: 24, borderRadius: 8, borderWidth: 1.5, borderColor: c.faint, alignItems: "center", justifyContent: "center" },
+  boxOn: { backgroundColor: c.primary, borderColor: c.primary },
   tile: { width: 38, height: 38, borderRadius: 12, alignItems: "center", justifyContent: "center", backgroundColor: "rgba(255, 255, 255, 0.05)" },
   text: { flex: 1, gap: 2 },
   name: { color: c.ink, fontSize: 15, fontWeight: "700" },

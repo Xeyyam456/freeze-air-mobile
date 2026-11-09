@@ -1,5 +1,5 @@
 import { c } from "@theme/colors";
-import type { MyHold, MyRequest, ReturnCalc, ReturnDraft, ToolInfo } from "@typings/tools";
+import type { Held, MyHold, MyRequest, Person, ReturnCalc, ReturnDraft, ToolInfo } from "@typings/tools";
 
 // Miqdar kəsr ola bilər (balon = 11,3 kq); alət həmişə tam ədəd. 2 rəqəmə yuvarlanır (web `Depot/utils/quantity` ilə eyni)
 export const round2 = (n: number) => Math.round(n * 100) / 100;
@@ -59,4 +59,19 @@ export function calcReturn(h: MyHold, d: ReturnDraft): ReturnCalc {
 export const batchId = () => "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (ch) => {
   const r = Math.floor(Math.random() * 16);
   return (ch === "x" ? r : (r % 4) + 8).toString(16);
+});
+
+// Kimdə nə var: ustalara görə qruplaşma (özün birinci, qalanlar əlifba ilə) və say
+export function groupPeople(all: Held[], me: number | undefined): Person[] {
+  const by = new Map<number, Person>();
+  for (const h of all) {
+    const p = by.get(h.employee_id) ?? { id: h.employee_id, name: h.employees?.full_name ?? "—", photo: h.employees?.photo_url ?? null, items: [] };
+    p.items.push(h);
+    by.set(h.employee_id, p);
+  }
+  return [...by.values()].sort((a, b) => (a.id === me ? -1 : b.id === me ? 1 : a.name.localeCompare(b.name, "az")));
+}
+export const personCounts = (p: Person) => ({
+  tools: p.items.filter((h) => h.tools?.kind !== "material").reduce((n, h) => n + h.quantity, 0),
+  mats: p.items.filter((h) => h.tools?.kind === "material").length,
 });

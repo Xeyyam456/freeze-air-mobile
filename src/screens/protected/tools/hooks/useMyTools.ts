@@ -2,7 +2,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useMemo, useState } from "react";
 import useMe from "@shared/hooks/useMe";
 import { queryKeys } from "@shared/queries/queryKeys";
-import { cancelRequest, confirmHold, createRequests, createReturn, fetchMyTools } from "@shared/services/tools.service";
+import { cancelRequest, confirmHold, createRequests, createReturns, fetchMyTools } from "@shared/services/tools.service";
 import { batchId } from "@shared/utils/tools";
 import { toast } from "@shared/utils/toast";
 import type { MyHold, MyRequest, MyToolsData, ReturnCalc, StockTool, ToolKind } from "@typings/tools";
@@ -55,15 +55,30 @@ function useMyTools() {
       () => cancelRequest(r.id), [r.type === "return" ? "Qaytarma sorğusu ləğv edildi" : "İstək ləğv edildi"]);
   }, [run]);
 
-  const giveBack = useCallback((h: MyHold, c: ReturnCalc, note: string) => {
-    const t = h.tools;
-    if (!t) return;
-    const material = t.kind === "material";
-    const temp: MyRequest = { id: -Date.now(), type: "return", status: "pending", tool_id: h.tool_id, tool_name: t.name, tool_kind: t.kind, unit: t.unit, quantity: material ? null : c.quantity,
-      used: material ? c.used : null, returned: material ? c.returned : null, assignment_id: h.id, created_at: new Date().toISOString(), decided_by_name: null, decision_note: null };
-    run((x) => ({ ...x, requests: [temp, ...x.requests] }),
-      () => createReturn({ assignmentId: h.id, material, quantity: c.quantity, used: c.used, returned: c.returned, note }), ["Qaytarma sorğusu göndərildi", "Depo qəbul edəndə səndən çıxacaq"]);
+  // Bir və ya bir neçə qaytarma (toplu): hər biri ayrıca sorğu olur, hamısı klik anında "Qaytarma gözləyir" görünür
+  const giveBack = useCallback((items: { hold: MyHold; calc: ReturnCalc }[], note: string) => {
+    const now = new Date().toISOString();
+    const ok = items.filter((it) => it.hold.tools);
+    const temps: MyRequest[] = ok.map(({ hold: h, calc: c }, i) => {
+      const t = h.tools as NonNullable<MyHold["tools"]>;
+      const material = t.kind === "material";
+      return { id: -Date.now() - i, type: "return", status: "pending", tool_id: h.tool_id, tool_name: t.name, tool_kind: t.kind, unit: t.unit, quantity: material ? null : c.quantity,
+        used: material ? c.used : null, returned: material ? c.returned : null, assignment_id: h.id, created_at: now, decided_by_name: null, decision_note: null };
+    });
+    const list = ok.map(({ hold: h, calc: c }) => ({ assignmentId: h.id, name: h.tools?.name ?? "", material: h.tools?.kind === "material", quantity: c.quantity, used: c.used, returned: c.returned }));
+    run((x) => ({ ...x, requests: [...temps, ...x.requests] }), () => createReturns(list, note),
+      [list.length === 1 ? "Qaytarma sorğusu göndərildi" : `${list.length} qaytarma sorğusu göndərildi`, "Depo qəbul edəndə səndən çıxacaq"]);
+    setSelected(new Set());
   }, [run]);
+
+  // Toplu seçim: yalnız qaytarmaq olanlar (təsdiqlənib və qaytarma sorğusu gözləmir)
+  const [selected, setSelected] = useState<Set<number>>(new Set());
+  const returnable = useCallback((h: MyHold) => !!h.received_at && !d.pendingReturn.has(h.id), [d.pendingReturn]);
+  const selectable = useMemo(() => d.list.filter(returnable), [d.list, returnable]);
+  const chosen = useMemo(() => (data?.holds ?? []).filter((h) => selected.has(h.id) && returnable(h)), [data, selected, returnable]);
+  const allOn = selectable.length > 0 && selectable.every((h) => selected.has(h.id));
+  const toggle = useCallback((h: MyHold) => setSelected((s) => { const n = new Set(s); if (n.has(h.id)) n.delete(h.id); else n.add(h.id); return n; }), []);
+  const toggleAll = useCallback(() => setSelected((s) => { const n = new Set(s); for (const h of selectable) { if (allOn) n.delete(h.id); else n.add(h.id); } return n; }), [selectable, allOn]);
 
   const ask = useCallback((items: { tool: StockTool; amount: number }[], note: string) => {
     const now = new Date().toISOString();
@@ -73,7 +88,7 @@ function useMyTools() {
       () => createRequests(items.map((it) => ({ toolId: it.tool.id, name: it.tool.name, amount: it.amount })), note, batchId()), [`${items.length} istək göndərildi`, "Depo məsulu təsdiqləyəndə sənə veriləcək"]);
   }, [run]);
 
-  return { me, data, ...d, tab, setTab, query, setQuery, confirm, cancel, giveBack, ask, loading: q.isPending && !!me, error: !!q.error && !data,
+  return { me, data, ...d, tab, setTab, query, setQuery, confirm, cancel, giveBack, ask, selected, returnable, chosen, allOn, toggle, toggleAll, selectableCount: selectable.length, loading: q.isPending && !!me, error: !!q.error && !data,
     reload: async () => { await q.refetch(); } };
 }
 
