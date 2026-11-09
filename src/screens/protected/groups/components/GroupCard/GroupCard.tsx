@@ -1,15 +1,17 @@
 import { Pressable, Text, View } from "react-native";
 import { ChevronRightIcon } from "@shared/icons";
 import { feedWhen } from "@shared/utils/feed";
+import ActArt from "@screens/protected/groups/components/ActArt";
+import MediaArt from "@screens/protected/groups/components/MediaArt";
 import { c } from "@theme/colors";
 import { styles } from "./GroupCard.styles";
 import type { GroupCardProps } from "./GroupCard.types";
 
-// Qrup sətri (WhatsApp söhbət siyahısı kimi): rəngli ikon, ad, son paylaşımın önizləməsi ("Fərhad: İzmir Villa"), vaxt və say
-function GroupCard({ link: { icon: Icon, label, hint, color }, last, unread, onPress }: GroupCardProps) {
+// Qrup sətri (WhatsApp söhbət siyahısı kimi): canlı illüstrasiya ikonu (şəkil + video / akt + möhür), ad, son paylaşımın önizləməsi ("Fərhad: İzmir Villa"), vaxt və say
+function GroupCard({ link: { group, label, hint, color }, last, unread, onPress }: GroupCardProps) {
   return (
     <Pressable onPress={onPress} style={({ pressed }) => [styles.card, pressed && styles.pressed]} accessibilityLabel={label}>
-      <View style={[styles.tile, { backgroundColor: `${color}24` }]}><Icon size={26} color={color} /></View>
+      <View style={[styles.tile, { backgroundColor: `${color}1f`, borderColor: `${color}40` }]}>{group === "act" ? <ActArt /> : <MediaArt />}</View>
       <View style={styles.text}>
         <View style={styles.top}>
           <Text style={styles.name} numberOfLines={1}>{label}</Text>

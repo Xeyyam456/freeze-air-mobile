@@ -4,7 +4,7 @@ import { c, radius, space } from "@theme/colors";
 export const styles = StyleSheet.create({
   card: { flexDirection: "row", alignItems: "center", gap: space.md, backgroundColor: c.glass, borderWidth: 1, borderColor: c.glassBorder, borderRadius: radius.md, padding: space.md },
   pressed: { opacity: 0.8 },
-  tile: { width: 56, height: 56, borderRadius: 28, alignItems: "center", justifyContent: "center" },
+  tile: { width: 60, height: 60, borderRadius: 20, borderWidth: 1, alignItems: "center", justifyContent: "center" },
   text: { flex: 1, gap: 4 },
   top: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: space.sm },
   name: { flexShrink: 1, color: c.ink, fontSize: 17, fontWeight: "800" },

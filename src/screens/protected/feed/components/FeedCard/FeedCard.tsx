@@ -3,7 +3,8 @@ import { memo, useState } from "react";
 import { Linking, Pressable, Text, View } from "react-native";
 import Avatar from "@shared/components/Avatar";
 import PartnerLines from "@shared/components/PartnerLines";
-import { FileTextIcon, MapPinIcon, VideoIcon } from "@shared/icons";
+import { MapPinIcon } from "@shared/icons";
+import FileArt from "@screens/protected/feed/components/FileArt";
 import { feedWhen } from "@shared/utils/feed";
 import { c } from "@theme/colors";
 import ReactionBar from "../ReactionBar";
@@ -45,10 +46,7 @@ function FeedCard({ post, mine, onImages, onReact, onReactors, onComments }: Fee
           return (
             <Pressable key={f.id} onPress={open} style={[styles.cell, { width: cell, height: cell }]} accessibilityLabel={f.kind === "video" ? "Video" : f.kind === "act" ? "Akt" : "Şəkil"}>
               {img ? <Image source={{ uri: f.url }} style={styles.image} contentFit="cover" cachePolicy="disk" /> : (
-                <View style={styles.tile}>
-                  {f.kind === "video" ? <VideoIcon size={26} color={c.primary} /> : <FileTextIcon size={26} color={c.primary} />}
-                  <Text style={styles.tileText}>{f.kind === "video" ? "Video" : f.path.endsWith(".pdf") ? "PDF akt" : "Şəkil"}</Text>
-                </View>
+                <FileArt kind={f.kind === "video" ? "video" : "pdf"} />
               )}
               {img && f.kind === "act" ? <Text style={styles.badge}>Akt</Text> : null}
               {i === SHOW - 1 && rest > 0 ? <View style={styles.more}><Text style={styles.moreText}>+{rest + 1}</Text></View> : null}
