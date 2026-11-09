@@ -52,7 +52,8 @@
     "android": "expo run:android",
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
-    "apk": "node scripts/build-apk.js"
+    "apk": "node scripts/build-apk.js",
+    "update": "eas update --channel production --environment production --message"
   },
   "private": true
 }
