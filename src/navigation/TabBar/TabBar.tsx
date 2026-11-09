@@ -11,6 +11,10 @@ import useOpenTasksCount from "@shared/hooks/useOpenTasksCount";
 import useUnreadAnnouncements from "@shared/hooks/useUnreadAnnouncements";
 import { styles } from "./TabBar.styles";
 
+// Göstəricinin rəngi tablar arasında sürüşərkən yumşaq keçir (sıra = Tab.Screen sırası)
+const COLORS = Object.values(TABS).map((t) => t.color);
+const SOFTS = Object.values(TABS).map((t) => t.soft);
+
 // Aşağıya yapışıq tünd tab bar (üst künclər yuvarlaq, nazik kənar xətti); tablar: shared/config/tabs.
 // Aktiv göstərici (həb + üst xətt) bütün bar üçün təkdir və tablar arasında sürüşür (TabIndicator); eni onLayout ilə ölçülür
 function TabBar({ state, navigation }: BottomTabBarProps) {
@@ -24,7 +28,7 @@ function TabBar({ state, navigation }: BottomTabBarProps) {
   const tabWidth = width ? (width - 8) / state.routes.length : 0; // paddingHorizontal 4 + 4
   return (
     <View style={[styles.wrap, { paddingBottom: Math.max(insets.bottom, 8) + 5 }]} onLayout={(e) => setWidth(e.nativeEvent.layout.width)} accessibilityRole="tablist">
-      <TabIndicator index={state.index} tabWidth={tabWidth} />
+      <TabIndicator index={state.index} tabWidth={tabWidth} colors={COLORS} softs={SOFTS} />
       {state.routes.map((route, i) => {
         const focused = state.index === i;
         // Tab HƏMİŞƏ öz əsas ekranında açılır (istifadəçi): içində açılmış ekran (məs. Daha çox → Davamiyyət) qalıbsa əvvəl kökə qayıdır
@@ -37,7 +41,7 @@ function TabBar({ state, navigation }: BottomTabBarProps) {
         };
         const tab = TABS[route.name as keyof typeof TABS];
         const badge = route.name === "TasksTab" ? openTasks : route.name === "AnnouncementsTab" ? unread : 0;
-        return <TabBarItem key={route.key} icon={tab.icon} activeIcon={tab.active} label={tab.label} focused={focused} badge={badge} dot={route.name === "GroupsTab" && groupsNew} onPress={onPress} />;
+        return <TabBarItem key={route.key} icon={tab.icon} color={tab.color} label={tab.label} focused={focused} badge={badge} dot={route.name === "GroupsTab" && groupsNew} onPress={onPress} />;
       })}
     </View>
   );

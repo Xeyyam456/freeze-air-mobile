@@ -22,5 +22,5 @@ export const styles = StyleSheet.create({
   },
   badgeText: { color: c.white, fontSize: 10.5, fontWeight: "800", fontVariant: ["tabular-nums"], lineHeight: 13 },
   label: { color: c.muted, fontSize: 11.5, fontWeight: "600", letterSpacing: 0.1 },
-  labelActive: { color: c.primary, fontWeight: "800" },
+  labelActive: { fontWeight: "800" }, // rəng tabın özündən (TabBarItem)
 });

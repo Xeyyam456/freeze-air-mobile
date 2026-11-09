@@ -8,4 +8,3 @@ export * from "./actions";
 export * from "./sections";
 export type { Icon, IconProps } from "./icon.types";
 export * from "./team";
-export * from "./solid";
