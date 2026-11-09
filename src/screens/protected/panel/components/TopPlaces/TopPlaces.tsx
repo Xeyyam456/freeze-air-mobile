@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Text, View } from "react-native";
 import Animated, { Easing, FadeInDown, useAnimatedStyle, useSharedValue, withDelay, withTiming } from "react-native-reanimated";
+import GlassSheen from "@shared/components/GlassSheen";
 import { styles } from "./TopPlaces.styles";
 import type { TopPlacesProps } from "./TopPlaces.types";
 
@@ -18,6 +19,7 @@ function TopPlaces({ places }: TopPlacesProps) {
   const max = Math.max(1, ...places.map((p) => p.count));
   return (
     <Animated.View entering={FadeInDown.delay(300).duration(450)} style={styles.card}>
+      <GlassSheen />
       <Text style={styles.kicker}>ƏN ÇOX İŞLƏDİYİM YERLƏR</Text>
       {places.map((p, i) => (
         <View key={p.name} style={[styles.row, i > 0 && styles.divider]}>

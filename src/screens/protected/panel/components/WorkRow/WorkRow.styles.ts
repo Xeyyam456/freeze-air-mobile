@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
   line: { flex: 1, width: StyleSheet.hairlineWidth * 2, backgroundColor: c.glassBorder, marginTop: 4 },
   card: {
     flex: 1,
+    overflow: "hidden",
     backgroundColor: c.glass,
     borderWidth: 1,
     borderColor: c.glassBorder,
@@ -18,7 +19,8 @@ export const styles = StyleSheet.create({
     marginBottom: space.sm,
   },
   top: { flexDirection: "row", alignItems: "center", gap: space.sm },
-  name: { flex: 1, color: c.ink, fontSize: 15, fontWeight: "700" },
+  // Usta adları kiçik: uzun adlar (2-3 usta) sığsın, lazım olsa 2 sətrə keçir
+  name: { flex: 1, color: c.ink, fontSize: 13, fontWeight: "700", lineHeight: 17 },
   place: { color: "#22d3ee", fontSize: 13, fontWeight: "700" },
   stack: { flexDirection: "row" },
   // Avatarlar üst-üstə: hər biri fon rəngində halqa ilə ayrılır

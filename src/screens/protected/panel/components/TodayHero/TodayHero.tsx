@@ -11,6 +11,7 @@ import SessionList from "@screens/protected/panel/components/SessionList";
 import WorkRing from "@screens/protected/panel/components/WorkRing";
 import { c, gradients } from "@theme/colors";
 import type { PanelStackParamList } from "@typings/navigation";
+import GlassSheen from "@shared/components/GlassSheen";
 import { TONE, styles } from "./TodayHero.styles";
 import type { TodayHeroProps } from "./TodayHero.types";
 
@@ -25,6 +26,7 @@ function TodayHero({ employeeId }: TodayHeroProps) {
   return (
     <View style={styles.card}>
       <GradientBg colors={gradients.hero} radius={24} />
+      <GlassSheen strength={1.3} />
       {view?.tone === "working" && <PulseGlow color={c.ok} />}
       <Pressable onPress={() => nav.navigate("Attendance")} hitSlop={8} accessibilityLabel="Davamiyyət"
         style={({ pressed }) => [styles.corner, pressed && styles.cornerPressed]}>

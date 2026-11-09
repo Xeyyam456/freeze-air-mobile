@@ -2,6 +2,7 @@ import { Text, View } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { monthName, todayBaku } from "@shared/utils/time";
 import MonthBar from "@screens/protected/panel/components/MonthBar";
+import GlassSheen from "@shared/components/GlassSheen";
 import { H, styles } from "./MonthTrend.styles";
 import type { MonthTrendProps } from "./MonthTrend.types";
 
@@ -15,6 +16,7 @@ function MonthTrend({ overview }: MonthTrendProps) {
 
   return (
     <Animated.View entering={FadeInDown.delay(220).duration(450)} style={styles.card}>
+      <GlassSheen />
       <View style={styles.head}>
         <View>
           <Text style={styles.kicker}>{monthName(today).toUpperCase()}</Text>
