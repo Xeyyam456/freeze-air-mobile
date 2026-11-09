@@ -2,7 +2,7 @@ import { Pressable, Text, TextInput, View } from "react-native";
 import PlaceMap from "@shared/components/PlaceMap";
 import usePlacePoint from "@screens/protected/companies/hooks/usePlacePoint";
 import { CheckIcon, LocateFixedIcon } from "@shared/icons";
-import { fmtDist, MAX_ACC } from "@shared/utils/location";
+import { fmtDist, MAX_ACC } from "@shared/utils/helpers/location";
 import { c } from "@theme/colors";
 import { styles } from "./CoordSection.styles";
 import type { CoordSectionProps } from "./CoordSection.types";

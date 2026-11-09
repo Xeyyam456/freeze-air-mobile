@@ -15,7 +15,7 @@ import NavSheet from "@screens/protected/companies/components/NavSheet";
 import UnitCard from "@screens/protected/companies/components/UnitCard";
 import WorkItem from "@screens/protected/companies/components/WorkItem";
 import useCompanyDetail from "@screens/protected/companies/hooks/useCompanyDetail";
-import { hasCoords, pct } from "@shared/utils/companies";
+import { hasCoords, pct } from "@shared/utils/helpers/companies";
 import { KIND, isFixed } from "@shared/config/kinds";
 import { c } from "@theme/colors";
 import type { NavPlace, PlaceRef, PlaceWork, Unit } from "@typings/companies";

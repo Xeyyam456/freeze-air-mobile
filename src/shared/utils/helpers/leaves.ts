@@ -1,4 +1,4 @@
-import { addDays } from "@shared/utils/time";
+import { addDays } from "@shared/utils/helpers/time";
 import type { LeaveFilter, LeaveRow, LeaveStats, MyLeave } from "@typings/leaves";
 
 const MONTHS = ["Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun", "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"];

@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { queryKeys } from "@shared/queries/queryKeys";
 import { fetchAnnouncements, fetchAnnouncer } from "@shared/services/announcements.service";
-import { buildRows } from "@shared/utils/announcements";
+import { buildRows } from "@shared/utils/helpers/announcements";
 
 // Elanlar siyahısı (gün başlıqları ilə) + kim baxır / göndərə bilərmi. Keşdən dərhal; canlı: usePanelLive
 function useAnnouncements() {

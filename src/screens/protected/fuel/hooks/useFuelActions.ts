@@ -1,8 +1,8 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { confirmPayment, saveMileage, uploadMileagePhoto } from "@shared/services/fuel.service";
-import { fuelError } from "@shared/utils/fuel";
-import { toast } from "@shared/utils/toast";
+import { fuelError } from "@shared/utils/helpers/fuel";
+import { toast } from "@shared/utils/helpers/toast";
 import type { FuelData, MileageRow, StepKind } from "@typings/fuel";
 import type { FuelState } from "@screens/protected/fuel/hooks/useFuel";
 

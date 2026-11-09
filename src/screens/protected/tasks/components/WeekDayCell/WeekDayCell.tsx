@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { Pressable, Text, View } from "react-native";
-import { weekdayShort } from "@shared/utils/time";
+import { weekdayShort } from "@shared/utils/helpers/time";
 import { styles } from "./WeekDayCell.styles";
 import type { WeekDayCellProps } from "./WeekDayCell.types";
 

@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { queryKeys } from "@shared/queries/queryKeys";
 import { fetchManagers } from "@shared/services/team.service";
-import { rank, sortManagers } from "@shared/utils/team";
+import { rank, sortManagers } from "@shared/utils/helpers/team";
 
 // Rəhbərlik: müdir (varsa) ayrıca iri kartda, qalanlar vəzifə sırası ilə (web ManagerList ilə eyni). Nadir dəyişir: 10 dəq təzə
 function useManagers() {

@@ -2,7 +2,7 @@ import { memo } from "react";
 import { Pressable, Text, View } from "react-native";
 import Avatar from "@shared/components/Avatar";
 import SessionList from "@screens/protected/panel/components/SessionList";
-import { todayBadge } from "@shared/utils/attendanceView";
+import { todayBadge } from "@shared/utils/helpers/attendanceView";
 import { c } from "@theme/colors";
 import { TONE, styles } from "./AttendanceCard.styles";
 import type { AttendanceCardProps } from "./AttendanceCard.types";

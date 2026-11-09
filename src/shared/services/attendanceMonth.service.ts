@@ -1,6 +1,6 @@
 import { supabase } from "@shared/api/supabase";
-import { dayStatus, monthDays, summarize, toPresence } from "@shared/utils/attendance";
-import { todayBaku } from "@shared/utils/time";
+import { dayStatus, monthDays, summarize, toPresence } from "@shared/utils/helpers/attendance";
+import { todayBaku } from "@shared/utils/helpers/time";
 import type { AttendanceEmployee, AttendanceRange, EmployeeMonth, MonthAttendance, MonthAttendanceData } from "@typings/attendance";
 
 // Aralıq üçün gəlmələr, icazələr, "işdə olmayıb" qeydləri (API.md §7; employeeId verilsə yalnız o usta). 3 paralel sorğu

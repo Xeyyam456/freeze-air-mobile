@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { countToday, durationText, fullDate, monthLead, monthTitle, shiftMonth, todayBadge, weekdayName } from "@shared/utils/attendanceView";
-import { presenceView, workedSeconds } from "@shared/utils/presence";
+import { countToday, durationText, fullDate, monthLead, monthTitle, shiftMonth, todayBadge, weekdayName } from "@shared/utils/helpers/attendanceView";
+import { presenceView, workedSeconds } from "@shared/utils/helpers/presence";
 import type { DayStatus, MonthAttendance, Presence } from "@typings/attendance";
 
 const T = (hm: string) => `2026-11-09T${hm}:00Z`; // Bakı = UTC+4: "05:02" → 09:02

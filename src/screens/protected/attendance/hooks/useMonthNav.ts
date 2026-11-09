@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { shiftMonth } from "@shared/utils/attendanceView";
-import { todayBaku } from "@shared/utils/time";
+import { shiftMonth } from "@shared/utils/helpers/attendanceView";
+import { todayBaku } from "@shared/utils/helpers/time";
 
 // Seçilən ay ("2026-11"): gələcək aya keçmək olmaz
 function useMonthNav() {

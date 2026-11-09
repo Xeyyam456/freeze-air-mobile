@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { queryKeys } from "@shared/queries/queryKeys";
 import { fetchErrorCodes } from "@shared/services/errorCodes.service";
 import { pushRecentCode, useRecentCodes } from "@shared/stores/recentCodes";
-import { compareCodes, filterCodes, toRows } from "@shared/utils/errorCodes";
+import { compareCodes, filterCodes, toRows } from "@shared/utils/helpers/errorCodes";
 import type { ErrorCode } from "@typings/errorCodes";
 
 // Xəta kodları ekranının vəziyyəti: model (standart — ən çox kodu olan), axtarış, açılmış kod (alt panel) və son baxılanlar.

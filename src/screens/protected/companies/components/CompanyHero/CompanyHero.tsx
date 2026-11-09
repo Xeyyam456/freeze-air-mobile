@@ -3,7 +3,7 @@ import GradientBg from "@shared/components/GradientBg";
 import PlaceLogo from "@screens/protected/companies/components/PlaceLogo";
 import StatBox from "@screens/protected/companies/components/StatBox";
 import { LocateFixedIcon, MapIcon, MapPinIcon, NavigationIcon, PhoneIcon, UserIcon } from "@shared/icons";
-import { hasLocation, shortDate, telUrl } from "@shared/utils/companies";
+import { hasLocation, shortDate, telUrl } from "@shared/utils/helpers/companies";
 import { KIND, isFixed } from "@shared/config/kinds";
 import { c } from "@theme/colors";
 import { styles } from "./CompanyHero.styles";

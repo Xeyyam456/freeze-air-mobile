@@ -3,7 +3,7 @@ import { Text, View } from "react-native";
 import Animated, { Easing, useAnimatedProps, useSharedValue, withTiming } from "react-native-reanimated";
 import Svg, { Circle, Defs, LinearGradient, Stop } from "react-native-svg";
 import useNow from "@shared/hooks/useNow";
-import { workedSeconds } from "@shared/utils/presence";
+import { workedSeconds } from "@shared/utils/helpers/presence";
 import { c, gradients } from "@theme/colors";
 import { styles } from "./WorkRing.styles";
 import type { WorkRingProps } from "./WorkRing.types";

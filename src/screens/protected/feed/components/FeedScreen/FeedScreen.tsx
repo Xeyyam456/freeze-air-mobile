@@ -12,7 +12,7 @@ import { SearchIcon } from "@shared/icons";
 import { queryKeys } from "@shared/queries/queryKeys";
 import { fetchAnnouncer } from "@shared/services/announcements.service";
 import { markFeedSeen } from "@shared/stores/feedSeen";
-import { feedRows, type FeedRow } from "@shared/utils/feed";
+import { feedRows, type FeedRow } from "@shared/utils/helpers/feed";
 import CommentsSheet from "@screens/protected/feed/components/CommentsSheet";
 import FeedCard from "@screens/protected/feed/components/FeedCard";
 import LikesSheet from "@screens/protected/feed/components/LikesSheet";

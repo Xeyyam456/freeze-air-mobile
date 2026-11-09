@@ -1,6 +1,6 @@
 import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
 import { supabase } from "@shared/api/supabase";
-import { readBytes } from "@shared/utils/media";
+import { readBytes } from "@shared/utils/helpers/media";
 import type { FuelData, StepKind } from "@typings/fuel";
 
 // Maşın, dövrün yürüşləri, bu günün sətri, qiymətlər, dövrün ödənişləri, ayın günləri və ödənişləri (borc üçün) (API.md §9). 7 paralel sorğu

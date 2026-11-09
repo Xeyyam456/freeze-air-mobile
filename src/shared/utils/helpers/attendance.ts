@@ -1,4 +1,4 @@
-import { addDays, daysInMonth } from "@shared/utils/time";
+import { addDays, daysInMonth } from "@shared/utils/helpers/time";
 import type { AttRow, DayStatus, Leave, MonthAttendance, Presence } from "@typings/attendance";
 
 // Davamiyyət qaydaları (web shared/utils/attendance ilə EYNİ — rəqəmlər iki yerdə fərqli çıxmasın):

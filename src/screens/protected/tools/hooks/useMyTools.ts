@@ -3,8 +3,8 @@ import { useCallback, useMemo, useState } from "react";
 import useMe from "@shared/hooks/useMe";
 import { queryKeys } from "@shared/queries/queryKeys";
 import { cancelRequest, confirmHold, createRequests, createReturns, fetchMyTools } from "@shared/services/tools.service";
-import { batchId } from "@shared/utils/tools";
-import { toast } from "@shared/utils/toast";
+import { batchId } from "@shared/utils/helpers/tools";
+import { toast } from "@shared/utils/helpers/toast";
 import type { MyHold, MyRequest, MyToolsData, ReturnCalc, StockTool, ToolKind } from "@typings/tools";
 
 const fold = (s: string) => s.toLocaleLowerCase("az");

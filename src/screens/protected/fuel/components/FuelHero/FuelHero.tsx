@@ -1,6 +1,6 @@
 import { Pressable, Text, View } from "react-native";
 import { ChevronLeftIcon, ChevronRightIcon, FuelIcon } from "@shared/icons";
-import { PERIOD_LABEL } from "@shared/utils/fuel";
+import { PERIOD_LABEL } from "@shared/utils/helpers/fuel";
 import { c } from "@theme/colors";
 import type { FuelPeriod } from "@typings/fuel";
 import { styles } from "./FuelHero.styles";

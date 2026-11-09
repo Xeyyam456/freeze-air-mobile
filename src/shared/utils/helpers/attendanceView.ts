@@ -1,4 +1,4 @@
-import { timeBaku } from "@shared/utils/time";
+import { timeBaku } from "@shared/utils/helpers/time";
 import type { MonthAttendance, Presence, TodayBadge, TodayTotals } from "@typings/attendance";
 
 const MONTHS = ["Yanvar", "Fevral", "Mart", "Aprel", "May", "İyun", "İyul", "Avqust", "Sentyabr", "Oktyabr", "Noyabr", "Dekabr"];

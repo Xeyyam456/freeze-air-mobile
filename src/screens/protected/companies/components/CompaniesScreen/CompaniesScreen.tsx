@@ -11,7 +11,7 @@ import Ambient from "@screens/protected/errorCodes/components/Ambient";
 import CompanyCard from "@screens/protected/companies/components/CompanyCard";
 import CompanySummary from "@screens/protected/companies/components/CompanySummary";
 import useCompanies from "@screens/protected/companies/hooks/useCompanies";
-import { pct } from "@shared/utils/companies";
+import { pct } from "@shared/utils/helpers/companies";
 import { KIND } from "@shared/config/kinds";
 import { c } from "@theme/colors";
 import type { Company } from "@typings/companies";

@@ -2,8 +2,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useRef } from "react";
 import { queryKeys } from "@shared/queries/queryKeys";
 import { setTaskDone } from "@shared/services/tasks.service";
-import { flipDone } from "@shared/utils/tasks";
-import { toast } from "@shared/utils/toast";
+import { flipDone } from "@shared/utils/helpers/tasks";
+import { toast } from "@shared/utils/helpers/toast";
 import type { DayTasks, Task } from "@typings/tasks";
 
 type Vars = { id: number; group_id: string | null; done: boolean; day: string };

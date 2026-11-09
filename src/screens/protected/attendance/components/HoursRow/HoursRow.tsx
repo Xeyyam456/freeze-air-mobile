@@ -1,8 +1,8 @@
 import { memo } from "react";
 import { Text, View } from "react-native";
 import { LogInIcon, LogOutIcon } from "@shared/icons";
-import { durationText, fullDate, weekdayName } from "@shared/utils/attendanceView";
-import { timeBaku } from "@shared/utils/time";
+import { durationText, fullDate, weekdayName } from "@shared/utils/helpers/attendanceView";
+import { timeBaku } from "@shared/utils/helpers/time";
 import { c } from "@theme/colors";
 import { styles } from "./HoursRow.styles";
 import type { HoursRowProps } from "./HoursRow.types";

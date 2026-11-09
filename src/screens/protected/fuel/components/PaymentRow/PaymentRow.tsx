@@ -2,7 +2,7 @@ import { memo, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import ConfirmModal from "@shared/components/ConfirmModal";
 import { CheckIcon, CloseIcon } from "@shared/icons";
-import { azn, dayName } from "@shared/utils/fuel";
+import { azn, dayName } from "@shared/utils/helpers/fuel";
 import { c } from "@theme/colors";
 import { styles } from "./PaymentRow.styles";
 import type { PaymentRowProps } from "./PaymentRow.types";

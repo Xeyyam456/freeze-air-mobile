@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import { FileTextIcon, ImagePlusIcon, VideoIcon } from "@shared/icons";
 import SourceMenu from "@shared/components/SourceMenu";
-import { formatSeconds } from "@shared/utils/media";
+import { formatSeconds } from "@shared/utils/helpers/media";
 import { c } from "@theme/colors";
 import type { PickSource } from "@typings/taskNote";
 import { styles } from "./FileTiles.styles";

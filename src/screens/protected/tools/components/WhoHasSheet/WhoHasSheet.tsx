@@ -5,7 +5,7 @@ import Avatar from "@shared/components/Avatar";
 import DragSheet from "@shared/components/DragSheet";
 import useKeyboardHeight from "@shared/hooks/useKeyboardHeight";
 import { ChevronLeftIcon, ChevronRightIcon, CloseIcon } from "@shared/icons";
-import { groupPeople, personCounts } from "@shared/utils/tools";
+import { groupPeople, personCounts } from "@shared/utils/helpers/tools";
 import PersonItems from "@screens/protected/tools/components/PersonItems";
 import { c } from "@theme/colors";
 import type { Person } from "@typings/tools";

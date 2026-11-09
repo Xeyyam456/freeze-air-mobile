@@ -1,6 +1,6 @@
 import { Text, View } from "react-native";
 import { UsersIcon } from "@shared/icons";
-import { partnerText } from "@shared/utils/team";
+import { partnerText } from "@shared/utils/helpers/team";
 import { c } from "@theme/colors";
 import { styles } from "./PartnerLines.styles";
 

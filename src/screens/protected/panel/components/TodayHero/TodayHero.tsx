@@ -4,7 +4,7 @@ import { ActivityIndicator, Pressable, Text, View } from "react-native";
 import Animated, { FadeIn } from "react-native-reanimated";
 import Button from "@shared/components/Button";
 import GradientBg from "@shared/components/GradientBg";
-import { presenceView } from "@shared/utils/presence";
+import { presenceView } from "@shared/utils/helpers/presence";
 import useMyDay from "@screens/protected/panel/hooks/useMyDay";
 import PulseGlow from "@screens/protected/panel/components/PulseGlow";
 import SessionList from "@screens/protected/panel/components/SessionList";

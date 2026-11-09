@@ -1,6 +1,6 @@
 import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
 import { supabase } from "@shared/api/supabase";
-import { readBytes } from "@shared/utils/media";
+import { readBytes } from "@shared/utils/helpers/media";
 
 const BUCKET = "avatars";
 const SIZE = 512; // web/admin ilə eyni: 512 px kvadrat WebP (API.md §6)

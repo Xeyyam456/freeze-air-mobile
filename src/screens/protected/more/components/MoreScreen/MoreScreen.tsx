@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Constants from "expo-constants";
 import * as Updates from "expo-updates";
 import { MORE_GROUPS } from "@shared/config/more";
-import { stamp } from "@shared/utils/leaves";
+import { stamp } from "@shared/utils/helpers/leaves";
 import MoreRow from "@screens/protected/more/components/MoreRow";
 import type { MoreStackParamList } from "@typings/navigation";
 import { styles } from "./MoreScreen.styles";

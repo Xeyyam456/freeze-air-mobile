@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Text, View } from "react-native";
 import Animated, { Easing, useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
-import { dayLabel } from "@shared/utils/time";
+import { dayLabel } from "@shared/utils/helpers/time";
 import { styles } from "./TasksHeader.styles";
 import type { TasksHeaderProps } from "./TasksHeader.types";
 

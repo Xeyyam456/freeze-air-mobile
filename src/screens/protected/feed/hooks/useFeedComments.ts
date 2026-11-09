@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import useMe from "@shared/hooks/useMe";
 import { queryKeys } from "@shared/queries/queryKeys";
 import { addFeedComment, deleteFeedComment, fetchFeedComments, setCommentReaction } from "@shared/services/feedComments.service";
-import { toast } from "@shared/utils/toast";
+import { toast } from "@shared/utils/helpers/toast";
 import type { FeedComment, FeedGroup, FeedPost, Reaction } from "@typings/feed";
 
 // Paylaşımın şərhləri (canlı: feed_comments Realtime). Yazma və silmə OPTİMİSTİKDİR: şərh klik anında siyahıda,

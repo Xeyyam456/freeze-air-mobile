@@ -2,7 +2,7 @@ import { memo, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import ConfirmModal from "@shared/components/ConfirmModal";
 import { CalendarOffIcon, TrashIcon } from "@shared/icons";
-import { leaveRange, leaveWorkdays, stamp } from "@shared/utils/leaves";
+import { leaveRange, leaveWorkdays, stamp } from "@shared/utils/helpers/leaves";
 import { STATUS, styles } from "./LeaveCard.styles";
 import type { LeaveCardProps } from "./LeaveCard.types";
 

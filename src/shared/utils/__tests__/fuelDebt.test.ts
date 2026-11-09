@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { coverage, dayPayState, debts, unpaidDays } from "@shared/utils/fuelDebt";
+import { coverage, dayPayState, debts, unpaidDays } from "@shared/utils/helpers/fuelDebt";
 import type { FuelData } from "@typings/fuel";
 
 type Month = FuelData["month"];

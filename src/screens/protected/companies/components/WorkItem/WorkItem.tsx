@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { Text, View } from "react-native";
-import { dayLabel, timeBaku } from "@shared/utils/time";
+import { dayLabel, timeBaku } from "@shared/utils/helpers/time";
 import { styles } from "./WorkItem.styles";
 import type { WorkItemProps } from "./WorkItem.types";
 

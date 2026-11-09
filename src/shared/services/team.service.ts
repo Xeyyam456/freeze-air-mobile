@@ -1,6 +1,6 @@
 import { supabase } from "@shared/api/supabase";
-import { buildPartners, buildStatus, countWork } from "@shared/utils/team";
-import { isSunday, monthStartBaku, todayBaku } from "@shared/utils/time";
+import { buildPartners, buildStatus, countWork } from "@shared/utils/helpers/team";
+import { isSunday, monthStartBaku, todayBaku } from "@shared/utils/helpers/time";
 import type { EmployeesData, Person, WorkEntry } from "@typings/team";
 
 const COLS = "id, full_name, photo_url, position, specialty, phone, start_date, has_car, car_plate, car_model";

@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { Linking, Text, View } from "react-native";
 import Button from "@shared/components/Button";
 import { BriefcaseIcon, CalendarCheckIcon, CarIcon, PhoneIcon, type Icon } from "@shared/icons";
-import { experience, formatDate } from "@shared/utils/team";
+import { experience, formatDate } from "@shared/utils/helpers/team";
 import { c } from "@theme/colors";
 import type { Person } from "@typings/team";
 import { styles } from "./PersonAbout.styles";

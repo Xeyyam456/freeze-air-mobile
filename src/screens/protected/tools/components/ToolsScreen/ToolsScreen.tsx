@@ -16,7 +16,7 @@ import WhoHasSheet from "@screens/protected/tools/components/WhoHasSheet";
 import ToolTabs from "@screens/protected/tools/components/ToolTabs";
 import ToolsHero from "@screens/protected/tools/components/ToolsHero";
 import useMyTools from "@screens/protected/tools/hooks/useMyTools";
-import { groupPeople } from "@shared/utils/tools";
+import { groupPeople } from "@shared/utils/helpers/tools";
 import { UndoIcon } from "@shared/icons";
 import { c } from "@theme/colors";
 import type { MyHold, ToolRow } from "@typings/tools";

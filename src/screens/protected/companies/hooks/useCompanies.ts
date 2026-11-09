@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { queryKeys } from "@shared/queries/queryKeys";
 import { fetchCompanies, fetchMonthWorks } from "@shared/services/companies.service";
-import { filterCompanies, hasCoords } from "@shared/utils/companies";
+import { filterCompanies, hasCoords } from "@shared/utils/helpers/companies";
 import type { CompanyKind } from "@typings/companies";
 
 // Şirkətlər ekranının vəziyyəti: siyahı (disk keşi), bu ayın işləri (ayrıca sorğu: siyahı gözləmir), axtarış, cəmlər (web xülasəsi ilə eyni)

@@ -1,7 +1,7 @@
 import { Image } from "expo-image";
 import { Text, View } from "react-native";
 import GradientBg from "@shared/components/GradientBg";
-import { initial } from "@shared/utils/companies";
+import { initial } from "@shared/utils/helpers/companies";
 import { c } from "@theme/colors";
 import { styles } from "./PlaceLogo.styles";
 import type { PlaceLogoProps } from "./PlaceLogo.types";

@@ -1,7 +1,7 @@
 import { Linking, Modal, Pressable, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { CloseIcon, NavigationIcon } from "@shared/icons";
-import { mapsUrl, wazeUrl } from "@shared/utils/companies";
+import { mapsUrl, wazeUrl } from "@shared/utils/helpers/companies";
 import DragSheet from "@shared/components/DragSheet";
 import { c } from "@theme/colors";
 import { styles } from "./NavSheet.styles";

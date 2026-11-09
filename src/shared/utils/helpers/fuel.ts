@@ -1,5 +1,5 @@
-import { addDays } from "@shared/utils/time";
-import { unpaidDays } from "@shared/utils/fuelDebt";
+import { addDays } from "@shared/utils/helpers/time";
+import { unpaidDays } from "@shared/utils/helpers/fuelDebt";
 import type { DayCoverage, FuelListRow, FuelPayment, FuelPeriod, FuelRange, FuelTotals, MileageRow, StepKind } from "@typings/fuel";
 
 // Yanacaq köməkçiləri (web views/Fuel/shared ilə eyni qaydalar)

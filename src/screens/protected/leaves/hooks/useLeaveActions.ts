@@ -2,8 +2,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { queryKeys } from "@shared/queries/queryKeys";
 import { cancelLeave, giveUpLeave, submitLeave } from "@shared/services/leaves.service";
-import { addDays, todayBaku } from "@shared/utils/time";
-import { toast } from "@shared/utils/toast";
+import { addDays, todayBaku } from "@shared/utils/helpers/time";
+import { toast } from "@shared/utils/helpers/toast";
 import type { MyLeave } from "@typings/leaves";
 
 // Yazıdan sonra təzələnənlər: icazələr, davamiyyət (icazəli günlər), panel

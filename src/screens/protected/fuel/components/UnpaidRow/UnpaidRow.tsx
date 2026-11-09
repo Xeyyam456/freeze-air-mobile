@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { Text, View } from "react-native";
-import { azn, dayName, fmtKm, WEEKDAY_SHORT, weekdayOf } from "@shared/utils/fuel";
+import { azn, dayName, fmtKm, WEEKDAY_SHORT, weekdayOf } from "@shared/utils/helpers/fuel";
 import { styles } from "./UnpaidRow.styles";
 import type { UnpaidRowProps } from "./UnpaidRow.types";
 

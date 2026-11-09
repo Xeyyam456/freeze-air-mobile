@@ -1,6 +1,6 @@
 import { Pressable, Text, View } from "react-native";
 import { ChevronRightIcon } from "@shared/icons";
-import { feedWhen } from "@shared/utils/feed";
+import { feedWhen } from "@shared/utils/helpers/feed";
 import ActArt from "@screens/protected/groups/components/ActArt";
 import MediaArt from "@screens/protected/groups/components/MediaArt";
 import { c } from "@theme/colors";

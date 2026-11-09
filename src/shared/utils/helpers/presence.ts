@@ -1,4 +1,4 @@
-import { secs, timeBaku } from "@shared/utils/time";
+import { secs, timeBaku } from "@shared/utils/helpers/time";
 import type { PresenceAction, Session, TodayAttendance } from "@typings/panel";
 
 export type PresenceTone = "idle" | "working" | "done" | "leave" | "absent" | "sunday";

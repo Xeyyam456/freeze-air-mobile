@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import type { PresenceTone } from "@shared/utils/presence";
+import type { PresenceTone } from "@shared/utils/helpers/presence";
 import { c, radius, space } from "@theme/colors";
 
 // Vəziyyət çipinin rəngi

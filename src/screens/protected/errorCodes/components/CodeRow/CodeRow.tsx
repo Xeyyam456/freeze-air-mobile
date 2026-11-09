@@ -3,7 +3,7 @@ import { Pressable, Text, View } from "react-native";
 import Animated, { useAnimatedStyle, useSharedValue, withTiming } from "react-native-reanimated";
 import { toneOf } from "@shared/config/codeTones";
 import { ChevronRightIcon } from "@shared/icons";
-import { isNoInfo } from "@shared/utils/errorCodes";
+import { isNoInfo } from "@shared/utils/helpers/errorCodes";
 import { c } from "@theme/colors";
 import { styles } from "./CodeRow.styles";
 import type { CodeRowProps } from "./CodeRow.types";

@@ -1,6 +1,6 @@
 import { Text, View } from "react-native";
 import { CheckIcon } from "@shared/icons";
-import { monthLead } from "@shared/utils/attendanceView";
+import { monthLead } from "@shared/utils/helpers/attendanceView";
 import { c } from "@theme/colors";
 import { CELL, LEGEND, WEEK, styles } from "./CalendarGrid.styles";
 import type { CalendarGridProps } from "./CalendarGrid.types";

@@ -2,8 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { queryKeys } from "@shared/queries/queryKeys";
 import { fetchDayTasks, fetchWeek } from "@shared/services/tasks.service";
-import { buildRows, weekDays } from "@shared/utils/tasks";
-import { addDays } from "@shared/utils/time";
+import { buildRows, weekDays } from "@shared/utils/helpers/tasks";
+import { addDays } from "@shared/utils/helpers/time";
 
 // Günün tapşırıqları + həftə zolağı. Keşdən dərhal (MMKV), arxada təzələnir; canlı yenilənmə usePanelLive ilə.
 function useTasksData(day: string, from: string, days: string[], me: number | undefined) {

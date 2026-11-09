@@ -4,7 +4,7 @@ import Avatar from "@shared/components/Avatar";
 import PartnerLines from "@shared/components/PartnerLines";
 import { MapPinIcon } from "@shared/icons";
 import MediaGrid from "@screens/protected/feed/components/MediaGrid";
-import { timeBaku } from "@shared/utils/time";
+import { timeBaku } from "@shared/utils/helpers/time";
 import ReactionBar from "../ReactionBar";
 import { PLACE, styles } from "./FeedCard.styles";
 import type { FeedCardProps } from "./FeedCard.types";

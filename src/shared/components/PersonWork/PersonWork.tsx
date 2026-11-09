@@ -4,7 +4,7 @@ import ErrorState from "@shared/components/ErrorState";
 import WorkFiles from "@shared/components/WorkFiles";
 import useEmployeeWork from "@shared/hooks/useEmployeeWork";
 import { PaperclipIcon } from "@shared/icons";
-import { dayLabel, timeBaku, todayBaku } from "@shared/utils/time";
+import { dayLabel, timeBaku, todayBaku } from "@shared/utils/helpers/time";
 import { c } from "@theme/colors";
 import type { WorkEntry } from "@typings/team";
 import { styles } from "./PersonWork.styles";

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ATTENDANCE_START, dayStatus, isWorkday, monthDays, summarize, toPresence } from "@shared/utils/attendance";
+import { ATTENDANCE_START, dayStatus, isWorkday, monthDays, summarize, toPresence } from "@shared/utils/helpers/attendance";
 import type { AttRow, Leave } from "@typings/attendance";
 
 // 2026-11-09 bazar ertəsidir; 2026-11-01 və 2026-11-08 bazardır

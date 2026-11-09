@@ -1,5 +1,5 @@
 import * as ImagePicker from "expo-image-picker";
-import { toast } from "@shared/utils/toast";
+import { toast } from "@shared/utils/helpers/toast";
 
 export type PickMedia = "images" | "videos";
 type PickOptions = { multiple?: boolean; square?: boolean };

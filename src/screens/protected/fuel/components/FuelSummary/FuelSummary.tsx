@@ -1,6 +1,6 @@
 import { Text, View } from "react-native";
 import GradientBg from "@shared/components/GradientBg";
-import { azn, dayName, fmtKm, PERIOD_TOTAL } from "@shared/utils/fuel";
+import { azn, dayName, fmtKm, PERIOD_TOTAL } from "@shared/utils/helpers/fuel";
 import { c, gradients } from "@theme/colors";
 import { styles, TONE } from "./FuelSummary.styles";
 import type { FuelSummaryProps } from "./FuelSummary.types";

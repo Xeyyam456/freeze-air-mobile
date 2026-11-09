@@ -1,5 +1,5 @@
 import { supabase } from "@shared/api/supabase";
-import { monthStartBaku, todayBaku } from "@shared/utils/time";
+import { monthStartBaku, todayBaku } from "@shared/utils/helpers/time";
 import type { MyDayStats } from "@typings/panel";
 
 // Panel göstəriciləri (API.md §2): bu gün / bu ay işlərim, bugünkü tapşırıqlar, məndə olan alət və materiallar.

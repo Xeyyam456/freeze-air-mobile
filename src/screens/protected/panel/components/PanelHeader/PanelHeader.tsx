@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import Avatar from "@shared/components/Avatar";
 import SignOutConfirm from "@shared/components/SignOutConfirm";
-import { dayLabel } from "@shared/utils/time";
+import { dayLabel } from "@shared/utils/helpers/time";
 import { c } from "@theme/colors";
 import type { PanelStackParamList } from "@typings/navigation";
 import { styles } from "./PanelHeader.styles";

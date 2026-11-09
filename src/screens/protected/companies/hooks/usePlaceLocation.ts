@@ -3,8 +3,8 @@ import * as Location from "expo-location";
 import { useState } from "react";
 import { reverseGeocode } from "@shared/services/geocode.service";
 import { setPlaceLocation } from "@shared/services/companies.service";
-import { MAX_ACC, meters, parseCoordinates } from "@shared/utils/location";
-import { toast } from "@shared/utils/toast";
+import { MAX_ACC, meters, parseCoordinates } from "@shared/utils/helpers/location";
+import { toast } from "@shared/utils/helpers/toast";
 import type { PlaceFix, PlaceRef } from "@typings/companies";
 
 // Konumu düzəltmə vəziyyəti (web usePlaceLocation ilə eyni qaydalar): ünvan, GPS ilə tapılan / əl ilə yazılan / xəritədən seçilən koordinat, təsdiq.

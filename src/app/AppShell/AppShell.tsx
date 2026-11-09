@@ -5,7 +5,7 @@ import Toast from "react-native-toast-message";
 import useNotificationTaps from "@app/hooks/useNotificationTaps";
 import usePushRegistration from "@app/hooks/usePushRegistration";
 import { flushPendingUrl, navigationRef } from "@navigation/refs/navigationRef";
-import { toastConfig } from "@shared/utils/toast";
+import { toastConfig } from "@shared/utils/helpers/toast";
 import { navigationTheme } from "@theme/navigationTheme";
 import RootNavigator from "@navigation/RootNavigator";
 

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { pickAssets } from "@shared/utils/picker";
-import { fmtKm } from "@shared/utils/fuel";
-import { toast } from "@shared/utils/toast";
+import { pickAssets } from "@shared/utils/helpers/picker";
+import { fmtKm } from "@shared/utils/helpers/fuel";
+import { toast } from "@shared/utils/helpers/toast";
 import type { StepKind } from "@typings/fuel";
 
 type Args = { kind: StepKind; value: number | null; photo: string | null; min?: number; max?: number; onSave: (km: number, uri: string | null) => void };

@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import useMe from "@shared/hooks/useMe";
 import { queryKeys } from "@shared/queries/queryKeys";
 import { createAnnouncement, deleteAnnouncement } from "@shared/services/announcements.service";
-import { toast } from "@shared/utils/toast";
+import { toast } from "@shared/utils/helpers/toast";
 import type { Announcement } from "@typings/announcements";
 
 // Göndər və sil — OPTİMİSTİK: siyahı klik anında dəyişir, baza arxada; xətada siyahı geri qayıdır.

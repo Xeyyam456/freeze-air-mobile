@@ -1,6 +1,6 @@
 import { Pressable, Text, View } from "react-native";
 import { ChevronLeftIcon, ChevronRightIcon } from "@shared/icons";
-import { monthTitle } from "@shared/utils/attendanceView";
+import { monthTitle } from "@shared/utils/helpers/attendanceView";
 import { c } from "@theme/colors";
 import { styles } from "./MonthNav.styles";
 import type { MonthNavProps } from "./MonthNav.types";

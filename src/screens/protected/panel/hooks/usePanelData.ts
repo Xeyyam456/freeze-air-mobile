@@ -3,7 +3,7 @@ import { queryKeys } from "@shared/queries/queryKeys";
 import { fetchMonthOverview } from "@shared/services/overview.service";
 import { fetchMyDayStats } from "@shared/services/stats.service";
 import { fetchDayLogs } from "@shared/services/work.service";
-import { todayBaku } from "@shared/utils/time";
+import { todayBaku } from "@shared/utils/helpers/time";
 
 // Panelin məlumatı: göstəricilər + ayın icmalı (öz) + günün işləri (hamı). Keşdən dərhal, arxada təzələnir.
 function usePanelData(employeeId: number | undefined) {

@@ -1,5 +1,5 @@
 import { Text, View } from "react-native";
-import { durShort, mins, timeBaku } from "@shared/utils/time";
+import { durShort, mins, timeBaku } from "@shared/utils/helpers/time";
 import { styles } from "./SessionList.styles";
 import type { SessionListProps } from "./SessionList.types";
 

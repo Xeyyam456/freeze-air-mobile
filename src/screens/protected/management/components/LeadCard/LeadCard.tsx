@@ -2,7 +2,7 @@ import { Pressable, Text, View } from "react-native";
 import Avatar from "@shared/components/Avatar";
 import GradientBg from "@shared/components/GradientBg";
 import { BriefcaseIcon, CrownIcon, PhoneIcon } from "@shared/icons";
-import { experience } from "@shared/utils/team";
+import { experience } from "@shared/utils/helpers/team";
 import { c, gradients } from "@theme/colors";
 import { styles } from "./LeadCard.styles";
 import type { LeadCardProps } from "./LeadCard.types";

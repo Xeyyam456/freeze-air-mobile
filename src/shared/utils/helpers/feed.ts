@@ -1,4 +1,4 @@
-import { dayLabel, timeBaku, todayBaku, addDays } from "@shared/utils/time";
+import { dayLabel, timeBaku, todayBaku, addDays } from "@shared/utils/helpers/time";
 import type { FeedPost } from "@typings/feed";
 
 // Azərbaycan hərflərini sadələşdir ("İzmir" ~ "izmir"), axtarış üçün

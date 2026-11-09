@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { Text, View } from "react-native";
 import Avatar from "@shared/components/Avatar";
-import { timeBaku } from "@shared/utils/time";
+import { timeBaku } from "@shared/utils/helpers/time";
 import GlassSheen from "@shared/components/GlassSheen";
 import { styles } from "./WorkRow.styles";
 import type { WorkRowProps } from "./WorkRow.types";

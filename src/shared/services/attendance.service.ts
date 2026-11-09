@@ -1,5 +1,5 @@
 import { supabase } from "@shared/api/supabase";
-import { isSunday, todayBaku } from "@shared/utils/time";
+import { isSunday, todayBaku } from "@shared/utils/helpers/time";
 import type { DayStatus, TodayAttendance } from "@typings/panel";
 
 // Bugünkü davamiyyətim (API.md §2): seanslar, təsdiqli icazə, "işdə olmayıb" qeydi → vəziyyət

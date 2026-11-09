@@ -2,8 +2,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { queryKeys } from "@shared/queries/queryKeys";
 import { persistTaskNote } from "@shared/services/taskNote.service";
-import { setNote } from "@shared/utils/tasks";
-import { toast } from "@shared/utils/toast";
+import { setNote } from "@shared/utils/helpers/tasks";
+import { toast } from "@shared/utils/helpers/toast";
 import type { DayTasks } from "@typings/tasks";
 import type { NoteSave } from "@typings/taskNote";
 

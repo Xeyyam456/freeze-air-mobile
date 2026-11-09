@@ -1,6 +1,6 @@
 import { Text, View } from "react-native";
 import Animated, { FadeInDown } from "react-native-reanimated";
-import { monthName, todayBaku } from "@shared/utils/time";
+import { monthName, todayBaku } from "@shared/utils/helpers/time";
 import MonthBar from "@screens/protected/panel/components/MonthBar";
 import GlassSheen from "@shared/components/GlassSheen";
 import { H, styles } from "./MonthTrend.styles";

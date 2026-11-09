@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { Linking, Pressable, Text, View } from "react-native";
 import { LocateFixedIcon, MapIcon, MapPinIcon, NavigationIcon, PhoneIcon } from "@shared/icons";
-import { hasCoords, hasLocation, telUrl } from "@shared/utils/companies";
+import { hasCoords, hasLocation, telUrl } from "@shared/utils/helpers/companies";
 import { c } from "@theme/colors";
 import { styles } from "./UnitCard.styles";
 import type { UnitCardProps } from "./UnitCard.types";

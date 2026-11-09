@@ -1,10 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import useMe from "@shared/hooks/useMe";
-import { shiftMonth } from "@shared/utils/attendanceView";
-import { leaveWorkdays } from "@shared/utils/leaves";
-import { todayBaku } from "@shared/utils/time";
-import { toast } from "@shared/utils/toast";
+import { shiftMonth } from "@shared/utils/helpers/attendanceView";
+import { leaveWorkdays } from "@shared/utils/helpers/leaves";
+import { todayBaku } from "@shared/utils/helpers/time";
+import { toast } from "@shared/utils/helpers/toast";
 import useLeaveActions from "@screens/protected/leaves/hooks/useLeaveActions";
 
 // İcazə istə formu: təqvimdə aralıq (1-ci toxunuş başlanğıc, 2-ci bitmə), səbəb, iş günü sayı (bazar sayılmır).

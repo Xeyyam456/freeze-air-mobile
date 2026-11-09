@@ -1,7 +1,7 @@
 import { Text, View } from "react-native";
 import GradientBg from "@shared/components/GradientBg";
 import { CheckIcon } from "@shared/icons";
-import { azn, FUEL_LABEL, fmtKm } from "@shared/utils/fuel";
+import { azn, FUEL_LABEL, fmtKm } from "@shared/utils/helpers/fuel";
 import { c } from "@theme/colors";
 import { GREEN, styles } from "./DayResult.styles";
 import type { DayResultProps } from "./DayResult.types";

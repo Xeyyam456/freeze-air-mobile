@@ -1,5 +1,5 @@
 import { supabase } from "@shared/api/supabase";
-import { compressImage, compressVideo, readBytes } from "@shared/utils/media";
+import { compressImage, compressVideo, readBytes } from "@shared/utils/helpers/media";
 import type { FileKind, NewFile, NoteSave, SavedFile } from "@typings/taskNote";
 
 const ext = (mime: string) => (mime === "application/pdf" ? "pdf" : mime === "video/mp4" ? "mp4" : "jpg");

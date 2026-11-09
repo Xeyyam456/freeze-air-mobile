@@ -1,7 +1,7 @@
 import { Pressable, Text, View } from "react-native";
 import MonthNav from "@screens/protected/attendance/components/MonthNav";
-import { monthDays } from "@shared/utils/attendance";
-import { monthLead } from "@shared/utils/attendanceView";
+import { monthDays } from "@shared/utils/helpers/attendance";
+import { monthLead } from "@shared/utils/helpers/attendanceView";
 import { styles } from "./RangeCalendar.styles";
 import type { RangeCalendarProps } from "./RangeCalendar.types";
 

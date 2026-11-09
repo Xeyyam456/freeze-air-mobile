@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Button from "@shared/components/Button";
 import ScreenHeader from "@shared/components/ScreenHeader";
 import { SendIcon } from "@shared/icons";
-import { leaveRange } from "@shared/utils/leaves";
+import { leaveRange } from "@shared/utils/helpers/leaves";
 import RangeCalendar from "@screens/protected/leaves/components/RangeCalendar";
 import useLeaveForm from "@screens/protected/leaves/hooks/useLeaveForm";
 import { c } from "@theme/colors";

@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { queryKeys } from "@shared/queries/queryKeys";
 import { fetchAttendanceEmployees, fetchMonthAttendance } from "@shared/services/attendanceMonth.service";
-import { countToday } from "@shared/utils/attendanceView";
+import { countToday } from "@shared/utils/helpers/attendanceView";
 import type { AttendanceEmployee } from "@typings/attendance";
 
 // Davamiyyət lövhəsi: ustalar + ayın xülasəsi (keşdən dərhal, canlı: usePanelLive), mən birinci, bu günün sayları

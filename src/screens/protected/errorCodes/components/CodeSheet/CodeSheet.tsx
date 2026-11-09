@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Svg, { Defs, RadialGradient, Rect, Stop } from "react-native-svg";
 import { toneOf } from "@shared/config/codeTones";
 import { ChevronLeftIcon, ChevronRightIcon, CloseIcon } from "@shared/icons";
-import { isNoInfo, splitSteps } from "@shared/utils/errorCodes";
+import { isNoInfo, splitSteps } from "@shared/utils/helpers/errorCodes";
 import WorkSteps from "@screens/protected/errorCodes/components/WorkSteps";
 import DragSheet from "@shared/components/DragSheet";
 import { c } from "@theme/colors";

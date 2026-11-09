@@ -1,5 +1,5 @@
 import { supabase } from "@shared/api/supabase";
-import { monthStartBaku } from "@shared/utils/time";
+import { monthStartBaku } from "@shared/utils/helpers/time";
 import type { Company, CompanyDetail, CompanyKind, PlaceWork, Unit } from "@typings/companies";
 
 const COLS = "id, name, phone, address, contact_person, logo_url, lat, lng";

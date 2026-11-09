@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import useMe from "@shared/hooks/useMe";
 import { queryKeys } from "@shared/queries/queryKeys";
 import { fetchFeed } from "@shared/services/feed.service";
-import { searchPosts } from "@shared/utils/feed";
+import { searchPosts } from "@shared/utils/helpers/feed";
 import type { FeedGroup } from "@typings/feed";
 
 // İş lenti: qrup üzrə paylaşımlar (canlı: work_files → feed), axtarış. Linklər 1 saatlıqdır → ekran açılanda həmişə təzələnir

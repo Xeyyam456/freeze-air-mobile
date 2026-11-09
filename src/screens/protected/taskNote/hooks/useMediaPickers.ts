@@ -1,8 +1,8 @@
 import { getDocumentAsync } from "expo-document-picker";
 import type { ImagePickerAsset } from "expo-image-picker";
-import { formatSeconds, PDF_MAX_BYTES, videoBitrate } from "@shared/utils/media";
-import { type PickMedia, pickAssets } from "@shared/utils/picker";
-import { toast } from "@shared/utils/toast";
+import { formatSeconds, PDF_MAX_BYTES, videoBitrate } from "@shared/utils/helpers/media";
+import { type PickMedia, pickAssets } from "@shared/utils/helpers/picker";
+import { toast } from "@shared/utils/helpers/toast";
 import type { FileKind, NewFile, PickSource } from "@typings/taskNote";
 import type { TaskNoteForm } from "@screens/protected/taskNote/hooks/useTaskNoteForm";
 

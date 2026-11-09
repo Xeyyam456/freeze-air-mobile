@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "@shared/queries/queryKeys";
 import { fetchDayTasks } from "@shared/services/tasks.service";
-import { todayBaku } from "@shared/utils/time";
+import { todayBaku } from "@shared/utils/helpers/time";
 import useMe from "@shared/hooks/useMe";
 import type { DayTasks } from "@typings/tasks";
 

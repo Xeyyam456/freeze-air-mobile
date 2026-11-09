@@ -2,7 +2,7 @@ import { memo, useState } from "react";
 import { Pressable, Text, View } from "react-native";
 import ConfirmModal from "@shared/components/ConfirmModal";
 import { MegaphoneIcon, TrashIcon } from "@shared/icons";
-import { isFresh, timeText } from "@shared/utils/announcements";
+import { isFresh, timeText } from "@shared/utils/helpers/announcements";
 import { c } from "@theme/colors";
 import { styles } from "./AnnouncementRow.styles";
 import type { AnnouncementRowProps } from "./AnnouncementRow.types";

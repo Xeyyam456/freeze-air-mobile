@@ -2,7 +2,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { queryKeys } from "@shared/queries/queryKeys";
 import { setFeedReaction } from "@shared/services/feedMeta.service";
-import { toast } from "@shared/utils/toast";
+import { toast } from "@shared/utils/helpers/toast";
 import type { FeedGroup, FeedPost, Reaction } from "@typings/feed";
 
 // Reaksiya (👍 👎 ❤️ 👏 🙏) — OPTİMİSTİK: say və seçim klik anında dəyişir, baza arxada; xətada geri qayıdır.

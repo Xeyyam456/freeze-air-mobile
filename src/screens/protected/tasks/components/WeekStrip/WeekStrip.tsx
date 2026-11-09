@@ -1,6 +1,6 @@
 import { Pressable, Text, View } from "react-native";
 import { ChevronLeftIcon, ChevronRightIcon } from "@shared/icons";
-import { weekRange } from "@shared/utils/time";
+import { weekRange } from "@shared/utils/helpers/time";
 import WeekDayCell from "@screens/protected/tasks/components/WeekDayCell";
 import { c } from "@theme/colors";
 import { styles } from "./WeekStrip.styles";

@@ -4,8 +4,8 @@ import useMe from "@shared/hooks/useMe";
 import { queryKeys } from "@shared/queries/queryKeys";
 import type { fetchMe } from "@shared/services/auth.service";
 import { setProfilePhoto } from "@shared/services/profile.service";
-import { pickAssets } from "@shared/utils/picker";
-import { toast } from "@shared/utils/toast";
+import { pickAssets } from "@shared/utils/helpers/picker";
+import { toast } from "@shared/utils/helpers/toast";
 
 type Me = Awaited<ReturnType<typeof fetchMe>>;
 type Image = { uri: string; width: number; height: number };

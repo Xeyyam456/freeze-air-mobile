@@ -1,9 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "@shared/queries/queryKeys";
 import { checkIn, checkOut, fetchToday, giveUpLeaveAndCheckIn } from "@shared/services/attendance.service";
-import { optimisticDay } from "@shared/utils/optimistic";
-import { timeBaku } from "@shared/utils/time";
-import { toast } from "@shared/utils/toast";
+import { optimisticDay } from "@shared/utils/helpers/optimistic";
+import { timeBaku } from "@shared/utils/helpers/time";
+import { toast } from "@shared/utils/helpers/toast";
 import type { PresenceAction, TodayAttendance } from "@typings/panel";
 
 type Vars = { action: PresenceAction; prev: TodayAttendance | undefined };

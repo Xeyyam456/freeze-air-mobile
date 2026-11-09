@@ -1,4 +1,4 @@
-import { addDays, daysInMonth } from "@shared/utils/time";
+import { addDays, daysInMonth } from "@shared/utils/helpers/time";
 import type { MonthOverview } from "@typings/panel";
 
 export type OverviewRow = {

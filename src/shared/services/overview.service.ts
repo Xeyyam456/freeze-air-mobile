@@ -1,6 +1,6 @@
 import { supabase } from "@shared/api/supabase";
-import { buildOverview, type OverviewRow } from "@shared/utils/overview";
-import { addDays, monthStartBaku, prevMonthStart, todayBaku } from "@shared/utils/time";
+import { buildOverview, type OverviewRow } from "@shared/utils/helpers/overview";
+import { addDays, monthStartBaku, prevMonthStart, todayBaku } from "@shared/utils/helpers/time";
 import type { MonthOverview } from "@typings/panel";
 
 // Dashboard məlumatı bir dəfəyə (API.md §2 "Panel statistikası"): bu ayın + son 7 günün öz işləri və keçən ayın sayı.

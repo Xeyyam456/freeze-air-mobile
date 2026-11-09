@@ -5,7 +5,7 @@ import Button from "@shared/components/Button";
 import DragSheet from "@shared/components/DragSheet";
 import useKeyboardHeight from "@shared/hooks/useKeyboardHeight";
 import { CloseIcon, SendIcon } from "@shared/icons";
-import { calcReturn, emptyDraft } from "@shared/utils/tools";
+import { calcReturn, emptyDraft } from "@shared/utils/helpers/tools";
 import ReturnLine from "@screens/protected/tools/components/ReturnLine";
 import { c } from "@theme/colors";
 import type { ReturnDraft } from "@typings/tools";

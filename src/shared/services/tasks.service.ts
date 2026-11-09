@@ -1,5 +1,5 @@
 import { supabase } from "@shared/api/supabase";
-import { filesByGroup, placeOf } from "@shared/utils/tasks";
+import { filesByGroup, placeOf } from "@shared/utils/helpers/tasks";
 import type { DayTasks, WeekRow } from "@typings/tasks";
 
 // Tək literal olmalıdır: supabase-js tipi sətirdən çıxarır (birləşdirmə tipi itirir)

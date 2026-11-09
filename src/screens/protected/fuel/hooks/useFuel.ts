@@ -3,9 +3,9 @@ import { useMemo, useState } from "react";
 import useMe from "@shared/hooks/useMe";
 import { queryKeys } from "@shared/queries/queryKeys";
 import { fetchMyFuel } from "@shared/services/fuel.service";
-import { addMonths, buildFuelRows, FUEL_LABEL, rangeOf, sum } from "@shared/utils/fuel";
-import { coverage, debts } from "@shared/utils/fuelDebt";
-import { addDays, todayBaku } from "@shared/utils/time";
+import { addMonths, buildFuelRows, FUEL_LABEL, rangeOf, sum } from "@shared/utils/helpers/fuel";
+import { coverage, debts } from "@shared/utils/helpers/fuelDebt";
+import { addDays, todayBaku } from "@shared/utils/helpers/time";
 import type { FuelData, FuelPeriod } from "@typings/fuel";
 
 const EMPTY_MONTH: FuelData["month"] = { cost: 0, days: [], pays: [] };

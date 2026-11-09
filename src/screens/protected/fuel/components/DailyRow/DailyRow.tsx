@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { Text, View } from "react-native";
-import { azn, fmtKm, WEEKDAY_SHORT, weekdayOf } from "@shared/utils/fuel";
-import { dayPayState } from "@shared/utils/fuelDebt";
+import { azn, fmtKm, WEEKDAY_SHORT, weekdayOf } from "@shared/utils/helpers/fuel";
+import { dayPayState } from "@shared/utils/helpers/fuelDebt";
 import { styles } from "./DailyRow.styles";
 import type { DailyRowProps } from "./DailyRow.types";
 

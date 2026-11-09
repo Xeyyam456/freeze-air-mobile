@@ -3,7 +3,7 @@ import { Pressable, Text, View } from "react-native";
 import Avatar from "@shared/components/Avatar";
 import { REACTIONS } from "@shared/config/reactions";
 import { SmilePlusIcon, TrashIcon } from "@shared/icons";
-import { feedWhen } from "@shared/utils/feed";
+import { feedWhen } from "@shared/utils/helpers/feed";
 import { c } from "@theme/colors";
 import { styles } from "./CommentBubble.styles";
 import type { CommentBubbleProps } from "./CommentBubble.types";

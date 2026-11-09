@@ -1,4 +1,4 @@
-import { timeBaku } from "@shared/utils/time";
+import { timeBaku } from "@shared/utils/helpers/time";
 import type { Person, PersonStatus } from "@typings/team";
 
 // Təcrübə: "2 il 3 ay" / "1 aydan az" (web lib/experience ilə eyni)
