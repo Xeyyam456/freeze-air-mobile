@@ -19,6 +19,10 @@ export const styles = StyleSheet.create({
   },
   top: { flexDirection: "row", alignItems: "center", gap: space.sm },
   name: { flex: 1, color: c.ink, fontSize: 15, fontWeight: "700" },
-  place: { color: c.primary, fontSize: 13, fontWeight: "600" },
+  place: { color: "#22d3ee", fontSize: 13, fontWeight: "700" },
+  stack: { flexDirection: "row" },
+  // Avatarlar üst-üstə: hər biri fon rəngində halqa ilə ayrılır
+  ava: { borderRadius: 15, borderWidth: 2, borderColor: c.surface, overflow: "hidden" },
+  avaNext: { marginLeft: -10 },
   desc: { color: c.ink, fontSize: 14, opacity: 0.85, lineHeight: 19 },
 });

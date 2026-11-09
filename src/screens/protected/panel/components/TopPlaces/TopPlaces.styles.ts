@@ -27,6 +27,12 @@ export const styles = StyleSheet.create({
     backgroundColor: c.glass,
   },
   rankFirst: { color: c.white, backgroundColor: c.primary },
+  main: { flex: 1, gap: 8 },
+  line: { flexDirection: "row", alignItems: "center", gap: space.md },
   name: { flex: 1, color: c.ink, fontSize: 15, fontWeight: "600" },
+  // Nisbət zolağı: nazik, yuvarlaq; birinci yer vurğu rəngində, qalanları solğun
+  track: { height: 4, borderRadius: 2, backgroundColor: c.glass, overflow: "hidden" },
+  fill: { height: "100%", borderRadius: 2, backgroundColor: "rgba(79, 141, 255, 0.45)" },
+  fillFirst: { backgroundColor: c.primary },
   count: { color: c.ink, fontSize: 15, fontWeight: "800", fontVariant: ["tabular-nums"] },
 });
