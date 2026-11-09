@@ -1,3 +1,4 @@
 import type { MoreLink } from "@shared/config/more";
 
-export type MoreRowProps = { link: MoreLink; first: boolean; onPress: () => void };
+// index: menyudakı ümumi sıra (qruplar boyu) — giriş və "dalğa" animasiyasının gecikməsi
+export type MoreRowProps = { link: MoreLink; first: boolean; index: number; onPress: () => void };
