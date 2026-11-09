@@ -1,5 +1,4 @@
 import { useEffect, useRef } from "react";
-import { View } from "react-native";
 import Animated, { interpolateColor, useAnimatedStyle, useSharedValue, withSequence, withSpring, withTiming } from "react-native-reanimated";
 import { styles } from "./TabIndicator.styles";
 import type { TabIndicatorProps } from "./TabIndicator.types";
@@ -28,7 +27,6 @@ function TabIndicator({ index, tabWidth, colors, softs }: TabIndicatorProps) {
     <>
       <Animated.View pointerEvents="none" style={[styles.track, styles.pillTrack, { width: tabWidth }, pill]}><Animated.View style={[styles.pill, pillColor]} /></Animated.View>
       <Animated.View pointerEvents="none" style={[styles.track, styles.lineTrack, { width: tabWidth }, line]}>
-        <View style={styles.glow} />
         <Animated.View style={[styles.line, lineColor]} />
       </Animated.View>
     </>
