@@ -37,7 +37,7 @@ function TabBar({ state, navigation }: BottomTabBarProps) {
         };
         const tab = TABS[route.name as keyof typeof TABS];
         const badge = route.name === "TasksTab" ? openTasks : route.name === "AnnouncementsTab" ? unread : 0;
-        return <TabBarItem key={route.key} icon={tab.icon} label={tab.label} focused={focused} badge={badge} dot={route.name === "GroupsTab" && groupsNew} onPress={onPress} />;
+        return <TabBarItem key={route.key} icon={tab.icon} activeIcon={tab.active} label={tab.label} focused={focused} badge={badge} dot={route.name === "GroupsTab" && groupsNew} onPress={onPress} />;
       })}
     </View>
   );
