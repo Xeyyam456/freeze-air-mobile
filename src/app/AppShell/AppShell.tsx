@@ -16,7 +16,7 @@ function AppShell({ session }: { session: Session | null }) {
   return (
     <>
       <StatusBar style="light" />
-      <NavigationContainer ref={navigationRef} theme={navigationTheme} onReady={flushPendingUrl}>
+      <NavigationContainer ref={navigationRef} theme={navigationTheme} onReady={flushPendingUrl} onStateChange={flushPendingUrl}>
         <RootNavigator session={session} />
       </NavigationContainer>
       <Toast config={toastConfig} topOffset={56} />

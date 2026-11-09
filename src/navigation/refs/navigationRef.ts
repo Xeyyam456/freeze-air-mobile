@@ -14,8 +14,11 @@ export function openUrl(url: string) {
     pending = url;
     return;
   }
-  const target = URL_TAB[url.split("?")[0]] ?? { tab: "MoreTab" };
-  if (!navigationRef.getRootState()?.routeNames.includes("Main")) return;
+  // Tam ünvan gələrsə (https://.../tapshiriqlar) yalnız yolu götür
+  const path = url.replace(/^https?:\/\/[^/]+/, "").split("?")[0] || "/";
+  const target = URL_TAB[path] ?? { tab: "MoreTab" };
+  // Soyuq açılış: sessiya hələ bərpa olunmayıb (Login/boş) → url gözləyir, Main görünəndə açılır (onStateChange → flushPendingUrl)
+  if (!navigationRef.getRootState()?.routeNames.includes("Main")) { pending = url; return; }
   if (target.tab === "MoreTab") {
     navigationRef.navigate("Main", { screen: "MoreTab", params: { screen: target.more ?? "MoreMain" } });
   } else {
