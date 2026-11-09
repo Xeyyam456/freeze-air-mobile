@@ -10,7 +10,7 @@ const GAP = 4;
 const MAX = 9; // ən çox 9 xana, qalanı sonuncunun üstündə "+N"
 const isImg = (f: FeedFile) => f.kind !== "video" && !f.path.endsWith(".pdf") && !!f.url;
 
-// Fayl sayına görə kollaj (Telegram/WhatsApp kimi səliqəli): 1 = enli kadr, 2 = yan-yana, 3 = yuxarıda enli + altda iki,
+// Fayl sayına görə kollaj (Telegram/WhatsApp kimi səliqəli): 1 = enli kadr, 2 = yan-yana, 3 = bir sətirdə 3 bərabər xana,
 // 4 = 2×2, 5+ = 3-lü tor. Şəkil → tam ekran; video/PDF → telefonun öz tətbiqi. Künclər bütöv blok kimi yuvarlaqdır. memo
 function MediaGrid({ files, onImages }: MediaGridProps) {
   const [w, setW] = useState(0);
@@ -36,15 +36,8 @@ function MediaGrid({ files, onImages }: MediaGridProps) {
   let body = null;
   if (w && n === 1) body = cell(shown[0], 0, w, Math.round(w * 0.62));
   else if (w && n === 2) body = <View style={styles.row}>{shown.map((f, i) => cell(f, i, half, Math.round(half * 0.8)))}</View>;
-  else if (w && n === 3) {
-    // Yuxarıda bir enli kadr, altında iki yan-yana (üfüqi şəkillər az kəsilir; işçi şəkilləri adətən enlidir)
-    body = (
-      <View style={styles.col}>
-        {cell(shown[0], 0, w, Math.round(w * 0.56))}
-        <View style={styles.row}>{shown.slice(1).map((f, i) => cell(f, i + 1, half, Math.round(half * 0.72)))}</View>
-      </View>
-    );
-  } else if (w && n === 4) body = <View style={styles.wrap}>{shown.map((f, i) => cell(f, i, half, Math.round(half * 0.72)))}</View>;
+  else if (w && n === 3) body = <View style={styles.row}>{shown.map((f, i) => cell(f, i, third, third))}</View>; // bir sətirdə 3 bərabər xana (istifadəçi)
+  else if (w && n === 4) body = <View style={styles.wrap}>{shown.map((f, i) => cell(f, i, half, Math.round(half * 0.72)))}</View>;
   else if (w) body = <View style={styles.wrap}>{shown.map((f, i) => cell(f, i, third, third))}</View>;
 
   return <View style={styles.box} onLayout={(e) => setW(Math.floor(e.nativeEvent.layout.width))}>{body}</View>;
