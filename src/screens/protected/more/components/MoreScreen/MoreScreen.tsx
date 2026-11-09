@@ -1,3 +1,4 @@
+import useTabScrollTop from "@shared/hooks/useTabScrollTop";
 import { type NavigationProp, useNavigation } from "@react-navigation/native";
 import { ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -8,11 +9,12 @@ import { styles } from "./MoreScreen.styles";
 
 // Daha çox (status bar örtüyü: sürüşən məzmun saat/şəbəkə/batareya altında görünmür): web usta panelinin yan menyusu kimi qruplar (Gündəlik, Məlumat, Komanda); hər sətir öz ekranını açır
 function MoreScreen() {
+  const scrollRef = useTabScrollTop(); // aktiv taba yenidən basanda yuxarı
   const insets = useSafeAreaInsets();
   const nav = useNavigation<NavigationProp<MoreStackParamList>>();
   return (
     <View style={styles.flex}>
-    <ScrollView style={styles.flex} contentContainerStyle={[styles.content, { paddingTop: insets.top + 12 }]} showsVerticalScrollIndicator={false}>
+    <ScrollView ref={scrollRef} style={styles.flex} contentContainerStyle={[styles.content, { paddingTop: insets.top + 12 }]} showsVerticalScrollIndicator={false}>
       <Text style={styles.title}>Daha çox</Text>
       {MORE_GROUPS.map((g) => (
         <View key={g.title} style={styles.group}>

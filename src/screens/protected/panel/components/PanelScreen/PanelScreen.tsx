@@ -1,3 +1,4 @@
+import useTabScrollTop from "@shared/hooks/useTabScrollTop";
 import { FlashList } from "@shopify/flash-list";
 import { ActivityIndicator, RefreshControl, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -13,6 +14,7 @@ import { styles } from "./PanelScreen.styles";
 // Panel: bütün ekran bir FlashList-dir — başlıq dashboard-dur, sətirlər günün işləri.
 // Məlumat keşdən dərhal görünür; aşağı çəkəndə yenilənir; canlı yenilənmə Realtime ilə (usePanelLive).
 function PanelScreen() {
+  const scrollRef = useTabScrollTop(); // aktiv taba yenidən basanda yuxarı
   const insets = useSafeAreaInsets();
   const { data: me } = useMe();
   const emp = me?.employee;
@@ -26,6 +28,7 @@ function PanelScreen() {
   return (
     <View style={styles.flex}>
       <FlashList
+        ref={scrollRef}
         data={logs ?? []}
         keyExtractor={(item) => String(item.id)}
         renderItem={({ item }) => <WorkRow log={item} />}

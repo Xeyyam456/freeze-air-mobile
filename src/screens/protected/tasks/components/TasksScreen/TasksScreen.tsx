@@ -1,3 +1,4 @@
+import useTabScrollTop from "@shared/hooks/useTabScrollTop";
 import { FlashList } from "@shopify/flash-list";
 import { ActivityIndicator, RefreshControl, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -20,6 +21,7 @@ import { styles } from "./TasksScreen.styles";
 // Tapşırıqlar: bütün ekran bir FlashList — başlıq + həftə zolağı, sonra "Mənim" kartları və "Komanda" kartları.
 // Keşdən dərhal görünür; "görüldü" optimistikdir; canlı yenilənmə usePanelLive (tasks cədvəli) ilə.
 function TasksScreen() {
+  const scrollRef = useTabScrollTop(); // aktiv taba yenidən basanda yuxarı
   const insets = useSafeAreaInsets();
   const me = useMe().data?.employee?.id;
   const { today, day, from, days, past, setDay, shiftWeek } = useTaskDay();
@@ -41,6 +43,7 @@ function TasksScreen() {
   return (
     <View style={styles.flex}>
       <FlashList
+        ref={scrollRef}
         data={rows}
         keyExtractor={(r) => r.key}
         getItemType={(r) => r.kind}

@@ -1,3 +1,4 @@
+import useTabScrollTop from "@shared/hooks/useTabScrollTop";
 import { type NavigationProp, useNavigation } from "@react-navigation/native";
 import { ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -11,6 +12,7 @@ import { styles } from "./GroupsScreen.styles";
 // Qruplar (WhatsApp söhbət siyahısı kimi): Görülən işlər və Aktlar. Usta tapşırıq qeydinə fayl yükləyəndə avtomatik buraya düşür.
 // Sətirdə son paylaşım və oxunmamış iş sayı (qırmızı rəqəm; canlı: work_files Realtime). Qrupu açanda say sıfırlanır
 function GroupsScreen() {
+  const scrollRef = useTabScrollTop(); // aktiv taba yenidən basanda yuxarı
   const insets = useSafeAreaInsets();
   const nav = useNavigation<NavigationProp<GroupsStackParamList>>();
   const work = useFeed("work");
@@ -19,7 +21,7 @@ function GroupsScreen() {
   const unread = { work: useFeedUnread("work"), act: useFeedUnread("act") };
   return (
     <View style={styles.flex}>
-      <ScrollView style={styles.flex} contentContainerStyle={[styles.content, { paddingTop: insets.top + 12 }]} showsVerticalScrollIndicator={false}>
+      <ScrollView ref={scrollRef} style={styles.flex} contentContainerStyle={[styles.content, { paddingTop: insets.top + 12 }]} showsVerticalScrollIndicator={false}>
         <Text style={styles.title}>Qruplar</Text>
         <Text style={styles.sub}>Ustaların yüklədiyi şəkil, video və aktlar</Text>
         <View style={styles.list}>

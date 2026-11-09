@@ -1,3 +1,4 @@
+import useTabScrollTop from "@shared/hooks/useTabScrollTop";
 import { FlashList } from "@shopify/flash-list";
 import { ActivityIndicator, RefreshControl, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -16,6 +17,7 @@ import { styles } from "./AnnouncementsScreen.styles";
 // Elanlar (web /elanlar): rəhbərliyin elanları günlərə görə; rəhbərlikdirsə yuxarıda göndərmə forması.
 // CANLI: yeni/silinən elan Realtime ilə dərhal (usePanelLive); ekran açıq olanda hamısı oxundu (tab nişanı 0)
 function AnnouncementsScreen() {
+  const scrollRef = useTabScrollTop(); // aktiv taba yenidən basanda yuxarı
   const insets = useSafeAreaInsets();
   const a = useAnnouncements();
   const { send, remove } = useAnnouncementActions(a.me);
@@ -29,6 +31,7 @@ function AnnouncementsScreen() {
   return (
     <View style={styles.flex}>
       <FlashList
+        ref={scrollRef}
         data={a.rows}
         keyExtractor={(r) => r.key}
         getItemType={(r) => r.kind}

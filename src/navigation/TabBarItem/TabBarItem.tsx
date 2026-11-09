@@ -1,23 +1,28 @@
+import { useEffect } from "react";
 import { Pressable, Text, View } from "react-native";
-import Animated, { useAnimatedStyle, withSpring, ZoomIn, ZoomOut } from "react-native-reanimated";
+import Animated, { useAnimatedStyle, useSharedValue, withSequence, withSpring, withTiming, ZoomIn, ZoomOut } from "react-native-reanimated";
 import PulseDot from "@navigation/PulseDot";
 import { c } from "@theme/colors";
 import { styles } from "./TabBarItem.styles";
 import type { TabBarItemProps } from "./TabBarItem.types";
 
-// Bir tab: aktivdə ikonun arxasında yaylı açılan mavi həb, ikon və yazı vurğulanır; sağ yuxarıda rəqəm nişanı
+// Bir tab: basanda ikon yumşaq kiçilir, aktiv olanda bir dəfə yüngül sıçrayır; aktivdə ikon + yazı eyni vurğu rəngində.
+// Aktiv həb burada deyil — TabIndicator bütün bar üçün təkdir və sürüşür. Sağ yuxarıda rəqəm nişanı və ya nəbz nöqtəsi
 function TabBarItem({ icon: Icon, label, focused, badge = 0, dot = false, onPress }: TabBarItemProps) {
-  const pill = useAnimatedStyle(() => ({
-    opacity: withSpring(focused ? 1 : 0, { damping: 18 }),
-    transform: [{ scale: withSpring(focused ? 1 : 0.6, { damping: 14 }) }],
-  }));
+  const s = useSharedValue(1);
+  useEffect(() => {
+    if (focused) s.value = withSequence(withTiming(1.14, { duration: 120 }), withSpring(1, { damping: 10, stiffness: 220 }));
+  }, [focused, s]);
+  const icon = useAnimatedStyle(() => ({ transform: [{ scale: s.value }] }));
+  const color = focused ? c.primary : c.muted;
+  const a11y = badge > 0 ? `${label}, ${badge} yeni` : dot ? `${label}, yeni var` : label;
   return (
-    <Pressable onPress={onPress} style={styles.item} hitSlop={6} accessibilityLabel={badge || dot ? `${label}, yeni var` : label}>
+    <Pressable onPress={onPress} onPressIn={() => { s.value = withTiming(0.88, { duration: 90 }); }} onPressOut={() => { s.value = withSpring(1, { damping: 12, stiffness: 260 }); }}
+      style={styles.item} hitSlop={6} accessibilityRole="tab" accessibilityState={{ selected: focused }} accessibilityLabel={a11y}>
       <View style={styles.iconWrap}>
-        <Animated.View style={[styles.pill, pill]} />
-        <Icon size={25} color={focused ? c.primary : c.muted} strokeWidth={focused ? 2.4 : 2} />
+        <Animated.View style={icon}><Icon size={24} color={color} strokeWidth={focused ? 2.4 : 2} /></Animated.View>
         {badge > 0 && (
-          <Animated.View entering={ZoomIn.springify().damping(14)} exiting={ZoomOut.duration(150)} style={styles.badge}>
+          <Animated.View key={badge > 9 ? "9+" : badge} entering={ZoomIn.springify().damping(12)} exiting={ZoomOut.duration(150)} style={styles.badge}>
             <Text style={styles.badgeText}>{badge > 9 ? "9+" : badge}</Text>
           </Animated.View>
         )}
