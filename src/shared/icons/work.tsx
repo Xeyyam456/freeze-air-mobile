@@ -59,3 +59,24 @@ export const ImagePlusIcon = (p: IconProps) => (
     <Circle cx={9} cy={9} r={2} />
   </IconBase>
 );
+
+export const PackageIcon = (p: IconProps) => (
+  <IconBase {...p}>
+    <Path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z" />
+    <Path d="M12 22V12M3.3 7 12 12l8.7-5M7.5 4.27l9 5.15" />
+  </IconBase>
+);
+
+export const UndoIcon = (p: IconProps) => (
+  <IconBase {...p}>
+    <Path d="M9 14 4 9l5-5" />
+    <Path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5 5.5 5.5 0 0 1-5.5 5.5H11" />
+  </IconBase>
+);
+
+export const HandIcon = (p: IconProps) => (
+  <IconBase {...p}>
+    <Path d="M18 11V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2M14 10V4a2 2 0 0 0-2-2 2 2 0 0 0-2 2v2M10 10.5V6a2 2 0 0 0-2-2 2 2 0 0 0-2 2v8" />
+    <Path d="m7 15-1.76-1.76a2 2 0 0 0-2.83 2.82l3.6 3.6C7.5 21.14 9.2 22 12 22h2a8 8 0 0 0 8-8V8a2 2 0 0 0-4 0v3" />
+  </IconBase>
+);

@@ -24,5 +24,6 @@ export const queryKeys = {
   feed: (group: string) => ["feed", group] as const,
   managers: ["team-managers"] as const,
   employeeWork: (id: number) => ["employee-work", id, "v2"] as const, // v2: qeydlərdə logIds var (köhnə disk keşi atılsın)
-  myFuel: (employeeId: number, from: string, to: string) => ["my-fuel", employeeId, from, to] as const,
+  myTools: (employeeId: number) => ["my-tools", employeeId] as const,
+  myFuel:(employeeId: number, from: string, to: string) => ["my-fuel", employeeId, from, to] as const,
 };
