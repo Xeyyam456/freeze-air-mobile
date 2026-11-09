@@ -45,6 +45,9 @@ describe("calcReturn — material (kq / balon)", () => {
     expect(calcReturn(h, draft("5", false, false))).toMatchObject({ ok: true, used: 0, returned: 5, hint: "qaytarıram 5 kq · məndə qalır 17,6 kq" });
     expect(calcReturn(h, draft("", false, false)).ok).toBe(false);
   });
+  it.each(["-5", "-1", "abc"])("yanlış yazı (%s) qəbul olunmur", (ret) => {
+    expect(calcReturn(h, draft(ret))).toMatchObject({ ok: false, over: true, used: 0, returned: 0, hint: "Düzgün miqdar yaz (0 və ya daha çox)" });
+  });
   it("səndə olandan çox ola bilməz", () => {
     expect(calcReturn(h, draft("3", true))).toMatchObject({ ok: false, over: true, hint: "Səndə olandan çox ola bilməz" });
   });
