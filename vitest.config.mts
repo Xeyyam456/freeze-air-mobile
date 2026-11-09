@@ -9,6 +9,7 @@ export default defineConfig({
     alias: {
       "@shared": dir("./src/shared"),
       "@typings": dir("./types"),
+      "@theme": dir("./src/theme"),
     },
   },
   test: {
