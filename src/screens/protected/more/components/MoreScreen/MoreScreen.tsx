@@ -2,7 +2,10 @@ import useTabScrollTop from "@shared/hooks/useTabScrollTop";
 import { type NavigationProp, useNavigation } from "@react-navigation/native";
 import { ScrollView, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Constants from "expo-constants";
+import * as Updates from "expo-updates";
 import { MORE_GROUPS } from "@shared/config/more";
+import { stamp } from "@shared/utils/leaves";
 import MoreRow from "@screens/protected/more/components/MoreRow";
 import type { MoreStackParamList } from "@typings/navigation";
 import { styles } from "./MoreScreen.styles";
@@ -27,6 +30,8 @@ function MoreScreen() {
           </View>
         </View>
       ))}
+      {/* Versiya: OTA yeniləmə gəlibsə tarixi görünür (hansı kodun işlədiyini yoxlamaq üçün) */}
+      <Text style={styles.version}>Freeze Air {Constants.expoConfig?.version ?? ""} · {Updates.isEmbeddedLaunch || !Updates.createdAt ? "daxili versiya" : `yeniləmə ${stamp(Updates.createdAt.toISOString())}`}</Text>
     </ScrollView>
       <View pointerEvents="none" style={[styles.statusBar, { height: insets.top }]} />
     </View>
