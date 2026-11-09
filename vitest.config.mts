@@ -15,5 +15,7 @@ export default defineConfig({
   test: {
     include: ["src/**/*.test.ts"],
     environment: "node",
+    // Testlər kompüterin saat qurşağından asılı olmasın: ustaların cihazı kimi Bakı
+    env: { TZ: "Asia/Baku" },
   },
 });
