@@ -79,7 +79,7 @@ export const supabase = createClient(URL, KEY, {
 | Nə | Çağırış |
 |---|---|
 | Günün işləri | `from("work_logs").select("id, created_at, description, place_text, employees(full_name, photo_url), stores(name, companies(name)), companies(name)").eq("work_date", day).order("created_at", { ascending: false })` |
-| Qrup xəritəsi (qrup işini bir sətirə birləşdirmək) | `from("tasks").select("work_log_id, group_id").not("group_id","is",null).not("work_log_id","is",null).gte("task_date", from).lte("task_date", to)` |
+| Qrup xəritəsi (qrup işini bir sətirə birləşdirmək) | `from("tasks").select("work_log_id, group_id, work_logs!inner(work_date)").not("group_id","is",null).not("work_log_id","is",null).gte("work_logs.work_date", from).lte("work_logs.work_date", to)` — **iş tarixinə görə**, `task_date`-ə yox (sabaha planlanıb bu gün görülən tapşırıqda fərqlidir) |
 | Fayl sayları | `rpc("work_file_counts", { p_log_ids: number[] })` → `{ work_log_id, act, photo, video }[]` (qrup üzrə cəm) |
 
 ### İş detalı (pəncərə)
