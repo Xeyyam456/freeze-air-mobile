@@ -39,7 +39,7 @@ export async function fetchMonthWorks(): Promise<Record<number, number>> {
     paged<{ id: number; company_id: number | null; s: { company_id: number } | null }>((a, b) =>
       supabase.from("work_logs").select("id, company_id, s:stores(company_id)").gte("work_date", from).order("id").range(a, b) as never),
     paged<{ work_log_id: number | null; group_id: string | null }>((a, b) =>
-      supabase.from("tasks").select("work_log_id, group_id").not("group_id", "is", null).not("work_log_id", "is", null).gte("task_date", from).order("id").range(a, b)),
+      supabase.from("tasks").select("work_log_id, group_id, work_logs!inner(work_date)").not("group_id", "is", null).not("work_log_id", "is", null).gte("work_logs.work_date", from).order("id").range(a, b)),
   ]);
   const group = new Map(tasks.map((x) => [x.work_log_id as number, x.group_id as string]));
   const seen = new Set<string>();

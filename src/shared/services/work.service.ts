@@ -7,7 +7,7 @@ export async function fetchDayLogs(day: string): Promise<DayLog[]> {
     supabase.from("work_logs")
       .select("id, created_at, description, place_text, employees(full_name, photo_url), stores(code, name, companies(name)), companies(name)")
       .eq("work_date", day).order("created_at", { ascending: false }),
-    supabase.from("tasks").select("work_log_id, group_id").eq("task_date", day)
+    supabase.from("tasks").select("work_log_id, group_id, work_logs!inner(work_date)").eq("work_logs.work_date", day) // iş tarixi: task_date fərqli ola bilər
       .not("group_id", "is", null).not("work_log_id", "is", null),
   ]);
   if (logs.error) throw logs.error;
