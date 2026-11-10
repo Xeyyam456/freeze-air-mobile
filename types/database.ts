@@ -1948,7 +1948,9 @@ export type Database = {
         Returns: undefined
       }
       mileage_fill_missing: { Args: never; Returns: number }
+      mark_feed_seen: { Args: { p_at?: string; p_grp: string }; Returns: undefined }
       my_employee_id: { Args: never; Returns: number }
+      my_feed_seen: { Args: never; Returns: { grp: string; seen_at: string }[] }
       notify_all: {
         Args: {
           p_body: string

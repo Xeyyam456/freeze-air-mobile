@@ -63,7 +63,7 @@ function usePanelLive() {
 
     // Fondan qayıdanda: fonda buraxılmış hadisələr ola bilər → hamısını təzələ
     const sub = AppState.addEventListener("change", (s) => {
-      if (s === "active") refresh(["my-today", "my-day-stats", "work-history", "my-overview", "tasks-view", "tasks-week", "work-files", "month-attendance", "employee-month", "announcements", "unread-announcements", "my-leaves", "my-fuel", "my-tools", "team-employees", "employee-work", "feed", "feed-unread"]);
+      if (s === "active") refresh(["my-today", "my-day-stats", "work-history", "my-overview", "tasks-view", "tasks-week", "work-files", "month-attendance", "employee-month", "announcements", "unread-announcements", "my-leaves", "my-fuel", "my-tools", "team-employees", "employee-work", "feed", "feed-seen", "feed-unread"]);
     });
     // Token yenilənəndə Realtime-a da yeni token
     const auth = supabase.auth.onAuthStateChange((event, s) => {
