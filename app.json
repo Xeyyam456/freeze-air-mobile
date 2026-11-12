@@ -2,7 +2,7 @@
   "expo": {
     "name": "Freeze Air",
     "slug": "freeze-air-mobile",
-    "version": "1.0.2",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "freezeair",
@@ -55,7 +55,16 @@
           "locationWhenInUsePermission": "Mağazanın dəqiq koordinatını yazmaq üçün cari yerinə icazə lazımdır."
         }
       ],
-      "@maplibre/maplibre-react-native"
+      "@maplibre/maplibre-react-native",
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "Səs şərhi yazmaq üçün mikrofona icazə lazımdır.",
+          "recordAudioAndroid": true,
+          "enableBackgroundRecording": false,
+          "enableBackgroundPlayback": false
+        }
+      ]
     ],
     "extra": {
       "eas": {
@@ -63,7 +72,7 @@
       }
     },
     "owner": "xeyyam456",
-    "runtimeVersion": "1.0.0",
+    "runtimeVersion": "1.1.0",
     "updates": {
       "url": "https://u.expo.dev/10819339-2f21-43b0-9853-740e7eb28ba0",
       "requestHeaders": {

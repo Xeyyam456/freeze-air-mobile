@@ -83,7 +83,7 @@ function CommentsSheet({ logId, group, moderator, onClose }: CommentsSheetProps)
                 <CommentBubble key={cm.id} comment={cm} mine={cm.employeeId === m.me} canDelete={cm.employeeId === m.me || moderator} canReact={!!m.me} onDelete={m.remove} onReact={m.react} />
               ))}
           </ScrollView>
-          <CommentInput text={text} onChange={setText} onSend={send} keyboard={kb} />
+          <CommentInput text={text} onChange={setText} onSend={send} onVoice={(v) => { stick.current = true; m.sendVoice(v); }} keyboard={kb} />
         </Animated.View>
       </View>
     </Modal>

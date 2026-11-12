@@ -3,8 +3,9 @@ import { useCallback } from "react";
 import useMe from "@shared/hooks/useMe";
 import { queryKeys } from "@shared/queries/queryKeys";
 import { addFeedComment, deleteFeedComment, fetchFeedComments, setCommentReaction } from "@shared/services/feedComments.service";
+import { addVoiceComment } from "@shared/services/feedVoice.service";
 import { toast } from "@shared/utils/helpers/toast";
-import type { FeedComment, FeedGroup, FeedPost, Reaction } from "@typings/feed";
+import type { FeedComment, FeedGroup, FeedPost, Reaction, VoiceResult } from "@typings/feed";
 
 // Paylaşımın şərhləri (canlı: feed_comments Realtime). Yazma və silmə OPTİMİSTİKDİR: şərh klik anında siyahıda,
 // kartdakı say da dərhal dəyişir; baza arxada, xətada geri qayıdır
@@ -30,11 +31,24 @@ function useFeedComments(logId: number, group: FeedGroup) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [qc, me, logId, group, bump]);
 
+  // Səs şərhi: klik anında siyahıda (telefondakı fayldan oxunur), yükləmə + yazma arxada; xətada geri
+  const sendVoice = useCallback((v: VoiceResult) => {
+    if (!me) return;
+    const temp: FeedComment = { id: -Date.now(), employeeId: me.id, name: me.full_name, photo: me.photo_url, body: "", at: new Date().toISOString(), reactions: {}, mine: null, audio: { path: "", ms: v.ms, peaks: v.peaks, local: v.uri } };
+    const prev = qc.getQueryData<FeedComment[]>(key);
+    qc.setQueryData<FeedComment[]>(key, (l) => [...(l ?? []), temp]);
+    bump(1);
+    addVoiceComment(logId, group, me.id, v)
+      .catch((e: Error) => { qc.setQueryData(key, prev); bump(-1); toast.error(e.message); })
+      .finally(() => qc.invalidateQueries({ queryKey: queryKeys.feed(group) }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [qc, me, logId, group, bump]);
+
   const remove = useCallback((c: FeedComment) => {
     const prev = qc.getQueryData<FeedComment[]>(key);
     qc.setQueryData<FeedComment[]>(key, (l) => l?.filter((x) => x.id !== c.id));
     bump(-1);
-    deleteFeedComment(c.id)
+    deleteFeedComment(c.id, c.audio?.path)
       .catch((e: Error) => { qc.setQueryData(key, prev); bump(1); toast.error(e.message); })
       .finally(() => qc.invalidateQueries({ queryKey: queryKeys.feed(group) }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -58,7 +72,7 @@ function useFeedComments(logId: number, group: FeedGroup) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [qc, me, logId, group]);
 
-  return { comments: q.data ?? [], loading: q.isPending, me: me?.id ?? null, send, remove, react };
+  return { comments: q.data ?? [], loading: q.isPending, me: me?.id ?? null, send, sendVoice, remove, react };
 }
 
 export default useFeedComments;

@@ -506,6 +506,9 @@ export type Database = {
       feed_comments: {
         Row: {
           body: string
+          audio_ms: number | null
+          audio_path: string | null
+          audio_peaks: number[] | null
           created_at: string
           employee_id: number
           grp: string
@@ -514,6 +517,9 @@ export type Database = {
         }
         Insert: {
           body: string
+          audio_ms?: number | null
+          audio_path?: string | null
+          audio_peaks?: number[] | null
           created_at?: string
           employee_id: number
           grp: string
@@ -522,6 +528,9 @@ export type Database = {
         }
         Update: {
           body?: string
+          audio_ms?: number | null
+          audio_path?: string | null
+          audio_peaks?: number[] | null
           created_at?: string
           employee_id?: number
           grp?: string

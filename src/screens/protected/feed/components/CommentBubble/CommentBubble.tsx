@@ -4,6 +4,7 @@ import Avatar from "@shared/components/Avatar";
 import { REACTIONS } from "@shared/config/reactions";
 import { SmilePlusIcon, TrashIcon } from "@shared/icons";
 import { feedWhen } from "@shared/utils/helpers/feed";
+import VoiceBubble from "@screens/protected/feed/components/VoiceBubble";
 import { c } from "@theme/colors";
 import { styles } from "./CommentBubble.styles";
 import type { CommentBubbleProps } from "./CommentBubble.types";
@@ -20,7 +21,7 @@ function CommentBubble({ comment: cm, mine, canDelete, canReact, onDelete, onRea
       <View style={[styles.col, mine && styles.colMine]}>
         <View style={[styles.bubble, mine && styles.bubbleMine]}>
           {!mine ? <Text style={styles.name} numberOfLines={1}>{cm.name}</Text> : null}
-          <Text style={styles.body}>{cm.body}</Text>
+          {cm.audio ? <VoiceBubble audio={cm.audio} mine={mine} /> : <Text style={styles.body}>{cm.body}</Text>}
           <View style={styles.meta}>
             <Text style={styles.when}>{feedWhen(cm.at)}</Text>
             {cm.id > 0 && canDelete ? (
