@@ -8,8 +8,7 @@ export const styles = StyleSheet.create({
   text: { flex: 1, gap: 4 },
   top: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: space.sm },
   name: { flexShrink: 1, color: c.ink, fontSize: 17, fontWeight: "800" },
-  when: { color: c.muted, fontSize: 12, fontWeight: "600" },
-  bottom: { flexDirection: "row", alignItems: "center", justifyContent: "space-between", gap: space.sm },
-  preview: { flex: 1, color: c.muted, fontSize: 14 },
+  when: { color: c.faint, fontSize: 12, fontWeight: "600" },
+  preview: { color: c.muted, fontSize: 14 },
   count: { minWidth: 22, textAlign: "center", color: c.white, backgroundColor: c.danger, fontSize: 12, fontWeight: "800", fontVariant: ["tabular-nums"], paddingHorizontal: 7, paddingVertical: 1, borderRadius: 999, overflow: "hidden" },
 });
